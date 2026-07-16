@@ -1,0 +1,13 @@
+# rumdl 設定: Markdown の構造リント（markdownlint 系）
+# 役割分担: 日本語作法 = textlint、構造 = rumdl
+[global]
+# MD013: 日本語の長文行は許容する
+# MD033: 将来 HTML 断片を挟む場合に誤検出を避ける
+# MD025: フロントマター併用時の H1 判定の揺れを避ける
+disable = ["MD013", "MD033", "MD025"]
+# node_modules: 依存パッケージ同梱の Markdown はリント対象外
+exclude = ["node_modules"]
+
+[MD046]
+# コードブロックはフェンス型に統一（言語タグを付けるため）
+style = "fenced"
