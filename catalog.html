@@ -1,0 +1,248 @@
+<title>Design Token Catalog — Personal Design System</title>
+<style>
+  :root {
+    --color-background: oklch(0.965 0.004 270);
+    --color-surface: oklch(0.985 0.004 270);
+    --color-border: oklch(0.925 0.004 270);
+    --color-text: oklch(0.3 0.004 270);
+    --color-text-muted: oklch(0.49 0.004 270);
+    --color-primary: oklch(0.49 0.1496 264);
+    --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
+    --space-lg: 1.5rem; --space-xl: 2rem; --space-2xl: 3rem; --space-3xl: 4rem;
+    --radius-sm: 0.25rem; --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-full: 9999px;
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 0.10);
+    --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.14);
+    --font-sans: system-ui, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+    --color-background: oklch(0.21 0.004 270);
+    --color-surface: oklch(0.3 0.004 270);
+    --color-border: oklch(0.49 0.004 270);
+    --color-text: oklch(0.985 0.004 270);
+    --color-text-muted: oklch(0.79 0.004 270);
+    --color-primary: oklch(0.68 0.1648 264);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.5);
+    }
+  }
+  :root[data-theme="light"] {
+    --color-background: oklch(0.965 0.004 270);
+    --color-surface: oklch(0.985 0.004 270);
+    --color-border: oklch(0.925 0.004 270);
+    --color-text: oklch(0.3 0.004 270);
+    --color-text-muted: oklch(0.49 0.004 270);
+    --color-primary: oklch(0.49 0.1496 264);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 0.10);
+    --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.14);
+  }
+  :root[data-theme="dark"] {
+    --color-background: oklch(0.21 0.004 270);
+    --color-surface: oklch(0.3 0.004 270);
+    --color-border: oklch(0.49 0.004 270);
+    --color-text: oklch(0.985 0.004 270);
+    --color-text-muted: oklch(0.79 0.004 270);
+    --color-primary: oklch(0.68 0.1648 264);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.5);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--color-background); color: var(--color-text); font-family: var(--font-sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: var(--space-2xl) var(--space-lg) var(--space-3xl); }
+  header.masthead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-md); padding-bottom: var(--space-lg); border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-2xl); }
+  .masthead h1 { font-size: 2.441rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+  .masthead .sub { color: var(--color-text-muted); font-size: 0.875rem; margin-top: var(--space-xs); }
+  .eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-primary); margin: 0 0 var(--space-xs); }
+  section { margin-bottom: var(--space-3xl); scroll-margin-top: var(--space-lg); }
+  h2.section-title { font-size: 1.953rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; margin: 0 0 var(--space-xs); }
+  .section-note { color: var(--color-text-muted); font-size: 0.875rem; max-width: 62ch; margin: 0 0 var(--space-lg); }
+  code, .mono { font-family: var(--font-mono); font-size: 0.8125rem; }
+  nav.toc { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-2xl); }
+  nav.toc a { font-family: var(--font-mono); font-size: 0.75rem; text-decoration: none; color: var(--color-text-muted); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); transition: color .12s, border-color .12s; }
+  nav.toc a:hover { color: var(--color-primary); border-color: var(--color-primary); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: var(--radius-sm); }
+  .scale { margin-bottom: var(--space-lg); }
+  .scale-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-sm); }
+  .scale-head .name { font-weight: 700; font-size: 0.9375rem; }
+  .scale-head .hue { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); }
+  .steps { display: grid; grid-template-columns: repeat(11, 1fr); gap: 3px; }
+  .step { display: flex; flex-direction: column; }
+  .step .chip { aspect-ratio: 1 / 1.15; border-radius: var(--radius-sm); border: 1px solid rgb(0 0 0 / 0.06); }
+  .step .lbl { font-family: var(--font-mono); font-size: 0.625rem; color: var(--color-text-muted); text-align: center; margin-top: 4px; }
+  .type-row { display: grid; gap: var(--space-xs); padding: var(--space-md) 0; border-top: 1px solid var(--color-border); }
+  .type-row .meta { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-muted); }
+  .type-row .specimen { margin: 0; }
+  .space-row { display: grid; grid-template-columns: 4rem 7rem 1fr; align-items: center; gap: var(--space-md); padding: var(--space-xs) 0; }
+  .space-row .k { font-family: var(--font-mono); font-weight: 700; font-size: 0.8125rem; }
+  .space-row .v { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
+  .space-bar { height: 16px; background: var(--color-primary); border-radius: var(--radius-sm); }
+  .radius-grid, .shadow-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-lg); }
+  .radius-card, .shadow-card { display: flex; flex-direction: column; align-items: center; gap: var(--space-sm); }
+  .radius-demo { width: 96px; height: 96px; background: var(--color-primary); border: 1px solid var(--color-border); }
+  .shadow-demo { width: 100%; height: 96px; background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
+  .radius-card .cap, .shadow-card .cap { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
+  .radius-card .cap b, .shadow-card .cap b { color: var(--color-text); }
+  .theme-toggle { font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
+  .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
+  @media (max-width: 720px) { .masthead h1 { font-size: 1.953rem; } }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div>
+      <p class="eyebrow">Token Catalog · version alpha</p>
+      <h1>Personal Design System</h1>
+      <p class="sub">DESIGN.md から自動生成。foundation は primitive ＋ role→スケール参照だけを持つ（semantic は無い）。このページの chrome 色は 1 消費者としての resolve。</p>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">◐ theme</button>
+  </header>
+
+  <nav class="toc" aria-label="目次">
+    <a href="#primitives">primitives</a><a href="#typography">typography</a>
+    <a href="#spacing">spacing</a><a href="#radius">radius</a><a href="#elevation">elevation</a>
+  </nav>
+
+  <section id="primitives">
+    <h2 class="section-title">Color — Primitive</h2>
+    <p class="section-note">トーナルスケール。OKLCH で色相ごとに H を固定し、明度 L を全色相共通の段で刻む。<b>このシステムが持つ唯一の「色」。</b>role がこのスケールを指し、段は消費側で resolve される。</p>
+    <div class="scale">
+      <div class="scale-head"><span class="name">neutral</span><span class="hue">H 270° · role: neutral</span></div>
+      <div class="steps">
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.004 270)" title="neutral-50  oklch(0.985 0.004 270)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.004 270)" title="neutral-100  oklch(0.965 0.004 270)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.004 270)" title="neutral-200  oklch(0.925 0.004 270)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.004 270)" title="neutral-300  oklch(0.87 0.004 270)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.004 270)" title="neutral-400  oklch(0.79 0.004 270)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.004 270)" title="neutral-500  oklch(0.68 0.004 270)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.004 270)" title="neutral-600  oklch(0.585 0.004 270)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.004 270)" title="neutral-700  oklch(0.49 0.004 270)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.004 270)" title="neutral-800  oklch(0.395 0.004 270)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.004 270)" title="neutral-900  oklch(0.3 0.004 270)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.004 270)" title="neutral-950  oklch(0.21 0.004 270)"></div><div class="lbl">950</div></div>
+      </div>
+    </div>
+    <div class="scale">
+      <div class="scale-head"><span class="name">blue</span><span class="hue">H 264° · role: primary</span></div>
+      <div class="steps">
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.0069 264)" title="blue-50  oklch(0.985 0.0069 264)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.0161 264)" title="blue-100  oklch(0.965 0.0161 264)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.0351 264)" title="blue-200  oklch(0.925 0.0351 264)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.0621 264)" title="blue-300  oklch(0.87 0.0621 264)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.1036 264)" title="blue-400  oklch(0.79 0.1036 264)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.1648 264)" title="blue-500  oklch(0.68 0.1648 264)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.17 264)" title="blue-600  oklch(0.585 0.17 264)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.1496 264)" title="blue-700  oklch(0.49 0.1496 264)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.119 264)" title="blue-800  oklch(0.395 0.119 264)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.0884 264)" title="blue-900  oklch(0.3 0.0884 264)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.0612 264)" title="blue-950  oklch(0.21 0.0612 264)"></div><div class="lbl">950</div></div>
+      </div>
+    </div>
+    <div class="scale">
+      <div class="scale-head"><span class="name">green</span><span class="hue">H 150° · role: success</span></div>
+      <div class="steps">
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.018 150)" title="green-50  oklch(0.985 0.018 150)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.033 150)" title="green-100  oklch(0.965 0.033 150)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.063 150)" title="green-200  oklch(0.925 0.063 150)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.099 150)" title="green-300  oklch(0.87 0.099 150)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.135 150)" title="green-400  oklch(0.79 0.135 150)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.15 150)" title="green-500  oklch(0.68 0.15 150)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.15 150)" title="green-600  oklch(0.585 0.15 150)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.132 150)" title="green-700  oklch(0.49 0.132 150)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.105 150)" title="green-800  oklch(0.395 0.105 150)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.078 150)" title="green-900  oklch(0.3 0.078 150)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.054 150)" title="green-950  oklch(0.21 0.054 150)"></div><div class="lbl">950</div></div>
+      </div>
+    </div>
+    <div class="scale">
+      <div class="scale-head"><span class="name">amber</span><span class="hue">H 75° · role: warning</span></div>
+      <div class="steps">
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.0117 75)" title="amber-50  oklch(0.985 0.0117 75)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.0276 75)" title="amber-100  oklch(0.965 0.0276 75)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.0604 75)" title="amber-200  oklch(0.925 0.0604 75)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.099 75)" title="amber-300  oklch(0.87 0.099 75)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.135 75)" title="amber-400  oklch(0.79 0.135 75)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.1406 75)" title="amber-500  oklch(0.68 0.1406 75)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.1209 75)" title="amber-600  oklch(0.585 0.1209 75)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.1013 75)" title="amber-700  oklch(0.49 0.1013 75)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.0817 75)" title="amber-800  oklch(0.395 0.0817 75)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.062 75)" title="amber-900  oklch(0.3 0.062 75)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.0434 75)" title="amber-950  oklch(0.21 0.0434 75)"></div><div class="lbl">950</div></div>
+      </div>
+    </div>
+    <div class="scale">
+      <div class="scale-head"><span class="name">red</span><span class="hue">H 25° · role: danger</span></div>
+      <div class="steps">
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.0071 25)" title="red-50  oklch(0.985 0.0071 25)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.0168 25)" title="red-100  oklch(0.965 0.0168 25)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.0373 25)" title="red-200  oklch(0.925 0.0373 25)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.068 25)" title="red-300  oklch(0.87 0.068 25)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.1188 25)" title="red-400  oklch(0.79 0.1188 25)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.19 25)" title="red-500  oklch(0.68 0.19 25)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.19 25)" title="red-600  oklch(0.585 0.19 25)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.1672 25)" title="red-700  oklch(0.49 0.1672 25)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.133 25)" title="red-800  oklch(0.395 0.133 25)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.0988 25)" title="red-900  oklch(0.3 0.0988 25)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.0684 25)" title="red-950  oklch(0.21 0.0684 25)"></div><div class="lbl">950</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="typography">
+    <h2 class="section-title">Typography</h2>
+    <p class="section-note">見出しは 1.25 (Major Third) スケール。フォントは <code>system-ui</code> / <code>ui-monospace</code> 既定で OS ネイティブに委ねる。</p>
+    <div class="type-row"><div class="meta">h1 · 2.441rem · 700 · lh 1.25 · ls -0.02em · system-ui</div><p class="specimen" style="font-size:2.441rem;font-weight:700;line-height:1.25;letter-spacing:-0.02em;font-family:var(--font-sans)">見出しレベル1 · Aa 亜</p></div>
+    <div class="type-row"><div class="meta">h2 · 1.953rem · 700 · lh 1.25 · ls -0.01em · system-ui</div><p class="specimen" style="font-size:1.953rem;font-weight:700;line-height:1.25;letter-spacing:-0.01em;font-family:var(--font-sans)">見出しレベル2 · Aa 亜</p></div>
+    <div class="type-row"><div class="meta">h3 · 1.563rem · 500 · lh 1.3 · system-ui</div><p class="specimen" style="font-size:1.563rem;font-weight:500;line-height:1.3;font-family:var(--font-sans)">見出しレベル3 · Aa 亜</p></div>
+    <div class="type-row"><div class="meta">body-md · 1rem · 400 · lh 1.6 · system-ui</div><p class="specimen" style="font-size:1rem;font-weight:400;line-height:1.6;font-family:var(--font-sans)">本文。行長が伸びるほど行間を広げる。読みやすさは行長と行間で作る。</p></div>
+    <div class="type-row"><div class="meta">body-sm · 0.875rem · 400 · lh 1.6 · system-ui</div><p class="specimen" style="font-size:0.875rem;font-weight:400;line-height:1.6;font-family:var(--font-sans)">補助本文。注釈やメタ情報など、主たる本文の一段下の情報に。</p></div>
+    <div class="type-row"><div class="meta">caption · 0.75rem · 400 · lh 1.5 · system-ui</div><p class="specimen" style="font-size:0.75rem;font-weight:400;line-height:1.5;font-family:var(--font-sans)">キャプション。図表の説明やタイムスタンプなど最小の補助テキスト。</p></div>
+    <div class="type-row"><div class="meta">code · 0.875rem · 400 · lh 1.6 · ui-monospace</div><p class="specimen" style="font-size:0.875rem;font-weight:400;line-height:1.6;font-family:var(--font-mono)">const token = "ui-monospace"; // 等幅</p></div>
+  </section>
+
+  <section id="spacing">
+    <h2 class="section-title">Spacing</h2>
+    <p class="section-note">4px ベースの名前付きスケール。余白はここからのみ選ぶ。</p>
+    <div class="space-row"><span class="k">xs</span><span class="v">0.25rem / 4px</span><div class="space-bar" style="width:0.25rem"></div></div>
+    <div class="space-row"><span class="k">sm</span><span class="v">0.5rem / 8px</span><div class="space-bar" style="width:0.5rem"></div></div>
+    <div class="space-row"><span class="k">md</span><span class="v">1rem / 16px</span><div class="space-bar" style="width:1rem"></div></div>
+    <div class="space-row"><span class="k">lg</span><span class="v">1.5rem / 24px</span><div class="space-bar" style="width:1.5rem"></div></div>
+    <div class="space-row"><span class="k">xl</span><span class="v">2rem / 32px</span><div class="space-bar" style="width:2rem"></div></div>
+    <div class="space-row"><span class="k">2xl</span><span class="v">3rem / 48px</span><div class="space-bar" style="width:3rem"></div></div>
+    <div class="space-row"><span class="k">3xl</span><span class="v">4rem / 64px</span><div class="space-bar" style="width:4rem"></div></div>
+  </section>
+
+  <section id="radius">
+    <h2 class="section-title">Radius</h2>
+    <p class="section-note">角丸4段。sm=小要素、md=カード・ボタン、lg=大きな面、full=円/ピル。</p>
+    <div class="radius-grid">
+      <div class="radius-card"><div class="radius-demo" style="border-radius:0.25rem"></div><div class="cap"><b>sm</b> · 0.25rem</div></div>
+      <div class="radius-card"><div class="radius-demo" style="border-radius:0.5rem"></div><div class="cap"><b>md</b> · 0.5rem</div></div>
+      <div class="radius-card"><div class="radius-demo" style="border-radius:0.75rem"></div><div class="cap"><b>lg</b> · 0.75rem</div></div>
+      <div class="radius-card"><div class="radius-demo" style="border-radius:9999px"></div><div class="cap"><b>full</b> · 9999px</div></div>
+    </div>
+  </section>
+
+  <section id="elevation">
+    <h2 class="section-title">Elevation</h2>
+    <p class="section-note">影3段。sm=面の分離、md=浮いた要素、lg=モーダル。ダークでは neutral の淡い段で縁を補う。</p>
+    <div class="shadow-grid">
+      <div class="shadow-card"><div class="shadow-demo" style="box-shadow:0 1px 2px rgb(0 0 0 / 0.06)"></div><div class="cap"><b>sm</b> · 面の分離</div></div>
+      <div class="shadow-card"><div class="shadow-demo" style="box-shadow:0 4px 12px rgb(0 0 0 / 0.10)"></div><div class="cap"><b>md</b> · 浮いた要素</div></div>
+      <div class="shadow-card"><div class="shadow-demo" style="box-shadow:0 12px 32px rgb(0 0 0 / 0.14)"></div><div class="cap"><b>lg</b> · モーダル</div></div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const root = document.documentElement;
+  document.getElementById("themeToggle").addEventListener("click", () => {
+    const cur = root.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    root.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
+  });
+</script>
