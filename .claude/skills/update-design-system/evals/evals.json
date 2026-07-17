@@ -1,0 +1,35 @@
+{
+  "skill_name": "update-design-system",
+  "evals": [
+    {
+      "id": 0,
+      "name": "add-spacing-token",
+      "prompt": "spacing に `2xs` = 0.125rem を追加したい。DESIGN.md を直して、カタログも最新にして。",
+      "expected_output": "DESIGN.md の spacing に 2xs: 0.125rem が追加され、build:catalog で catalog.html が再生成され spacing 件数が 8 になる。catalog は手編集されず undefined/未解決参照なし、lint 通過。",
+      "files": [],
+      "assertions": [
+        "DESIGN.md の spacing に 2xs: 0.125rem が追加されている",
+        "catalog.html が再生成され spacing が 8 件（2xs を含む）になっている",
+        "grep undefined catalog.html が空",
+        "grep '{colors' catalog.html が空",
+        "catalog.html は生成物（DESIGN.md から再生成すると一致＝手編集なし）",
+        "既存トークンを破壊していない（primitive 55 / roles 5 など）"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "shift-warning-hue",
+      "prompt": "warning の amber がくすんで見えるので、amber スケールの色相をオレンジ寄り（H を 75 から 65 に）へずらしたい。DESIGN.md を直してカタログも更新して。",
+      "expected_output": "amber-* 全11段の色相が 65 になり、catalog が再生成され amber の H 表示が 65 に。roles の warning→amber は不変、他スケールの色相も不変、undefined なし・lint 通過。",
+      "files": [],
+      "assertions": [
+        "DESIGN.md の amber-* 全11段の色相が 65（amber 行に 75) が残らない）",
+        "amber 以外（blue/red/green/neutral）の色相は不変",
+        "roles の warning: amber は不変",
+        "catalog.html の amber スケール見出しが H 65",
+        "grep undefined と grep '{colors' が両方空",
+        "lint 通過"
+      ]
+    }
+  ]
+}
