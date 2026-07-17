@@ -3,7 +3,7 @@ version: alpha
 name: Personal Design System
 description: 個人プロジェクト横断で使う自分用デザインシステム。各プロジェクトのルートにこのファイルをコピーして使う。
 colors:
-  # === Primitive（トーナルスケール。直接使わず semantic から参照する）===
+  # === Primitive（トーナルスケール。このシステムが持つ唯一の「色」）===
   # OKLCH で生成。色相ごとに H を固定し、L を全色相共通の段で刻む。
   # C は各 (L,H) で sRGB gamut に収まる範囲でタペール（中間で最大）。
   neutral-50: "oklch(0.985 0.004 270)"
@@ -61,30 +61,15 @@ colors:
   red-800: "oklch(0.395 0.133 25)"
   red-900: "oklch(0.3 0.0988 25)"
   red-950: "oklch(0.21 0.0684 25)"
-  # === Semantic — Light（default。primitive の段を参照。段は AA 4.5:1 で検証済み）===
-  background: "{colors.neutral-100}"
-  surface: "{colors.neutral-50}"
-  border: "{colors.neutral-200}"
-  text: "{colors.neutral-900}"
-  text-muted: "{colors.neutral-700}"
-  primary: "{colors.blue-700}"
-  primary-hover: "{colors.blue-800}"
-  on-primary: "{colors.neutral-50}"
-  success: "{colors.green-700}"
-  warning: "{colors.amber-700}"
-  danger: "{colors.red-700}"
-  # === Semantic — Dark ===
-  background-dark: "{colors.neutral-950}"
-  surface-dark: "{colors.neutral-900}"
-  border-dark: "{colors.neutral-700}"
-  text-dark: "{colors.neutral-50}"
-  text-muted-dark: "{colors.neutral-400}"
-  primary-dark: "{colors.blue-500}"
-  primary-hover-dark: "{colors.blue-400}"
-  on-primary-dark: "{colors.neutral-950}"
-  success-dark: "{colors.green-400}"
-  warning-dark: "{colors.amber-400}"
-  danger-dark: "{colors.red-400}"
+roles:
+  # 役割 → スケールの薄い参照。どの色相族がその役割を担うかだけを決め、段（具体値）は決めない。
+  # 段は subject（text/surface/border…）× component（button/note…）× modifier（theme/state/size…）と
+  # 組み合わせて初めて一意になり、その resolve は消費側プロジェクトの責務（このファイルの外）。
+  primary: blue      # 主要アクション・強調
+  danger: red        # 破壊的・エラー状態
+  warning: amber     # 注意・警告状態
+  success: green     # 成功・肯定状態
+  neutral: neutral   # 既定の地・構造（text / surface / border などの土台）
 typography:
   h1:
     fontFamily: system-ui
@@ -158,38 +143,24 @@ spacing:
 - 階層（Hierarchy）は、情報の重要度を視覚的な強さの順序に対応させる（支えるトークン: `typography`・`colors`）
 - 余白（Whitespace）は「空き」ではなく能動的な要素で、詰め込まず余白そのもので意味を持たせる（支えるトークン: `spacing`）
 - リズム（Rhythm）は、繰り返しの間隔に規則を持たせ、視線の流れを導く（支えるトークン: `spacing` スケール）
-- 強調（Emphasis）は、注目点を1つに絞る。すべてを強調することは何も強調しないことと同じ（支えるトークン: `colors` の `primary`）
+- 強調（Emphasis）は、注目点を1つに絞る。すべてを強調することは何も強調しないことと同じ（支えるトークン: `roles` の `primary`）
 
 以下の Do's and Don'ts は、これらの原則をこのシステムで適用した具体形。
 
 ## Colors
 
-色は2層で持つ。**primitive**（トーナルスケール。`blue-500` のように色相＋段で名付ける）と、それを参照する **semantic**（`primary` のように役割で名付ける）。UI コードが使うのは semantic だけで、primitive は直接使わない。役割はそのままに、参照先の段を差し替えれば見た目を変えられる。
+このシステムが持つ「色」は **primitive（トーナルスケール）だけ**。`primary` や `danger` を「色」としては持たない。色は値であって、意味そのものを持たない。意味は、`primary` のような**役割を component へ与えて**立ち上がる。その解決は消費側プロジェクトが担う（foundation の外）。ゆえにここへ **semantic color（意味を持つ色）は置かない**。
 
-primitive は個別に hex を決めず、**カラースケール（トーナルパレット）方式**で生成する。OKLCH（知覚的に均一な色空間）で、色相ごとに H を固定し、明度 L を全色相共通の段（`50`〜`950`）で刻む。彩度 C は各段が sRGB gamut に収まる範囲で、中間段を最大にタペールする。これにより段が視覚的に均一になり、色相間で明度が揃う。
+foundation が持つのは2つだけ。
 
-`primary` を強調色（主要アクション）とし、それ以外は無彩色（`neutral`）に寄せて主張を抑える。semantic が参照する段は、本文・アクション色が背景に対し WCAG AA（4.5:1）以上になるよう選んである。ダークモードは `-dark` サフィックスの対トークンで持つ（フロントマター仕様にダーク切替の機構は無いため、命名で対応させる）。実装側では下記のように束ねる。
+- **primitive スケール**（`blue-500` のように色相＋段）。個別に hex を決めず、OKLCH（知覚的に均一な色空間）で生成する。色相ごとに H を固定し、明度 L を全色相共通の段（`50`〜`950`）で刻む。彩度 C は各段が sRGB gamut に収まる範囲で中間段を最大にタペールする。これにより段が視覚的に均一になり、色相間で明度が揃う
+- **role → スケールの薄い参照**（`roles`）。`primary → blue` のように、役割にどの色相族を割り当てるかだけを決める。**段（具体値）は決めない。**
 
-```css
-:root {
-  --color-background: oklch(0.965 0.004 270); --color-surface: oklch(0.985 0.004 270);
-  --color-border: oklch(0.925 0.004 270);
-  --color-text: oklch(0.3 0.004 270); --color-text-muted: oklch(0.49 0.004 270);
-  --color-primary: oklch(0.49 0.1496 264); --color-primary-hover: oklch(0.395 0.119 264);
-  --color-on-primary: oklch(0.985 0.004 270);
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: oklch(0.21 0.004 270); --color-surface: oklch(0.3 0.004 270);
-    --color-border: oklch(0.49 0.004 270);
-    --color-text: oklch(0.985 0.004 270); --color-text-muted: oklch(0.79 0.004 270);
-    --color-primary: oklch(0.68 0.1648 264); --color-primary-hover: oklch(0.79 0.1036 264);
-    --color-on-primary: oklch(0.21 0.004 270);
-  }
-}
-```
+**段は組み合わせで決まる。** 同じ `primary` でも、button の surface なら中段の塗り、白地の text なら AA（4.5:1）を通す暗段、ダーク面なら明段になる。段は、subject（text/surface/border…）・component（button/note…）・modifier（theme/state/size…）が揃って初めて一意に定まる。この resolve は消費側で行い、foundation には持ち込まない。
 
-`success` / `warning` / `danger` は状態表示専用。装飾に流用しない。ダーク面では明度を上げた `-dark` 対トークン（`success-dark` 等）を使う。
+theme（light/dark）や state（hover 等）は、値と意味のどちらも持たない **modifier**。同じ役割の「見え方」を切り替えるだけで別物にはしないので、`-dark` のようにトークン名へ焼き付けず、resolve の引数として扱う。
+
+役割へ色相を割り当てるときは、状態色（`danger`=red / `warning`=amber / `success`=green）が地やキーカラーから際立つようにする。そのため `primary` の色相をそれらと衝突させない。暖色をキーにすると、状態色の際立ちが落ちる。
 
 ## Typography
 
@@ -212,11 +183,11 @@ primitive は個別に hex を決めず、**カラースケール（トーナル
 --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.14);
 ```
 
-高さは意味に対応させる: `sm`=面の分離、`md`=浮いた要素（ドロップダウン）、`lg`=モーダル。ダークモードでは影が弱く見えるため、必要なら `border` で縁を足して補う。
+高さは意味に対応させる: `sm`=面の分離、`md`=浮いた要素（ドロップダウン）、`lg`=モーダル。ダークモードでは影が弱く見えるため、必要なら `neutral` の淡い段で縁を足して補う。
 
 ## Shapes
 
-角丸は `rounded` の4段（`sm` / `md` / `lg` / `full`）。`sm`=小要素（バッジ・入力）、`md`=カード・ボタン、`lg`=大きな面・モーダル、`full`=円/ピル。境界線は原則 1px・`border` 色。
+角丸は `rounded` の4段（`sm` / `md` / `lg` / `full`）。`sm`=小要素（バッジ・入力）、`md`=カード・ボタン、`lg`=大きな面・モーダル、`full`=円/ピル。境界線は原則 1px・`neutral` の淡い段。
 
 ## Do's and Don'ts
 
@@ -224,23 +195,25 @@ primitive は個別に hex を決めず、**カラースケール（トーナル
 
 ### Do
 
-- `primary`（強調色）は主要アクション1つに集中させる。画面内で多用すると主張が薄まる
+- `primary`（強調の役割）は主要アクション1つに集中させる。画面内で多用すると主張が薄まる
 - 余白を惜しまず取る。要素を詰め込むより、`spacing` の一段上を選ぶ
 - 書体は sans + mono の2種に留める。強調は太さ（`fontWeight`）と大きさで作る
 - 角丸は `rounded` スケールに揃える。近い要素で半径を変えない
 
 ### Don't
 
-- 純黒 `#000` をテキストに直接使わない。`text`（最暗ではない `neutral` 段）を使う
+- 純黒 `#000` をテキストに直接使わない。`neutral` の最暗ではない段を使う
 - `primary` のボタンを隣り合わせに2つ置かない。主要アクションは画面に1つ
-- `success` / `warning` / `danger` を装飾目的に使わない。状態表示専用
+- `success` / `warning` / `danger` の色相を装飾目的に使わない。状態表示専用
 - スケール外の中間サイズ（余白・文字・角丸）を持ち込まない。まず隣の段で足りるか疑う
 
 ## Maintenance
 
 このファイル自体の運用ルール（デザインの見た目ではなく、システムの保守方針）。
 
-- トークンを**足す**のは、同じ値が2箇所以上で必要になったとき。1箇所なら足さない
+- このファイルは **foundation**（primitive スケール ＋ role→スケールの薄い参照）だけを持つ。semantic（意味）はここには置かない。意味は component に役割を与えて resolve するもので、component はアプリ固有ゆえ消費側に属する
+- トークンを**足す**基準は「抽象的な役割を名指すか」。ドメインに依存しない設計上の役割（変更理由を1つ持つ知識の単位）なら、使用が1箇所でも足す。使用箇所の数・場所は基準にしない。特定ドメイン・用途に固有の具体指示は、値が2箇所以上で一致してもトークンにしない（それはローカルCSSへ）
+- 段（具体値）・theme・state をトークン名へ焼き付けない（`-dark` のように）。これらは resolve の引数（modifier）であり、foundation の外で解決する
 - プロジェクト固有の微調整は、そのプロジェクトのローカルCSSで吸収する。ここには持ち込まない
 - 生の16進カラーや px 値をコンポーネントに直書きしない。トークン経由で引く
 - この正ファイルを1プロジェクトの都合で書き換えない。横断でコピーされる正のため、変更は全プロジェクトへ波及する前提で扱う
