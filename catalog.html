@@ -280,14 +280,16 @@
   .demo-badge.v-text { background: var(--badge-text-surface-color); color: var(--badge-text-text-color); }
   .demo-badge.v-rounded { background: var(--badge-rounded-surface-color); color: var(--badge-rounded-text-color); }
   .demo-badge.v-padding { background: var(--badge-padding-surface-color); color: var(--badge-padding-text-color); }
-  .demo-input { font: var(--input-text-typography); color: var(--input-text-color); background: var(--input-surface-color); border: 1px solid var(--input-border-color); border-radius: var(--input-rounded); padding: var(--input-padding-block-spacing) var(--input-padding-inline-spacing); width: 100%; box-sizing: border-box; }
+  .demo-input { font: var(--input-text-typography); color: var(--input-text-color); background: var(--input-surface-color); border: 1px solid var(--input-border-color); border-radius: var(--input-rounded); padding: var(--input-padding-block-spacing) var(--input-padding-inline-spacing); width: min(100%, 420px); box-sizing: border-box; }
+  .demo-note { color: var(--color-text-muted); font-size: 0.875rem; margin: 0 0 var(--space-sm); }
   .demo-input::placeholder { color: var(--input-placeholder-color); }
   .demo-input:focus { outline: none; border-color: var(--input-border-color-focus); }
-  .ctokens { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 0 var(--space-lg); margin-top: var(--space-md); }
+  .comp-name { font-size: 1.563rem; font-weight: 500; line-height: 1.3; margin: var(--space-xl) 0 var(--space-xs); }
+  .ctokens { margin: 0; }
   .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
   .ctoken .chip2 { width: 20px; height: 20px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); flex: none; }
-  .ctoken code { font-size: 0.6875rem; }
-  .ctoken .refs { margin-left: auto; font-family: var(--font-mono); font-size: 0.625rem; color: var(--color-text-muted); white-space: nowrap; }
+  .ctoken code { font-size: 0.75rem; }
+  .ctoken .refs { margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-muted); text-align: right; }
   .theme-toggle { font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
   .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
   @media (max-width: 720px) { .masthead h1 { font-size: 1.953rem; } }
@@ -527,30 +529,9 @@
   <section id="components">
     <h2 class="section-title">Components（意味の完成点）</h2>
     <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、このページのテーマ切替・ボタンの hover・input の focus がそのまま分岐の切替。</p>
-    <div class="demo-row">
-      <button class="demo-btn v-primary">button · primary</button>
-      <button class="demo-btn v-danger">button · danger</button>
-      <button class="demo-btn v-neutral">button · neutral</button>
-      <button class="demo-btn v-text">button · text</button>
-      <button class="demo-btn v-rounded">button · rounded</button>
-      <button class="demo-btn v-padding">button · padding</button>
-    </div>
-    <div class="demo-row">
-      <div class="note-card" style="background:var(--note-success-surface-color);border-color:var(--note-success-border-color);color:var(--note-success-text-color)"><b>success</b> — 保存しました。</div>
-      <div class="note-card" style="background:var(--note-warning-surface-color);border-color:var(--note-warning-border-color);color:var(--note-warning-text-color)"><b>warning</b> — 未保存の変更があります。</div>
-      <div class="note-card" style="background:var(--note-danger-surface-color);border-color:var(--note-danger-border-color);color:var(--note-danger-text-color)"><b>danger</b> — この操作は取り消せません。</div>
-      <div class="note-card" style="background:var(--note-neutral-surface-color);border-color:var(--note-neutral-border-color);color:var(--note-neutral-text-color)"><b>neutral</b> — 補足: カタログは派生物。手編集しない。</div>
-      <div class="note-card" style="background:var(--note-text-surface-color);border-color:var(--note-text-border-color);color:var(--note-text-text-color)"><b>text</b> — </div>
-      <div class="note-card" style="background:var(--note-rounded-surface-color);border-color:var(--note-rounded-border-color);color:var(--note-rounded-text-color)"><b>rounded</b> — </div>
-      <div class="note-card" style="background:var(--note-padding-surface-color);border-color:var(--note-padding-border-color);color:var(--note-padding-text-color)"><b>padding</b> — </div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-card">
-        <div><span class="demo-badge v-success">success</span> <span class="demo-badge v-warning">warning</span> <span class="demo-badge v-danger">danger</span> <span class="demo-badge v-neutral">neutral</span> <span class="demo-badge v-text">text</span> <span class="demo-badge v-rounded">rounded</span> <span class="demo-badge v-padding">padding</span></div>
-        <input class="demo-input" placeholder="input — placeholder は AA を通す段" aria-label="input demo">
-      </div>
-    </div>
-    <div class="ctokens" aria-label="page">
+    <h3 class="comp-name">page</h3>
+    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま page のデモ。</p>
+    <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--page-text-color)"></span><code>page-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--page-text-muted-color)"></span><code>page-text-muted-color</code><span class="refs">neutral-color-700 / neutral-color-400</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--page-background-color)"></span><code>page-background-color</code><span class="refs">neutral-color-100 / neutral-color-950</span></div>
@@ -558,7 +539,16 @@
       <div class="ctoken"><span class="chip2" style="background:var(--page-border-color)"></span><code>page-border-color</code><span class="refs">neutral-color-200 / neutral-color-700</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--page-accent-color)"></span><code>page-accent-color</code><span class="refs">primary-color-700 / primary-color-500</span></div>
     </div>
-    <div class="ctokens" aria-label="button">
+    <h3 class="comp-name">button</h3>
+    <div class="demo-row">
+      <button class="demo-btn v-primary">button · primary（hover で分岐）</button>
+      <button class="demo-btn v-danger">button · danger（hover で分岐）</button>
+      <button class="demo-btn v-neutral">button · neutral（hover で分岐）</button>
+      <button class="demo-btn v-text">button · text（hover で分岐）</button>
+      <button class="demo-btn v-rounded">button · rounded（hover で分岐）</button>
+      <button class="demo-btn v-padding">button · padding（hover で分岐）</button>
+    </div>
+    <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--button-primary-surface-color)"></span><code>button-primary-surface-color</code><span class="refs">primary-color-700 / primary-color-500 / hover-light: primary-color-800 / hover-dark: primary-color-400</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--button-primary-text-color)"></span><code>button-primary-text-color</code><span class="refs">neutral-color-50 / neutral-color-950</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--button-danger-surface-color)"></span><code>button-danger-surface-color</code><span class="refs">danger-color-700 / danger-color-500 / hover-light: danger-color-800 / hover-dark: danger-color-400</span></div>
@@ -570,7 +560,17 @@
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-padding-block-spacing</code><span class="refs">sm</span></div>
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-padding-inline-spacing</code><span class="refs">lg</span></div>
     </div>
-    <div class="ctokens" aria-label="note">
+    <h3 class="comp-name">note</h3>
+    <div class="demo-row">
+      <div class="note-card" style="background:var(--note-success-surface-color);border-color:var(--note-success-border-color);color:var(--note-success-text-color)"><b>success</b> — 保存しました。</div>
+      <div class="note-card" style="background:var(--note-warning-surface-color);border-color:var(--note-warning-border-color);color:var(--note-warning-text-color)"><b>warning</b> — 未保存の変更があります。</div>
+      <div class="note-card" style="background:var(--note-danger-surface-color);border-color:var(--note-danger-border-color);color:var(--note-danger-text-color)"><b>danger</b> — この操作は取り消せません。</div>
+      <div class="note-card" style="background:var(--note-neutral-surface-color);border-color:var(--note-neutral-border-color);color:var(--note-neutral-text-color)"><b>neutral</b> — 補足: カタログは派生物。手編集しない。</div>
+      <div class="note-card" style="background:var(--note-text-surface-color);border-color:var(--note-text-border-color);color:var(--note-text-text-color)"><b>text</b> — </div>
+      <div class="note-card" style="background:var(--note-rounded-surface-color);border-color:var(--note-rounded-border-color);color:var(--note-rounded-text-color)"><b>rounded</b> — </div>
+      <div class="note-card" style="background:var(--note-padding-surface-color);border-color:var(--note-padding-border-color);color:var(--note-padding-text-color)"><b>padding</b> — </div>
+    </div>
+    <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--note-success-surface-color)"></span><code>note-success-surface-color</code><span class="refs">success-color-100 / success-color-950</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--note-success-border-color)"></span><code>note-success-border-color</code><span class="refs">success-color-300 / success-color-800</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--note-success-text-color)"></span><code>note-success-text-color</code><span class="refs">success-color-900 / success-color-200</span></div>
@@ -588,14 +588,22 @@
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-padding-block-spacing</code><span class="refs">sm</span></div>
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-padding-inline-spacing</code><span class="refs">md</span></div>
     </div>
-    <div class="ctokens" aria-label="card">
+    <h3 class="comp-name">card</h3>
+    <div class="demo-row">
+      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。中身の文字は page の text を使う。</span></div>
+    </div>
+    <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--card-surface-color)"></span><code>card-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--card-border-color)"></span><code>card-border-color</code><span class="refs">neutral-color-200 / neutral-color-700</span></div>
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-rounded</code><span class="refs">md</span></div>
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-padding-spacing</code><span class="refs">lg</span></div>
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-shadow</code><span class="refs">sm</span></div>
     </div>
-    <div class="ctokens" aria-label="badge">
+    <h3 class="comp-name">badge</h3>
+    <div class="demo-row">
+      <div><span class="demo-badge v-success">success</span> <span class="demo-badge v-warning">warning</span> <span class="demo-badge v-danger">danger</span> <span class="demo-badge v-neutral">neutral</span> <span class="demo-badge v-text">text</span> <span class="demo-badge v-rounded">rounded</span> <span class="demo-badge v-padding">padding</span></div>
+    </div>
+    <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--badge-success-surface-color)"></span><code>badge-success-surface-color</code><span class="refs">success-color-100 / success-color-950</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--badge-success-text-color)"></span><code>badge-success-text-color</code><span class="refs">success-color-900 / success-color-200</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--badge-warning-surface-color)"></span><code>badge-warning-surface-color</code><span class="refs">warning-color-100 / warning-color-950</span></div>
@@ -609,7 +617,11 @@
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-padding-block-spacing</code><span class="refs">xs</span></div>
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-padding-inline-spacing</code><span class="refs">sm</span></div>
     </div>
-    <div class="ctokens" aria-label="input">
+    <h3 class="comp-name">input</h3>
+    <div class="demo-row">
+      <input class="demo-input" placeholder="placeholder は AA を通す段（focus で縁が分岐）" aria-label="input demo">
+    </div>
+    <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--input-surface-color)"></span><code>input-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--input-border-color)"></span><code>input-border-color</code><span class="refs">neutral-color-300 / neutral-color-700 / focus-light: primary-color-700 / focus-dark: primary-color-500</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--input-text-color)"></span><code>input-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>

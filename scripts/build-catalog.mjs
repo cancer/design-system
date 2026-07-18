@@ -107,6 +107,15 @@ for (const [k, t] of Object.entries(components)) (compGroups[k.split("-")[0]] ||
 const variantsOf = (comp) => [...new Set(Object.keys(components)
   .filter((k) => k.startsWith(`${comp}-`)).map((k) => k.split("-")[1]))];
 const NOTE_SAMPLE = { success: "保存しました。", warning: "未保存の変更があります。", danger: "この操作は取り消せません。", neutral: "補足: カタログは派生物。手編集しない。" };
+// グループ見出し直下に置くデモ（page はこのページの chrome 自体がデモ）
+const DEMO = {
+  page: `    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま page のデモ。</p>\n`,
+  button: `    <div class="demo-row">\n${variantsOf("button").map((v) => `      <button class="demo-btn v-${v}">button · ${v}（hover で分岐）</button>`).join("\n")}\n    </div>\n`,
+  note: `    <div class="demo-row">\n${variantsOf("note").map((v) => `      <div class="note-card" style="background:var(--note-${v}-surface-color);border-color:var(--note-${v}-border-color);color:var(--note-${v}-text-color)"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`).join("\n")}\n    </div>\n`,
+  card: `    <div class="demo-row">\n      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。中身の文字は page の text を使う。</span></div>\n    </div>\n`,
+  badge: `    <div class="demo-row">\n      <div>${variantsOf("badge").map((v) => `<span class="demo-badge v-${v}">${v}</span>`).join(" ")}</div>\n    </div>\n`,
+  input: `    <div class="demo-row">\n      <input class="demo-input" placeholder="placeholder は AA を通す段（focus で縁が分岐）" aria-label="input demo">\n    </div>\n`,
+};
 
 // ── 役割層トークン <役割>-color-<段> を roles 経由で primitive へ解決 ──
 const ROLE_TOKEN_RE = /^([a-z]+)-color-(\d+)$/;
@@ -260,14 +269,16 @@ ${variantsOf("button").map((v) => `  .demo-btn.v-${v} { background: var(--button
   .demo-card { background: var(--card-surface-color); border: 1px solid var(--card-border-color); border-radius: var(--card-rounded); padding: var(--card-padding-spacing); box-shadow: var(--card-shadow); flex: 1 1 280px; display: grid; gap: var(--space-sm); }
   .demo-badge { font: var(--badge-text-typography); border-radius: var(--badge-rounded); padding: var(--badge-padding-block-spacing) var(--badge-padding-inline-spacing); }
 ${variantsOf("badge").map((v) => `  .demo-badge.v-${v} { background: var(--badge-${v}-surface-color); color: var(--badge-${v}-text-color); }`).join("\n")}
-  .demo-input { font: var(--input-text-typography); color: var(--input-text-color); background: var(--input-surface-color); border: 1px solid var(--input-border-color); border-radius: var(--input-rounded); padding: var(--input-padding-block-spacing) var(--input-padding-inline-spacing); width: 100%; box-sizing: border-box; }
+  .demo-input { font: var(--input-text-typography); color: var(--input-text-color); background: var(--input-surface-color); border: 1px solid var(--input-border-color); border-radius: var(--input-rounded); padding: var(--input-padding-block-spacing) var(--input-padding-inline-spacing); width: min(100%, 420px); box-sizing: border-box; }
+  .demo-note { color: var(--color-text-muted); font-size: 0.875rem; margin: 0 0 var(--space-sm); }
   .demo-input::placeholder { color: var(--input-placeholder-color); }
   .demo-input:focus { outline: none; border-color: var(--input-border-color-focus); }
-  .ctokens { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 0 var(--space-lg); margin-top: var(--space-md); }
+  .comp-name { font-size: ${typography.h3.fontSize}; font-weight: ${typography.h3.fontWeight}; line-height: ${typography.h3.lineHeight}; margin: var(--space-xl) 0 var(--space-xs); }
+  .ctokens { margin: 0; }
   .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
   .ctoken .chip2 { width: 20px; height: 20px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); flex: none; }
-  .ctoken code { font-size: 0.6875rem; }
-  .ctoken .refs { margin-left: auto; font-family: var(--font-mono); font-size: 0.625rem; color: var(--color-text-muted); white-space: nowrap; }
+  .ctoken code { font-size: 0.75rem; }
+  .ctoken .refs { margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-muted); text-align: right; }
   .theme-toggle { font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
   .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
   @media (max-width: 720px) { .masthead h1 { font-size: ${typography.h2.fontSize}; } }
@@ -342,19 +353,8 @@ ${strip({ steps })}
   <section id="components">
     <h2 class="section-title">Components（意味の完成点）</h2>
     <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、このページのテーマ切替・ボタンの hover・input の focus がそのまま分岐の切替。</p>
-    <div class="demo-row">
-${variantsOf("button").map((v) => `      <button class="demo-btn v-${v}">button · ${v}</button>`).join("\n")}
-    </div>
-    <div class="demo-row">
-${variantsOf("note").map((v) => `      <div class="note-card" style="background:var(--note-${v}-surface-color);border-color:var(--note-${v}-border-color);color:var(--note-${v}-text-color)"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`).join("\n")}
-    </div>
-    <div class="demo-row">
-      <div class="demo-card">
-        <div>${variantsOf("badge").map((v) => `<span class="demo-badge v-${v}">${v}</span>`).join(" ")}</div>
-        <input class="demo-input" placeholder="input — placeholder は AA を通す段" aria-label="input demo">
-      </div>
-    </div>
-${Object.entries(compGroups).map(([g, rows]) => `    <div class="ctokens" aria-label="${g}">
+${Object.entries(compGroups).map(([g, rows]) => `    <h3 class="comp-name">${g}</h3>
+${DEMO[g] || ""}    <div class="ctokens">
 ${rows.map(([k, t]) => typeof t === "string"
   ? `      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>${k}</code><span class="refs">${t}</span></div>`
   : `      <div class="ctoken"><span class="chip2" style="background:var(--${k})"></span><code>${k}</code><span class="refs">${Object.entries(t).map(([kk, v]) => (kk === "light" || kk === "dark" ? v : `${kk}: ${v}`)).join(" / ")}</span></div>`).join("\n")}
