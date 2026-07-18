@@ -25,12 +25,12 @@ user-invocable: true
 
 - **値を書くのは DESIGN.md のフロントマターだけ。** `catalog.html` と生成スクリプトのテンプレートに値を直書きすると SoT が二重化し、乖離の温床になる
 - **`catalog.html` を手編集しない。** 次回生成で必ず上書きされ、手の変更は消える。直したいなら DESIGN.md か生成器を直す
-- **トークンを足す基準は「抽象的な役割を名指すか」**（`DESIGN.md:481`）。使用箇所の数ではない。特定用途の具体値はローカル CSS へ
+- **トークンを足す基準は「抽象的な役割を名指すか」**（`DESIGN.md:469`）。使用箇所の数ではない。特定用途の具体値はローカル CSS へ
 
 ## 手順
 
 1. **変更を DESIGN.md に入れる。** トークンはフロントマター（`colors` / `roles` / `components` / `typography` / `rounded` / `spacing`）へ書く。shadow だけは本文の CSS フェンスへ書く（フロントマター仕様に elevation 型が無いため）
-   - primitive を足すときは OKLCH で、色相 H 固定・明度 L を既存の段に合わせる（`DESIGN.md:396`）
+   - primitive を足すときは OKLCH で、色相 H 固定・明度 L を既存の段に合わせる（`DESIGN.md:384`）
    - role は `roles` に「役割: スケール名」で書く。段は書かない
    - component トークンは `components` に「`<component>(-<variant>)(-<部位>)-<値種別>`」で書く。**component（×variant）単位で完結させ、variant 間で行を共有しない**（非色も variant ごとに定義する）。色の行は役割層トークン `<役割>-color-<段>` への参照のみ（primitive 直接参照は不可）で、`light:` / `dark:` の両分岐が必須。state は `<state>-light:` / `<state>-dark:` の分岐キーで足す（例 `hover-light`）。非色の行は尺度のキー（`md` / `body-sm` 等）を直接書き、分岐を持たない
 2. **カタログを再生成する。** リポジトリルートで `npm run build:catalog`（= `node scripts/build-catalog.mjs`）
@@ -64,7 +64,7 @@ user-invocable: true
 ## Red Flags — 手が止まったら疑う
 
 - catalog.html を直接開いて値を書き換えようとしている → DESIGN.md に戻る
-- 「便利だから」と特定用途の具体値をトークン化しようとしている → 抽象的な役割でなければローカル CSS へ（`DESIGN.md:481`・`482`）
+- 「便利だから」と特定用途の具体値をトークン化しようとしている → 抽象的な役割でなければローカル CSS へ（`DESIGN.md:469`・`470`）
 - 生成器のテンプレート文字列に oklch 値や rem 値を直書きしようとしている → その値は DESIGN.md から読ませる
 - `roles` に段を書こうとしている（例 `primary: blue-700`） → 段が一意になるのは component×部位が揃った点。roles は族まで、具体値は `components` の行で
 - component トークンの値に primitive（`blue-700` 等）を直接書こうとしている → 役割層トークン（`primary-color-700` 等）経由に直す

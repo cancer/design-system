@@ -188,8 +188,8 @@ const SNAPSHOTS = {
     return ["light", "dark"].map((th) => snapGrid(["", "hover-", "active-", "focus-", "disabled-"].map((st) => {
       const key = `${st}${th}`;
       const focus = st === "focus-";
-      const style = `background:${cval(`button-${v}-surface-color`, key)};color:${cval(`button-${v}-text-color`, key)};font:${sval(`button-${v}-text-typography`)};border:0;border-radius:${sval(`button-${v}-rounded`)};padding:${sval(`button-${v}-padding-block-spacing`)} ${sval(`button-${v}-padding-inline-spacing`)}${focus ? `;outline:2px solid ${cval(`button-${v}-ring-color`, key)};outline-offset:2px` : ""}`;
-      return snap(key, `<button style="${style}">${v}</button>`, focus ? [...base, `button-${v}-ring-color`] : base);
+      const style = `background:${cval(`button-${v}-surface-color`, key)};color:${cval(`button-${v}-text-color`, key)};font:${sval(`button-${v}-text-typography`)};border:0;border-radius:${sval(`button-${v}-rounded`)};padding:${sval(`button-${v}-padding-block-spacing`)} ${sval(`button-${v}-padding-inline-spacing`)}${focus ? ";outline:auto;outline-offset:2px" : ""}`;
+      return snap(key, `<button style="${style}">${v}</button>`, base);
     }))).join("");
   }).join(""),
   note: () => variantsOf("note").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
@@ -202,10 +202,10 @@ const SNAPSHOTS = {
     const key = `${st}${th}`;
     const focus = st === "focus-";
     const base = ["input-surface-color", "input-border-color", "input-text-color", "input-placeholder-color", "input-text-typography", "input-rounded", "input-padding-block-spacing", "input-padding-inline-spacing"];
-    const style = `background:${cval("input-surface-color", key)};color:${cval("input-text-color", key)};border:1px solid ${cval("input-border-color", key)};font:${sval("input-text-typography")};border-radius:${sval("input-rounded")};padding:${sval("input-padding-block-spacing")} ${sval("input-padding-inline-spacing")};width:100%;box-sizing:border-box${focus ? `;outline:2px solid ${cval("input-ring-color", key)};outline-offset:2px` : ""}`;
+    const style = `background:${cval("input-surface-color", key)};color:${cval("input-text-color", key)};border:1px solid ${cval("input-border-color", key)};font:${sval("input-text-typography")};border-radius:${sval("input-rounded")};padding:${sval("input-padding-block-spacing")} ${sval("input-padding-inline-spacing")};width:100%;box-sizing:border-box${focus ? ";outline:auto;outline-offset:2px" : ""}`;
     return snap(key,
       `<input readonly value="入力済みの文字" style="${style}"><input readonly placeholder="placeholder" class="ph-${key.endsWith("dark") ? "dark" : "light"}" style="${style}">`,
-      focus ? [...base, "input-ring-color"] : base);
+      base);
   }))).join(""),
 };
 
