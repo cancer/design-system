@@ -103,19 +103,10 @@ const roleScales = Object.entries(rolesMap).map(([role, family]) => {
 // component トークンを component 名でグループ化（screen / button / note …）
 const compGroups = {};
 for (const [k, t] of Object.entries(components)) (compGroups[k.split("-")[0]] ||= []).push([k, t]);
-// button / note の variant（命名 <component>-<variant>-<部位>-color から抽出）
-const variantsOf = (comp) => [...new Set(Object.keys(components)
-  .filter((k) => k.startsWith(`${comp}-`)).map((k) => k.split("-")[1]))];
+// button / note 等の variant（色の行の命名 <component>-<variant>-<部位>-color から抽出。非色の行は含めない）
+const variantsOf = (comp) => [...new Set(Object.entries(components)
+  .filter(([k, t]) => k.startsWith(`${comp}-`) && typeof t === "object").map(([k]) => k.split("-")[1]))];
 const NOTE_SAMPLE = { success: "保存しました。", warning: "未保存の変更があります。", danger: "この操作は取り消せません。", neutral: "補足: カタログは派生物。手編集しない。" };
-// グループ見出し直下に置くデモ（screen はこのページの chrome 自体がデモ）
-const DEMO = {
-  screen: `    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま screen のデモ。</p>\n`,
-  button: `    <div class="demo-row">\n${variantsOf("button").map((v) => `      <button class="demo-btn v-${v}">button · ${v}（hover で分岐）</button>`).join("\n")}\n    </div>\n`,
-  note: `    <div class="demo-row">\n${variantsOf("note").map((v) => `      <div class="note-card" style="background:var(--note-${v}-surface-color);border-color:var(--note-${v}-border-color);color:var(--note-${v}-text-color)"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`).join("\n")}\n    </div>\n`,
-  card: `    <div class="demo-row">\n      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。</span></div>\n    </div>\n`,
-  badge: `    <div class="demo-row">\n      <div>${variantsOf("badge").map((v) => `<span class="demo-badge v-${v}">${v}</span>`).join(" ")}</div>\n    </div>\n`,
-  input: `    <div class="demo-row">\n      <input class="demo-input" placeholder="placeholder は AA を通す段（focus で縁が分岐）" aria-label="input demo">\n    </div>\n`,
-};
 
 // ── 役割層トークン <役割>-color-<段> を roles 経由で primitive へ解決 ──
 const ROLE_TOKEN_RE = /^([a-z]+)-color-(\d+)$/;
@@ -163,6 +154,43 @@ const componentVars = (mode) => themed.flatMap(([k, t]) =>
       return `    --${k}${state}: ${resolveRoleToken(t[key], k)};`;
     })).join("\n");
 const staticVars = statics.map(([k, v]) => `    --${k}: ${resolveScaleToken(k, v)};`).join("\n");
+
+// ── カタログ用スナップショット ─────────────────────────────────────────
+// カタログは variant × theme × state の全分岐を静的に描画する。hover / focus / テーマ切替の
+// 操作（JS・擬似クラス）に頼らない。各タイルは component 自身のトークンを resolve した値だけで組む。
+const cval = (name, key) => {
+  const t = components[name];
+  return resolveRoleToken(t[key] ?? t[key.endsWith("dark") ? "dark" : "light"], name);
+};
+const sval = (name) => resolveScaleToken(name, components[name]);
+// 対象行が持つ分岐キーの全列挙（light → state-light → dark → state-dark の順）
+const branchKeysOf = (names) => {
+  const keys = new Set();
+  for (const n of names) if (typeof components[n] === "object") for (const k of Object.keys(components[n])) keys.add(k);
+  const states = [...new Set([...keys].filter((k) => k.includes("-")).map((k) => k.split("-")[0]))];
+  return ["light", ...states.map((s) => `${s}-light`), "dark", ...states.map((s) => `${s}-dark`)];
+};
+// タイルの地は screen トークン（component は screen の上に置かれるため）
+const snap = (key, inner) => `      <div class="snap" style="background:${cval("screen-background-color", key)};color:${cval("screen-text-color", key)}"><div class="snap-cap">${key}</div>${inner}</div>`;
+const snapGrid = (tiles) => `    <div class="snap-grid">\n${tiles.join("\n")}\n    </div>\n`;
+
+const SNAPSHOTS = {
+  screen: () => snapGrid(["light", "dark"].map((key) => snap(key,
+    `<div style="display:grid;gap:${spacing.xs};width:100%"><span>text</span><span style="color:${cval("screen-text-muted-color", key)}">text-muted</span><span style="color:${cval("screen-accent-color", key)}">accent</span><div style="background:${cval("screen-surface-color", key)};border:1px solid ${cval("screen-border-color", key)};border-radius:${rounded.sm};padding:${spacing.xs} ${spacing.sm}">surface / border</div></div>`))),
+  button: () => variantsOf("button").map((v) => snapGrid(branchKeysOf([`button-${v}-surface-color`, `button-${v}-text-color`]).map((key) => snap(key,
+    `<button style="background:${cval(`button-${v}-surface-color`, key)};color:${cval(`button-${v}-text-color`, key)};font:${sval("button-text-typography")};border:0;border-radius:${sval("button-rounded")};padding:${sval("button-padding-block-spacing")} ${sval("button-padding-inline-spacing")}">${v}</button>`)))).join(""),
+  note: () => variantsOf("note").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
+    `<div style="background:${cval(`note-${v}-surface-color`, key)};border:1px solid ${cval(`note-${v}-border-color`, key)};color:${cval(`note-${v}-text-color`, key)};font:${sval("note-text-typography")};border-radius:${sval("note-rounded")};padding:${sval("note-padding-block-spacing")} ${sval("note-padding-inline-spacing")};width:100%"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`)))).join(""),
+  card: () => snapGrid(["light", "dark"].map((key) => snap(key,
+    `<div style="background:${cval("card-surface-color", key)};border:1px solid ${cval("card-border-color", key)};border-radius:${sval("card-rounded")};padding:${sval("card-padding-spacing")};box-shadow:${sval("card-shadow")};width:100%">card — 面の分離</div>`))),
+  badge: () => variantsOf("badge").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
+    `<span style="background:${cval(`badge-${v}-surface-color`, key)};color:${cval(`badge-${v}-text-color`, key)};font:${sval("badge-text-typography")};border-radius:${sval("badge-rounded")};padding:${sval("badge-padding-block-spacing")} ${sval("badge-padding-inline-spacing")}">${v}</span>`)))).join(""),
+  input: () => snapGrid(branchKeysOf(["input-border-color"]).map((key) => {
+    const style = `background:${cval("input-surface-color", key)};color:${cval("input-text-color", key)};border:1px solid ${cval("input-border-color", key)};font:${sval("input-text-typography")};border-radius:${sval("input-rounded")};padding:${sval("input-padding-block-spacing")} ${sval("input-padding-inline-spacing")};width:100%;box-sizing:border-box`;
+    return snap(key,
+      `<input readonly value="入力済みの文字" style="${style}"><input readonly placeholder="placeholder" class="ph-${key.endsWith("dark") ? "dark" : "light"}" style="${style}">`);
+  })),
+};
 
 // ── カタログ自身の chrome は screen component トークンを参照する ─────────
 const chromeVars = `    --color-background: var(--screen-background-color);
@@ -261,18 +289,11 @@ ${shadowVars(true)}
   .shadow-demo { width: 100%; height: 96px; background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
   .radius-card .cap, .shadow-card .cap { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
   .radius-card .cap b, .shadow-card .cap b { color: var(--color-text); }
-  .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg); }
-  .demo-btn { font: var(--button-text-typography); border: 0; border-radius: var(--button-rounded); padding: var(--button-padding-block-spacing) var(--button-padding-inline-spacing); cursor: pointer; }
-${variantsOf("button").map((v) => `  .demo-btn.v-${v} { background: var(--button-${v}-surface-color); color: var(--button-${v}-text-color); }
-  .demo-btn.v-${v}:hover { background: var(--button-${v}-surface-color-hover); }`).join("\n")}
-  .note-card { font: var(--note-text-typography); border: 1px solid; border-radius: var(--note-rounded); padding: var(--note-padding-block-spacing) var(--note-padding-inline-spacing); flex: 1 1 220px; }
-  .demo-card { background: var(--card-surface-color); border: 1px solid var(--card-border-color); border-radius: var(--card-rounded); padding: var(--card-padding-spacing); box-shadow: var(--card-shadow); flex: 1 1 280px; display: grid; gap: var(--space-sm); }
-  .demo-badge { font: var(--badge-text-typography); border-radius: var(--badge-rounded); padding: var(--badge-padding-block-spacing) var(--badge-padding-inline-spacing); }
-${variantsOf("badge").map((v) => `  .demo-badge.v-${v} { background: var(--badge-${v}-surface-color); color: var(--badge-${v}-text-color); }`).join("\n")}
-  .demo-input { font: var(--input-text-typography); color: var(--input-text-color); background: var(--input-surface-color); border: 1px solid var(--input-border-color); border-radius: var(--input-rounded); padding: var(--input-padding-block-spacing) var(--input-padding-inline-spacing); width: min(100%, 420px); box-sizing: border-box; }
-  .demo-note { color: var(--color-text-muted); font-size: 0.875rem; margin: 0 0 var(--space-sm); }
-  .demo-input::placeholder { color: var(--input-placeholder-color); }
-  .demo-input:focus { outline: none; border-color: var(--input-border-color-focus); }
+  .snap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: var(--space-sm); margin-bottom: var(--space-md); }
+  .snap { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); display: grid; gap: var(--space-sm); justify-items: start; align-content: start; }
+  .snap-cap { font-family: var(--font-mono); font-size: 0.625rem; opacity: 0.7; }
+  .ph-light::placeholder { color: ${cval("input-placeholder-color", "light")}; opacity: 1; }
+  .ph-dark::placeholder { color: ${cval("input-placeholder-color", "dark")}; opacity: 1; }
   .comp-name { font-size: ${typography.h3.fontSize}; font-weight: ${typography.h3.fontWeight}; line-height: ${typography.h3.lineHeight}; margin: var(--space-xl) 0 var(--space-xs); }
   .ctokens { margin: 0; }
   .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
@@ -352,9 +373,9 @@ ${strip({ steps })}
 
   <section id="components">
     <h2 class="section-title">Components（意味の完成点）</h2>
-    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、このページのテーマ切替・ボタンの hover・input の focus がそのまま分岐の切替。</p>
+    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、以下は全分岐（variant × theme × state）の静的スナップショット。</p>
 ${Object.entries(compGroups).map(([g, rows]) => `    <h3 class="comp-name">${g}</h3>
-${DEMO[g] || ""}    <div class="ctokens">
+${SNAPSHOTS[g] ? SNAPSHOTS[g]() : ""}    <div class="ctokens">
 ${rows.map(([k, t]) => typeof t === "string"
   ? `      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>${k}</code><span class="refs">${t}</span></div>`
   : `      <div class="ctoken"><span class="chip2" style="background:var(--${k})"></span><code>${k}</code><span class="refs">${Object.entries(t).map(([kk, v]) => (kk === "light" || kk === "dark" ? v : `${kk}: ${v}`)).join(" / ")}</span></div>`).join("\n")}

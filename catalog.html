@@ -256,34 +256,11 @@
   .shadow-demo { width: 100%; height: 96px; background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
   .radius-card .cap, .shadow-card .cap { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
   .radius-card .cap b, .shadow-card .cap b { color: var(--color-text); }
-  .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg); }
-  .demo-btn { font: var(--button-text-typography); border: 0; border-radius: var(--button-rounded); padding: var(--button-padding-block-spacing) var(--button-padding-inline-spacing); cursor: pointer; }
-  .demo-btn.v-primary { background: var(--button-primary-surface-color); color: var(--button-primary-text-color); }
-  .demo-btn.v-primary:hover { background: var(--button-primary-surface-color-hover); }
-  .demo-btn.v-danger { background: var(--button-danger-surface-color); color: var(--button-danger-text-color); }
-  .demo-btn.v-danger:hover { background: var(--button-danger-surface-color-hover); }
-  .demo-btn.v-neutral { background: var(--button-neutral-surface-color); color: var(--button-neutral-text-color); }
-  .demo-btn.v-neutral:hover { background: var(--button-neutral-surface-color-hover); }
-  .demo-btn.v-text { background: var(--button-text-surface-color); color: var(--button-text-text-color); }
-  .demo-btn.v-text:hover { background: var(--button-text-surface-color-hover); }
-  .demo-btn.v-rounded { background: var(--button-rounded-surface-color); color: var(--button-rounded-text-color); }
-  .demo-btn.v-rounded:hover { background: var(--button-rounded-surface-color-hover); }
-  .demo-btn.v-padding { background: var(--button-padding-surface-color); color: var(--button-padding-text-color); }
-  .demo-btn.v-padding:hover { background: var(--button-padding-surface-color-hover); }
-  .note-card { font: var(--note-text-typography); border: 1px solid; border-radius: var(--note-rounded); padding: var(--note-padding-block-spacing) var(--note-padding-inline-spacing); flex: 1 1 220px; }
-  .demo-card { background: var(--card-surface-color); border: 1px solid var(--card-border-color); border-radius: var(--card-rounded); padding: var(--card-padding-spacing); box-shadow: var(--card-shadow); flex: 1 1 280px; display: grid; gap: var(--space-sm); }
-  .demo-badge { font: var(--badge-text-typography); border-radius: var(--badge-rounded); padding: var(--badge-padding-block-spacing) var(--badge-padding-inline-spacing); }
-  .demo-badge.v-success { background: var(--badge-success-surface-color); color: var(--badge-success-text-color); }
-  .demo-badge.v-warning { background: var(--badge-warning-surface-color); color: var(--badge-warning-text-color); }
-  .demo-badge.v-danger { background: var(--badge-danger-surface-color); color: var(--badge-danger-text-color); }
-  .demo-badge.v-neutral { background: var(--badge-neutral-surface-color); color: var(--badge-neutral-text-color); }
-  .demo-badge.v-text { background: var(--badge-text-surface-color); color: var(--badge-text-text-color); }
-  .demo-badge.v-rounded { background: var(--badge-rounded-surface-color); color: var(--badge-rounded-text-color); }
-  .demo-badge.v-padding { background: var(--badge-padding-surface-color); color: var(--badge-padding-text-color); }
-  .demo-input { font: var(--input-text-typography); color: var(--input-text-color); background: var(--input-surface-color); border: 1px solid var(--input-border-color); border-radius: var(--input-rounded); padding: var(--input-padding-block-spacing) var(--input-padding-inline-spacing); width: min(100%, 420px); box-sizing: border-box; }
-  .demo-note { color: var(--color-text-muted); font-size: 0.875rem; margin: 0 0 var(--space-sm); }
-  .demo-input::placeholder { color: var(--input-placeholder-color); }
-  .demo-input:focus { outline: none; border-color: var(--input-border-color-focus); }
+  .snap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: var(--space-sm); margin-bottom: var(--space-md); }
+  .snap { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); display: grid; gap: var(--space-sm); justify-items: start; align-content: start; }
+  .snap-cap { font-family: var(--font-mono); font-size: 0.625rem; opacity: 0.7; }
+  .ph-light::placeholder { color: oklch(0.49 0.004 270); opacity: 1; }
+  .ph-dark::placeholder { color: oklch(0.79 0.004 270); opacity: 1; }
   .comp-name { font-size: 1.563rem; font-weight: 500; line-height: 1.3; margin: var(--space-xl) 0 var(--space-xs); }
   .ctokens { margin: 0; }
   .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
@@ -528,9 +505,12 @@
 
   <section id="components">
     <h2 class="section-title">Components（意味の完成点）</h2>
-    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、このページのテーマ切替・ボタンの hover・input の focus がそのまま分岐の切替。</p>
+    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、以下は全分岐（variant × theme × state）の静的スナップショット。</p>
     <h3 class="comp-name">screen</h3>
-    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま screen のデモ。</p>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="display:grid;gap:0.25rem;width:100%"><span>text</span><span style="color:oklch(0.49 0.004 270)">text-muted</span><span style="color:oklch(0.49 0.1496 264)">accent</span><div style="background:oklch(0.985 0.004 270);border:1px solid oklch(0.925 0.004 270);border-radius:0.25rem;padding:0.25rem 0.5rem">surface / border</div></div></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="display:grid;gap:0.25rem;width:100%"><span>text</span><span style="color:oklch(0.79 0.004 270)">text-muted</span><span style="color:oklch(0.68 0.1648 264)">accent</span><div style="background:oklch(0.3 0.004 270);border:1px solid oklch(0.49 0.004 270);border-radius:0.25rem;padding:0.25rem 0.5rem">surface / border</div></div></div>
+    </div>
     <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--screen-text-color)"></span><code>screen-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--screen-text-muted-color)"></span><code>screen-text-muted-color</code><span class="refs">neutral-color-700 / neutral-color-400</span></div>
@@ -540,13 +520,23 @@
       <div class="ctoken"><span class="chip2" style="background:var(--screen-accent-color)"></span><code>screen-accent-color</code><span class="refs">primary-color-700 / primary-color-500</span></div>
     </div>
     <h3 class="comp-name">button</h3>
-    <div class="demo-row">
-      <button class="demo-btn v-primary">button · primary（hover で分岐）</button>
-      <button class="demo-btn v-danger">button · danger（hover で分岐）</button>
-      <button class="demo-btn v-neutral">button · neutral（hover で分岐）</button>
-      <button class="demo-btn v-text">button · text（hover で分岐）</button>
-      <button class="demo-btn v-rounded">button · rounded（hover で分岐）</button>
-      <button class="demo-btn v-padding">button · padding（hover で分岐）</button>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><button style="background:oklch(0.49 0.1496 264);color:oklch(0.985 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">primary</button></div>
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">hover-light</div><button style="background:oklch(0.395 0.119 264);color:oklch(0.985 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">primary</button></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><button style="background:oklch(0.68 0.1648 264);color:oklch(0.21 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">primary</button></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">hover-dark</div><button style="background:oklch(0.79 0.1036 264);color:oklch(0.21 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">primary</button></div>
+    </div>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><button style="background:oklch(0.49 0.1672 25);color:oklch(0.985 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">danger</button></div>
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">hover-light</div><button style="background:oklch(0.395 0.133 25);color:oklch(0.985 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">danger</button></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><button style="background:oklch(0.68 0.19 25);color:oklch(0.21 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">danger</button></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">hover-dark</div><button style="background:oklch(0.79 0.1188 25);color:oklch(0.21 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">danger</button></div>
+    </div>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><button style="background:oklch(0.925 0.004 270);color:oklch(0.3 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">neutral</button></div>
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">hover-light</div><button style="background:oklch(0.87 0.004 270);color:oklch(0.3 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">neutral</button></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><button style="background:oklch(0.395 0.004 270);color:oklch(0.985 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">neutral</button></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">hover-dark</div><button style="background:oklch(0.49 0.004 270);color:oklch(0.985 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">neutral</button></div>
     </div>
     <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--button-primary-surface-color)"></span><code>button-primary-surface-color</code><span class="refs">primary-color-700 / primary-color-500 / hover-light: primary-color-800 / hover-dark: primary-color-400</span></div>
@@ -561,14 +551,21 @@
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-padding-inline-spacing</code><span class="refs">lg</span></div>
     </div>
     <h3 class="comp-name">note</h3>
-    <div class="demo-row">
-      <div class="note-card" style="background:var(--note-success-surface-color);border-color:var(--note-success-border-color);color:var(--note-success-text-color)"><b>success</b> — 保存しました。</div>
-      <div class="note-card" style="background:var(--note-warning-surface-color);border-color:var(--note-warning-border-color);color:var(--note-warning-text-color)"><b>warning</b> — 未保存の変更があります。</div>
-      <div class="note-card" style="background:var(--note-danger-surface-color);border-color:var(--note-danger-border-color);color:var(--note-danger-text-color)"><b>danger</b> — この操作は取り消せません。</div>
-      <div class="note-card" style="background:var(--note-neutral-surface-color);border-color:var(--note-neutral-border-color);color:var(--note-neutral-text-color)"><b>neutral</b> — 補足: カタログは派生物。手編集しない。</div>
-      <div class="note-card" style="background:var(--note-text-surface-color);border-color:var(--note-text-border-color);color:var(--note-text-text-color)"><b>text</b> — </div>
-      <div class="note-card" style="background:var(--note-rounded-surface-color);border-color:var(--note-rounded-border-color);color:var(--note-rounded-text-color)"><b>rounded</b> — </div>
-      <div class="note-card" style="background:var(--note-padding-surface-color);border-color:var(--note-padding-border-color);color:var(--note-padding-text-color)"><b>padding</b> — </div>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="background:oklch(0.965 0.033 150);border:1px solid oklch(0.87 0.099 150);color:oklch(0.3 0.078 150);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>success</b> — 保存しました。</div></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="background:oklch(0.21 0.054 150);border:1px solid oklch(0.395 0.105 150);color:oklch(0.925 0.063 150);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>success</b> — 保存しました。</div></div>
+    </div>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="background:oklch(0.965 0.0276 75);border:1px solid oklch(0.87 0.099 75);color:oklch(0.3 0.062 75);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>warning</b> — 未保存の変更があります。</div></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="background:oklch(0.21 0.0434 75);border:1px solid oklch(0.395 0.0817 75);color:oklch(0.925 0.0604 75);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>warning</b> — 未保存の変更があります。</div></div>
+    </div>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="background:oklch(0.965 0.0168 25);border:1px solid oklch(0.87 0.068 25);color:oklch(0.3 0.0988 25);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>danger</b> — この操作は取り消せません。</div></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="background:oklch(0.21 0.0684 25);border:1px solid oklch(0.395 0.133 25);color:oklch(0.925 0.0373 25);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>danger</b> — この操作は取り消せません。</div></div>
+    </div>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="background:oklch(0.965 0.004 270);border:1px solid oklch(0.87 0.004 270);color:oklch(0.3 0.004 270);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>neutral</b> — 補足: カタログは派生物。手編集しない。</div></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="background:oklch(0.21 0.004 270);border:1px solid oklch(0.395 0.004 270);color:oklch(0.925 0.004 270);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>neutral</b> — 補足: カタログは派生物。手編集しない。</div></div>
     </div>
     <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--note-success-surface-color)"></span><code>note-success-surface-color</code><span class="refs">success-color-100 / success-color-950</span></div>
@@ -589,8 +586,9 @@
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-padding-inline-spacing</code><span class="refs">md</span></div>
     </div>
     <h3 class="comp-name">card</h3>
-    <div class="demo-row">
-      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。</span></div>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="background:oklch(0.985 0.004 270);border:1px solid oklch(0.925 0.004 270);border-radius:0.5rem;padding:1.5rem;box-shadow:0 1px 2px rgb(0 0 0 / 0.06);width:100%">card — 面の分離</div></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="background:oklch(0.3 0.004 270);border:1px solid oklch(0.49 0.004 270);border-radius:0.5rem;padding:1.5rem;box-shadow:0 1px 2px rgb(0 0 0 / 0.06);width:100%">card — 面の分離</div></div>
     </div>
     <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--card-surface-color)"></span><code>card-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
@@ -600,8 +598,21 @@
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-shadow</code><span class="refs">sm</span></div>
     </div>
     <h3 class="comp-name">badge</h3>
-    <div class="demo-row">
-      <div><span class="demo-badge v-success">success</span> <span class="demo-badge v-warning">warning</span> <span class="demo-badge v-danger">danger</span> <span class="demo-badge v-neutral">neutral</span> <span class="demo-badge v-text">text</span> <span class="demo-badge v-rounded">rounded</span> <span class="demo-badge v-padding">padding</span></div>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><span style="background:oklch(0.965 0.033 150);color:oklch(0.3 0.078 150);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">success</span></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><span style="background:oklch(0.21 0.054 150);color:oklch(0.925 0.063 150);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">success</span></div>
+    </div>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><span style="background:oklch(0.965 0.0276 75);color:oklch(0.3 0.062 75);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">warning</span></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><span style="background:oklch(0.21 0.0434 75);color:oklch(0.925 0.0604 75);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">warning</span></div>
+    </div>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><span style="background:oklch(0.965 0.0168 25);color:oklch(0.3 0.0988 25);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">danger</span></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><span style="background:oklch(0.21 0.0684 25);color:oklch(0.925 0.0373 25);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">danger</span></div>
+    </div>
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><span style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">neutral</span></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><span style="background:oklch(0.21 0.004 270);color:oklch(0.925 0.004 270);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">neutral</span></div>
     </div>
     <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--badge-success-surface-color)"></span><code>badge-success-surface-color</code><span class="refs">success-color-100 / success-color-950</span></div>
@@ -618,8 +629,11 @@
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-padding-inline-spacing</code><span class="refs">sm</span></div>
     </div>
     <h3 class="comp-name">input</h3>
-    <div class="demo-row">
-      <input class="demo-input" placeholder="placeholder は AA を通す段（focus で縁が分岐）" aria-label="input demo">
+    <div class="snap-grid">
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><input readonly value="入力済みの文字" style="background:oklch(0.985 0.004 270);color:oklch(0.3 0.004 270);border:1px solid oklch(0.87 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"><input readonly placeholder="placeholder" class="ph-light" style="background:oklch(0.985 0.004 270);color:oklch(0.3 0.004 270);border:1px solid oklch(0.87 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"></div>
+      <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">focus-light</div><input readonly value="入力済みの文字" style="background:oklch(0.985 0.004 270);color:oklch(0.3 0.004 270);border:1px solid oklch(0.49 0.1496 264);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"><input readonly placeholder="placeholder" class="ph-light" style="background:oklch(0.985 0.004 270);color:oklch(0.3 0.004 270);border:1px solid oklch(0.49 0.1496 264);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><input readonly value="入力済みの文字" style="background:oklch(0.3 0.004 270);color:oklch(0.985 0.004 270);border:1px solid oklch(0.49 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"><input readonly placeholder="placeholder" class="ph-dark" style="background:oklch(0.3 0.004 270);color:oklch(0.985 0.004 270);border:1px solid oklch(0.49 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"></div>
+      <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">focus-dark</div><input readonly value="入力済みの文字" style="background:oklch(0.3 0.004 270);color:oklch(0.985 0.004 270);border:1px solid oklch(0.68 0.1648 264);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"><input readonly placeholder="placeholder" class="ph-dark" style="background:oklch(0.3 0.004 270);color:oklch(0.985 0.004 270);border:1px solid oklch(0.68 0.1648 264);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"></div>
     </div>
     <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--input-surface-color)"></span><code>input-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
