@@ -17,7 +17,7 @@ user-invocable: true
 
 - **primitive スケール**（`colors`。`blue-500` のように色相＋段）。OKLCH で生成し、値の源はここだけ
 - **role → スケールの薄い参照**（`roles`。`primary: blue` のように役割へ色相族を割り当てる。役割層トークン `<役割>-color-<段>` はここから機械的に導出される）
-- **component トークン**（`components`。意味の完成点。横断 component（base / button / note …）×部位で値が一意に決まる行を明示定義する。色の行は役割層トークンだけを参照し、light / dark は名前に焼き付けない分岐キー。非色の行（typography / rounded / spacing / shadow）は尺度のキーを直接参照し、分岐を持たない）
+- **component トークン**（`components`。意味の完成点。横断 component（screen / button / note …）×部位で値が一意に決まる行を明示定義する。色の行は役割層トークンだけを参照し、light / dark は名前に焼き付けない分岐キー。非色の行（typography / rounded / spacing / shadow）は尺度のキーを直接参照し、分岐を持たない）
 
 現時点で役割が定義されているのは色（色相族への割り当て）だけ。役割の無い値種別には役割層トークンが存在しないため、非色の行は尺度を直接参照する（非色の役割が必要になれば `roles` に足して拡張する）。役割と component の間の共有結合（semantic）層は、複数 component が変更理由を共有する行が現れるまで作らない。プロジェクト固有 component の resolve は消費側の範囲で、DESIGN.md には持ち込まない。詳細は `DESIGN.md` のデザイントークン章（値の尺度 / Roles / Components）と Maintenance 章を正とする。フロントマターと節は層の順（尺度 → roles → components）に並べる。
 
@@ -72,6 +72,6 @@ user-invocable: true
 
 ## 仕組み（参照）
 
-- 生成器: `scripts/build-catalog.mjs`。DESIGN.md のフロントマターから依存パッケージ無しで `catalog.html` を生成する。カタログ自身の chrome 色は base component トークンを参照する。トークン値は一切ハードコードしない
+- 生成器: `scripts/build-catalog.mjs`。DESIGN.md のフロントマターから依存パッケージ無しで `catalog.html` を生成する。カタログ自身の chrome 色は screen component トークンを参照する。トークン値は一切ハードコードしない
 - AA 検証器: `scripts/check-contrast.mjs`。`components` から文字色×地色ペアを機械抽出し、OKLCH→sRGB 変換でコントラスト比を計算する
 - 生成器のテンプレートを直す必要が出た場合（新しいトークン「型」を足す等）は、値ではなく構造だけを足す

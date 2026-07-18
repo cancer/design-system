@@ -2,7 +2,7 @@
 // DESIGN.md の components から文字色×地色のペアを機械抽出し、WCAG AA（4.5:1）を検証する。
 // トークンの「値」はこのファイルに一切書かない。すべて DESIGN.md から読む。依存パッケージ無し。
 //
-// ペアの規則: 同じグループ（base / button-primary / note-success …）内で、
+// ペアの規則: 同じグループ（screen / button-primary / note-success …）内で、
 // 前景部位（text / text-muted / accent）× 地部位（surface / background）の全組み合わせ × theme。
 // border は文字ではないため対象外（非テキストの 3:1 はここでは扱わない）。
 //
@@ -75,7 +75,7 @@ for (const name of Object.keys(components)) {
   (groups[group] ||= {})[part] = name;
 }
 
-// state 分岐（<state>-light 等）も検証する。fg 側に同じ分岐が無ければ同 theme の base に落とす。
+// state 分岐（<state>-light 等）も検証する。fg 側に同じ分岐が無ければ同 theme の基本値に落とす。
 const themeOf = (key) => (key.endsWith("dark") ? "dark" : "light");
 const AA = 4.5;
 let fail = 0, checked = 0;

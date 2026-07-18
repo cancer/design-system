@@ -1,12 +1,12 @@
 <title>Design Token Catalog — Personal Design System</title>
 <style>
   :root {
-    --base-text-color: oklch(0.3 0.004 270);
-    --base-text-muted-color: oklch(0.49 0.004 270);
-    --base-background-color: oklch(0.965 0.004 270);
-    --base-surface-color: oklch(0.985 0.004 270);
-    --base-border-color: oklch(0.925 0.004 270);
-    --base-accent-color: oklch(0.49 0.1496 264);
+    --screen-text-color: oklch(0.3 0.004 270);
+    --screen-text-muted-color: oklch(0.49 0.004 270);
+    --screen-background-color: oklch(0.965 0.004 270);
+    --screen-surface-color: oklch(0.985 0.004 270);
+    --screen-border-color: oklch(0.925 0.004 270);
+    --screen-accent-color: oklch(0.49 0.1496 264);
     --button-primary-surface-color: oklch(0.49 0.1496 264);
     --button-primary-surface-color-hover: oklch(0.395 0.119 264);
     --button-primary-text-color: oklch(0.985 0.004 270);
@@ -62,12 +62,12 @@
     --input-rounded: 0.25rem;
     --input-padding-block-spacing: 0.5rem;
     --input-padding-inline-spacing: 1rem;
-    --color-background: var(--base-background-color);
-    --color-surface: var(--base-surface-color);
-    --color-border: var(--base-border-color);
-    --color-text: var(--base-text-color);
-    --color-text-muted: var(--base-text-muted-color);
-    --color-primary: var(--base-accent-color);
+    --color-background: var(--screen-background-color);
+    --color-surface: var(--screen-surface-color);
+    --color-border: var(--screen-border-color);
+    --color-text: var(--screen-text-color);
+    --color-text-muted: var(--screen-text-muted-color);
+    --color-primary: var(--screen-accent-color);
     --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
     --space-lg: 1.5rem; --space-xl: 2rem; --space-2xl: 3rem; --space-3xl: 4rem;
     --radius-sm: 0.25rem; --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-full: 9999px;
@@ -79,12 +79,12 @@
   }
   @media (prefers-color-scheme: dark) {
     :root {
-    --base-text-color: oklch(0.985 0.004 270);
-    --base-text-muted-color: oklch(0.79 0.004 270);
-    --base-background-color: oklch(0.21 0.004 270);
-    --base-surface-color: oklch(0.3 0.004 270);
-    --base-border-color: oklch(0.49 0.004 270);
-    --base-accent-color: oklch(0.68 0.1648 264);
+    --screen-text-color: oklch(0.985 0.004 270);
+    --screen-text-muted-color: oklch(0.79 0.004 270);
+    --screen-background-color: oklch(0.21 0.004 270);
+    --screen-surface-color: oklch(0.3 0.004 270);
+    --screen-border-color: oklch(0.49 0.004 270);
+    --screen-accent-color: oklch(0.68 0.1648 264);
     --button-primary-surface-color: oklch(0.68 0.1648 264);
     --button-primary-surface-color-hover: oklch(0.79 0.1036 264);
     --button-primary-text-color: oklch(0.21 0.004 270);
@@ -127,12 +127,12 @@
     }
   }
   :root[data-theme="light"] {
-    --base-text-color: oklch(0.3 0.004 270);
-    --base-text-muted-color: oklch(0.49 0.004 270);
-    --base-background-color: oklch(0.965 0.004 270);
-    --base-surface-color: oklch(0.985 0.004 270);
-    --base-border-color: oklch(0.925 0.004 270);
-    --base-accent-color: oklch(0.49 0.1496 264);
+    --screen-text-color: oklch(0.3 0.004 270);
+    --screen-text-muted-color: oklch(0.49 0.004 270);
+    --screen-background-color: oklch(0.965 0.004 270);
+    --screen-surface-color: oklch(0.985 0.004 270);
+    --screen-border-color: oklch(0.925 0.004 270);
+    --screen-accent-color: oklch(0.49 0.1496 264);
     --button-primary-surface-color: oklch(0.49 0.1496 264);
     --button-primary-surface-color-hover: oklch(0.395 0.119 264);
     --button-primary-text-color: oklch(0.985 0.004 270);
@@ -174,12 +174,12 @@
     --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.14);
   }
   :root[data-theme="dark"] {
-    --base-text-color: oklch(0.985 0.004 270);
-    --base-text-muted-color: oklch(0.79 0.004 270);
-    --base-background-color: oklch(0.21 0.004 270);
-    --base-surface-color: oklch(0.3 0.004 270);
-    --base-border-color: oklch(0.49 0.004 270);
-    --base-accent-color: oklch(0.68 0.1648 264);
+    --screen-text-color: oklch(0.985 0.004 270);
+    --screen-text-muted-color: oklch(0.79 0.004 270);
+    --screen-background-color: oklch(0.21 0.004 270);
+    --screen-surface-color: oklch(0.3 0.004 270);
+    --screen-border-color: oklch(0.49 0.004 270);
+    --screen-accent-color: oklch(0.68 0.1648 264);
     --button-primary-surface-color: oklch(0.68 0.1648 264);
     --button-primary-surface-color-hover: oklch(0.79 0.1036 264);
     --button-primary-text-color: oklch(0.21 0.004 270);
@@ -301,7 +301,7 @@
     <div>
       <p class="eyebrow">Token Catalog · version alpha</p>
       <h1>Personal Design System</h1>
-      <p class="sub">DESIGN.md から自動生成。層は primitive → 役割 → component（意味の完成点）。共有結合（semantic）層は共有される行が現れるまで作らない。このページの chrome は base component トークンの消費。</p>
+      <p class="sub">DESIGN.md から自動生成。層は primitive → 役割 → component（意味の完成点）。共有結合（semantic）層は共有される行が現れるまで作らない。このページの chrome は screen component トークンの消費。</p>
     </div>
     <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">◐ theme</button>
   </header>
@@ -315,19 +315,19 @@
     <h2 class="section-title">Color — Primitive</h2>
     <p class="section-note">トーナルスケール（値の尺度）。OKLCH で色相ごとに H を固定し、明度 L を全色相共通の段で刻む。<b>このシステムが持つ唯一の「色」。</b>段は component×部位×役割が揃って初めて一意になる。</p>
     <div class="scale">
-      <div class="scale-head"><span class="name">neutral</span><span class="hue">H 270° · role: neutral</span></div>
+      <div class="scale-head"><span class="name">gray</span><span class="hue">H 270° · role: neutral</span></div>
       <div class="steps">
-        <div class="step"><div class="chip" style="background:oklch(0.985 0.004 270)" title="neutral-50  oklch(0.985 0.004 270)"></div><div class="lbl">50</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.965 0.004 270)" title="neutral-100  oklch(0.965 0.004 270)"></div><div class="lbl">100</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.925 0.004 270)" title="neutral-200  oklch(0.925 0.004 270)"></div><div class="lbl">200</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.87 0.004 270)" title="neutral-300  oklch(0.87 0.004 270)"></div><div class="lbl">300</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.79 0.004 270)" title="neutral-400  oklch(0.79 0.004 270)"></div><div class="lbl">400</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.68 0.004 270)" title="neutral-500  oklch(0.68 0.004 270)"></div><div class="lbl">500</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.585 0.004 270)" title="neutral-600  oklch(0.585 0.004 270)"></div><div class="lbl">600</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.49 0.004 270)" title="neutral-700  oklch(0.49 0.004 270)"></div><div class="lbl">700</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.395 0.004 270)" title="neutral-800  oklch(0.395 0.004 270)"></div><div class="lbl">800</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.3 0.004 270)" title="neutral-900  oklch(0.3 0.004 270)"></div><div class="lbl">900</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.21 0.004 270)" title="neutral-950  oklch(0.21 0.004 270)"></div><div class="lbl">950</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.004 270)" title="gray-50  oklch(0.985 0.004 270)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.004 270)" title="gray-100  oklch(0.965 0.004 270)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.004 270)" title="gray-200  oklch(0.925 0.004 270)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.004 270)" title="gray-300  oklch(0.87 0.004 270)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.004 270)" title="gray-400  oklch(0.79 0.004 270)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.004 270)" title="gray-500  oklch(0.68 0.004 270)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.004 270)" title="gray-600  oklch(0.585 0.004 270)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.004 270)" title="gray-700  oklch(0.49 0.004 270)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.004 270)" title="gray-800  oklch(0.395 0.004 270)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.004 270)" title="gray-900  oklch(0.3 0.004 270)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.004 270)" title="gray-950  oklch(0.21 0.004 270)"></div><div class="lbl">950</div></div>
       </div>
     </div>
     <div class="scale">
@@ -509,7 +509,7 @@
       </div>
     </div>
     <div class="scale">
-      <div class="scale-head"><span class="name">neutral</span><span class="hue">→ neutral</span></div>
+      <div class="scale-head"><span class="name">neutral</span><span class="hue">→ gray</span></div>
       <div class="steps">
         <div class="step"><div class="chip" style="background:oklch(0.985 0.004 270)" title="neutral-color-50  oklch(0.985 0.004 270)"></div><div class="lbl">50</div></div>
         <div class="step"><div class="chip" style="background:oklch(0.965 0.004 270)" title="neutral-color-100  oklch(0.965 0.004 270)"></div><div class="lbl">100</div></div>
@@ -529,15 +529,15 @@
   <section id="components">
     <h2 class="section-title">Components（意味の完成点）</h2>
     <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、このページのテーマ切替・ボタンの hover・input の focus がそのまま分岐の切替。</p>
-    <h3 class="comp-name">base</h3>
-    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま base のデモ。</p>
+    <h3 class="comp-name">screen</h3>
+    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま screen のデモ。</p>
     <div class="ctokens">
-      <div class="ctoken"><span class="chip2" style="background:var(--base-text-color)"></span><code>base-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--base-text-muted-color)"></span><code>base-text-muted-color</code><span class="refs">neutral-color-700 / neutral-color-400</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--base-background-color)"></span><code>base-background-color</code><span class="refs">neutral-color-100 / neutral-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--base-surface-color)"></span><code>base-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--base-border-color)"></span><code>base-border-color</code><span class="refs">neutral-color-200 / neutral-color-700</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--base-accent-color)"></span><code>base-accent-color</code><span class="refs">primary-color-700 / primary-color-500</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-text-color)"></span><code>screen-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-text-muted-color)"></span><code>screen-text-muted-color</code><span class="refs">neutral-color-700 / neutral-color-400</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-background-color)"></span><code>screen-background-color</code><span class="refs">neutral-color-100 / neutral-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-surface-color)"></span><code>screen-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-border-color)"></span><code>screen-border-color</code><span class="refs">neutral-color-200 / neutral-color-700</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-accent-color)"></span><code>screen-accent-color</code><span class="refs">primary-color-700 / primary-color-500</span></div>
     </div>
     <h3 class="comp-name">button</h3>
     <div class="demo-row">
@@ -590,7 +590,7 @@
     </div>
     <h3 class="comp-name">card</h3>
     <div class="demo-row">
-      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。中身の文字は base の text を使う。</span></div>
+      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。</span></div>
     </div>
     <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--card-surface-color)"></span><code>card-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>

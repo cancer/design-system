@@ -5,7 +5,7 @@
 //
 // 層は primitive（値の尺度）→ 役割（roles から <役割>-color-<段> を導出）→ component（意味の完成点）。
 // 共有結合（semantic）層は共有される行が現れるまで作らない。
-// このカタログ自身の chrome 色は base component トークンを参照する（1 消費者としての利用）。
+// このカタログ自身の chrome 色は screen component トークンを参照する（1 消費者としての利用）。
 //
 // usage: node scripts/build-catalog.mjs [path/to/DESIGN.md] [path/to/catalog.html]
 
@@ -100,19 +100,19 @@ const roleScales = Object.entries(rolesMap).map(([role, family]) => {
   if (!scales[family]) throw new Error(`roles.${role}: 未定義のスケール "${family}"`);
   return { role, family, steps: scales[family].steps.map((st) => ({ step: st.step, key: `${role}-color-${st.step}`, value: st.value })) };
 });
-// component トークンを component 名でグループ化（base / button / note …）
+// component トークンを component 名でグループ化（screen / button / note …）
 const compGroups = {};
 for (const [k, t] of Object.entries(components)) (compGroups[k.split("-")[0]] ||= []).push([k, t]);
 // button / note の variant（命名 <component>-<variant>-<部位>-color から抽出）
 const variantsOf = (comp) => [...new Set(Object.keys(components)
   .filter((k) => k.startsWith(`${comp}-`)).map((k) => k.split("-")[1]))];
 const NOTE_SAMPLE = { success: "保存しました。", warning: "未保存の変更があります。", danger: "この操作は取り消せません。", neutral: "補足: カタログは派生物。手編集しない。" };
-// グループ見出し直下に置くデモ（base はこのページの chrome 自体がデモ）
+// グループ見出し直下に置くデモ（screen はこのページの chrome 自体がデモ）
 const DEMO = {
-  base: `    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま base のデモ。</p>\n`,
+  screen: `    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま screen のデモ。</p>\n`,
   button: `    <div class="demo-row">\n${variantsOf("button").map((v) => `      <button class="demo-btn v-${v}">button · ${v}（hover で分岐）</button>`).join("\n")}\n    </div>\n`,
   note: `    <div class="demo-row">\n${variantsOf("note").map((v) => `      <div class="note-card" style="background:var(--note-${v}-surface-color);border-color:var(--note-${v}-border-color);color:var(--note-${v}-text-color)"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`).join("\n")}\n    </div>\n`,
-  card: `    <div class="demo-row">\n      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。中身の文字は base の text を使う。</span></div>\n    </div>\n`,
+  card: `    <div class="demo-row">\n      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。</span></div>\n    </div>\n`,
   badge: `    <div class="demo-row">\n      <div>${variantsOf("badge").map((v) => `<span class="demo-badge v-${v}">${v}</span>`).join(" ")}</div>\n    </div>\n`,
   input: `    <div class="demo-row">\n      <input class="demo-input" placeholder="placeholder は AA を通す段（focus で縁が分岐）" aria-label="input demo">\n    </div>\n`,
 };
@@ -155,7 +155,7 @@ for (const [k, t] of themed) {
     resolveRoleToken(t[key], `components.${k}.${key}`); // 事前検証
   }
 }
-// theme ごとに base の変数、state 分岐は --<token>-<state> の変数として出す
+// theme ごとに基本の変数、state 分岐は --<token>-<state> の変数として出す
 const componentVars = (mode) => themed.flatMap(([k, t]) =>
   Object.keys(t).filter((key) => key.endsWith(mode))
     .map((key) => {
@@ -164,13 +164,13 @@ const componentVars = (mode) => themed.flatMap(([k, t]) =>
     })).join("\n");
 const staticVars = statics.map(([k, v]) => `    --${k}: ${resolveScaleToken(k, v)};`).join("\n");
 
-// ── カタログ自身の chrome は base component トークンを参照する ─────────
-const chromeVars = `    --color-background: var(--base-background-color);
-    --color-surface: var(--base-surface-color);
-    --color-border: var(--base-border-color);
-    --color-text: var(--base-text-color);
-    --color-text-muted: var(--base-text-muted-color);
-    --color-primary: var(--base-accent-color);`;
+// ── カタログ自身の chrome は screen component トークンを参照する ─────────
+const chromeVars = `    --color-background: var(--screen-background-color);
+    --color-surface: var(--screen-surface-color);
+    --color-border: var(--screen-border-color);
+    --color-text: var(--screen-text-color);
+    --color-text-muted: var(--screen-text-muted-color);
+    --color-primary: var(--screen-accent-color);`;
 const shadowVars = (dark) => Object.entries(shadows).map(([k, v]) =>
   dark ? `    --shadow-${k}: ${v.replace(/rgb\(0 0 0 \/ [\d.]+\)/, (mm) => mm.replace(/[\d.]+\)$/, "0.5)"))};`
        : `    --shadow-${k}: ${v};`).join("\n");
@@ -290,7 +290,7 @@ ${variantsOf("badge").map((v) => `  .demo-badge.v-${v} { background: var(--badge
     <div>
       <p class="eyebrow">Token Catalog · version ${esc(version)}</p>
       <h1>${esc(dsName)}</h1>
-      <p class="sub">DESIGN.md から自動生成。層は primitive → 役割 → component（意味の完成点）。共有結合（semantic）層は共有される行が現れるまで作らない。このページの chrome は base component トークンの消費。</p>
+      <p class="sub">DESIGN.md から自動生成。層は primitive → 役割 → component（意味の完成点）。共有結合（semantic）層は共有される行が現れるまで作らない。このページの chrome は screen component トークンの消費。</p>
     </div>
     <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">◐ theme</button>
   </header>
