@@ -301,8 +301,10 @@ ${shadowVars(true)}
   .ph-light::placeholder { color: ${cval("input-placeholder-color", "light")}; opacity: 1; }
   .ph-dark::placeholder { color: ${cval("input-placeholder-color", "dark")}; opacity: 1; }
   .comp-name { font-size: ${typography.h3.fontSize}; font-weight: ${typography.h3.fontWeight}; line-height: ${typography.h3.lineHeight}; margin: var(--space-xl) 0 var(--space-xs); }
-  .uses { font-family: var(--font-mono); font-size: 0.625rem; display: grid; gap: 2px; width: 100%; margin-top: var(--space-xs); }
-  .uses div { display: flex; justify-content: space-between; gap: var(--space-md); flex-wrap: wrap; }
+  .uses { font-family: var(--font-mono); font-size: 0.625rem; width: 100%; margin-top: var(--space-xs); }
+  .uses div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 var(--space-md); align-items: baseline; padding: 2px 0; border-top: 1px solid rgb(128 128 128 / 0.2); }
+  .uses code { word-break: break-word; }
+  .uses span { white-space: nowrap; }
   .theme-toggle { font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
   .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
   @media (max-width: 720px) { .masthead h1 { font-size: ${typography.h2.fontSize}; } }
