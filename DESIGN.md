@@ -129,7 +129,9 @@ roles:
   neutral: gray      # 意味を主張しない既定。screen に限らず button-neutral 等、多数の行が参照する
 components:
   # === Component（意味の完成点）===
-  # component×部位（×variant）で値が一意に決まる行を明示定義する。名前は <component>(-<variant>)(-<部位>)-<値種別>。
+  # トークンは component（variant があれば variant まで）を単位に完結して定義する。
+  # variant 間で行を共有しない（束ねるのは、変更理由の共有が確認できた行だけ＝共有結合層の条件）。
+  # 名前は <component>(-<variant>)(-<部位>)-<値種別>。
   # 色の行: 値は役割層トークン <役割>-color-<段>（roles から導出）への参照。primitive を直接参照しない。
   #         light / dark は theme modifier の分岐。名前へ焼き付けず、分岐キーとして持つ。
   #         state（hover / focus 等）も modifier。<state>-light / <state>-dark の分岐キーとして足す。
@@ -161,6 +163,10 @@ components:
   button-primary-text-color:
     light: neutral-color-50
     dark: neutral-color-950
+  button-primary-text-typography: label
+  button-primary-rounded: md
+  button-primary-padding-block-spacing: sm
+  button-primary-padding-inline-spacing: lg
   button-danger-surface-color:
     light: danger-color-700
     dark: danger-color-500
@@ -169,6 +175,10 @@ components:
   button-danger-text-color:
     light: neutral-color-50
     dark: neutral-color-950
+  button-danger-text-typography: label
+  button-danger-rounded: md
+  button-danger-padding-block-spacing: sm
+  button-danger-padding-inline-spacing: lg
   button-neutral-surface-color:
     light: neutral-color-200
     dark: neutral-color-800
@@ -177,6 +187,10 @@ components:
   button-neutral-text-color:
     light: neutral-color-900
     dark: neutral-color-50
+  button-neutral-text-typography: label
+  button-neutral-rounded: md
+  button-neutral-padding-block-spacing: sm
+  button-neutral-padding-inline-spacing: lg
   note-success-surface-color:
     light: success-color-100
     dark: success-color-950
@@ -186,6 +200,10 @@ components:
   note-success-text-color:
     light: success-color-900
     dark: success-color-200
+  note-success-text-typography: body-sm
+  note-success-rounded: md
+  note-success-padding-block-spacing: sm
+  note-success-padding-inline-spacing: md
   note-warning-surface-color:
     light: warning-color-100
     dark: warning-color-950
@@ -195,6 +213,10 @@ components:
   note-warning-text-color:
     light: warning-color-900
     dark: warning-color-200
+  note-warning-text-typography: body-sm
+  note-warning-rounded: md
+  note-warning-padding-block-spacing: sm
+  note-warning-padding-inline-spacing: md
   note-danger-surface-color:
     light: danger-color-100
     dark: danger-color-950
@@ -204,6 +226,10 @@ components:
   note-danger-text-color:
     light: danger-color-900
     dark: danger-color-200
+  note-danger-text-typography: body-sm
+  note-danger-rounded: md
+  note-danger-padding-block-spacing: sm
+  note-danger-padding-inline-spacing: md
   note-neutral-surface-color:
     light: neutral-color-100
     dark: neutral-color-950
@@ -213,14 +239,10 @@ components:
   note-neutral-text-color:
     light: neutral-color-900
     dark: neutral-color-200
-  button-text-typography: label
-  button-rounded: md
-  button-padding-block-spacing: sm
-  button-padding-inline-spacing: lg
-  note-text-typography: body-sm
-  note-rounded: md
-  note-padding-block-spacing: sm
-  note-padding-inline-spacing: md
+  note-neutral-text-typography: body-sm
+  note-neutral-rounded: md
+  note-neutral-padding-block-spacing: sm
+  note-neutral-padding-inline-spacing: md
   card-surface-color:
     light: neutral-color-50
     dark: neutral-color-900
@@ -236,28 +258,40 @@ components:
   badge-success-text-color:
     light: success-color-900
     dark: success-color-200
+  badge-success-text-typography: caption
+  badge-success-rounded: sm
+  badge-success-padding-block-spacing: xs
+  badge-success-padding-inline-spacing: sm
   badge-warning-surface-color:
     light: warning-color-100
     dark: warning-color-950
   badge-warning-text-color:
     light: warning-color-900
     dark: warning-color-200
+  badge-warning-text-typography: caption
+  badge-warning-rounded: sm
+  badge-warning-padding-block-spacing: xs
+  badge-warning-padding-inline-spacing: sm
   badge-danger-surface-color:
     light: danger-color-100
     dark: danger-color-950
   badge-danger-text-color:
     light: danger-color-900
     dark: danger-color-200
+  badge-danger-text-typography: caption
+  badge-danger-rounded: sm
+  badge-danger-padding-block-spacing: xs
+  badge-danger-padding-inline-spacing: sm
   badge-neutral-surface-color:
     light: neutral-color-100
     dark: neutral-color-950
   badge-neutral-text-color:
     light: neutral-color-900
     dark: neutral-color-200
-  badge-text-typography: caption
-  badge-rounded: sm
-  badge-padding-block-spacing: xs
-  badge-padding-inline-spacing: sm
+  badge-neutral-text-typography: caption
+  badge-neutral-rounded: sm
+  badge-neutral-padding-block-spacing: xs
+  badge-neutral-padding-inline-spacing: sm
   input-surface-color:
     light: neutral-color-50
     dark: neutral-color-900

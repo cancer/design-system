@@ -178,13 +178,13 @@ const SNAPSHOTS = {
   screen: () => snapGrid(["light", "dark"].map((key) => snap(key,
     `<div style="display:grid;gap:${spacing.xs};width:100%"><span>text</span><span style="color:${cval("screen-text-muted-color", key)}">text-muted</span><span style="color:${cval("screen-accent-color", key)}">accent</span><div style="background:${cval("screen-surface-color", key)};border:1px solid ${cval("screen-border-color", key)};border-radius:${rounded.sm};padding:${spacing.xs} ${spacing.sm}">surface / border</div></div>`))),
   button: () => variantsOf("button").map((v) => snapGrid(branchKeysOf([`button-${v}-surface-color`, `button-${v}-text-color`]).map((key) => snap(key,
-    `<button style="background:${cval(`button-${v}-surface-color`, key)};color:${cval(`button-${v}-text-color`, key)};font:${sval("button-text-typography")};border:0;border-radius:${sval("button-rounded")};padding:${sval("button-padding-block-spacing")} ${sval("button-padding-inline-spacing")}">${v}</button>`)))).join(""),
+    `<button style="background:${cval(`button-${v}-surface-color`, key)};color:${cval(`button-${v}-text-color`, key)};font:${sval(`button-${v}-text-typography`)};border:0;border-radius:${sval(`button-${v}-rounded`)};padding:${sval(`button-${v}-padding-block-spacing`)} ${sval(`button-${v}-padding-inline-spacing`)}">${v}</button>`)))).join(""),
   note: () => variantsOf("note").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
-    `<div style="background:${cval(`note-${v}-surface-color`, key)};border:1px solid ${cval(`note-${v}-border-color`, key)};color:${cval(`note-${v}-text-color`, key)};font:${sval("note-text-typography")};border-radius:${sval("note-rounded")};padding:${sval("note-padding-block-spacing")} ${sval("note-padding-inline-spacing")};width:100%"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`)))).join(""),
+    `<div style="background:${cval(`note-${v}-surface-color`, key)};border:1px solid ${cval(`note-${v}-border-color`, key)};color:${cval(`note-${v}-text-color`, key)};font:${sval(`note-${v}-text-typography`)};border-radius:${sval(`note-${v}-rounded`)};padding:${sval(`note-${v}-padding-block-spacing`)} ${sval(`note-${v}-padding-inline-spacing`)};width:100%"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`)))).join(""),
   card: () => snapGrid(["light", "dark"].map((key) => snap(key,
     `<div style="background:${cval("card-surface-color", key)};border:1px solid ${cval("card-border-color", key)};border-radius:${sval("card-rounded")};padding:${sval("card-padding-spacing")};box-shadow:${sval("card-shadow")};width:100%">card — 面の分離</div>`))),
   badge: () => variantsOf("badge").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
-    `<span style="background:${cval(`badge-${v}-surface-color`, key)};color:${cval(`badge-${v}-text-color`, key)};font:${sval("badge-text-typography")};border-radius:${sval("badge-rounded")};padding:${sval("badge-padding-block-spacing")} ${sval("badge-padding-inline-spacing")}">${v}</span>`)))).join(""),
+    `<span style="background:${cval(`badge-${v}-surface-color`, key)};color:${cval(`badge-${v}-text-color`, key)};font:${sval(`badge-${v}-text-typography`)};border-radius:${sval(`badge-${v}-rounded`)};padding:${sval(`badge-${v}-padding-block-spacing`)} ${sval(`badge-${v}-padding-inline-spacing`)}">${v}</span>`)))).join(""),
   input: () => snapGrid(branchKeysOf(["input-border-color"]).map((key) => {
     const style = `background:${cval("input-surface-color", key)};color:${cval("input-text-color", key)};border:1px solid ${cval("input-border-color", key)};font:${sval("input-text-typography")};border-radius:${sval("input-rounded")};padding:${sval("input-padding-block-spacing")} ${sval("input-padding-inline-spacing")};width:100%;box-sizing:border-box`;
     return snap(key,
@@ -378,7 +378,7 @@ ${Object.entries(compGroups).map(([g, rows]) => `    <h3 class="comp-name">${g}<
 ${SNAPSHOTS[g] ? SNAPSHOTS[g]() : ""}    <div class="ctokens">
 ${rows.map(([k, t]) => typeof t === "string"
   ? `      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>${k}</code><span class="refs">${t}</span></div>`
-  : `      <div class="ctoken"><span class="chip2" style="background:var(--${k})"></span><code>${k}</code><span class="refs">${Object.entries(t).map(([kk, v]) => (kk === "light" || kk === "dark" ? v : `${kk}: ${v}`)).join(" / ")}</span></div>`).join("\n")}
+  : `      <div class="ctoken"><span class="chip2" style="background:var(--${k})"></span><code>${k}</code><span class="refs">${Object.entries(t).map(([kk, v]) => `${kk}: ${v}`).join(" / ")}</span></div>`).join("\n")}
     </div>`).join("\n")}
   </section>
 
