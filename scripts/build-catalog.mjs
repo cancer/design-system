@@ -183,20 +183,30 @@ const snapGrid = (tiles) => `    <div class="snap-grid">\n${tiles.join("\n")}\n 
 const SNAPSHOTS = {
   screen: () => snapGrid(["light", "dark"].map((key) => snap(key,
     `<div style="display:grid;gap:${spacing.xs};width:100%"><span>text</span><span style="color:${cval("screen-text-muted-color", key)}">text-muted</span><span style="color:${cval("screen-accent-color", key)}">accent</span><div style="background:${cval("screen-surface-color", key)};border:1px solid ${cval("screen-border-color", key)};border-radius:${rounded.sm};padding:${spacing.xs} ${spacing.sm}">surface / border</div></div>`, ["screen-text-color","screen-text-muted-color","screen-accent-color","screen-background-color","screen-surface-color","screen-border-color"]))),
-  button: () => variantsOf("button").map((v) => snapGrid(branchKeysOf([`button-${v}-surface-color`, `button-${v}-text-color`]).map((key) => snap(key,
-    `<button style="background:${cval(`button-${v}-surface-color`, key)};color:${cval(`button-${v}-text-color`, key)};font:${sval(`button-${v}-text-typography`)};border:0;border-radius:${sval(`button-${v}-rounded`)};padding:${sval(`button-${v}-padding-block-spacing`)} ${sval(`button-${v}-padding-inline-spacing`)}">${v}</button>`, [`button-${v}-surface-color`,`button-${v}-text-color`,`button-${v}-text-typography`,`button-${v}-rounded`,`button-${v}-padding-block-spacing`,`button-${v}-padding-inline-spacing`])))).join(""),
+  button: () => variantsOf("button").map((v) => {
+    const base = [`button-${v}-surface-color`, `button-${v}-text-color`, `button-${v}-text-typography`, `button-${v}-rounded`, `button-${v}-padding-block-spacing`, `button-${v}-padding-inline-spacing`];
+    return ["light", "dark"].map((th) => snapGrid(["", "hover-", "active-", "focus-", "disabled-"].map((st) => {
+      const key = `${st}${th}`;
+      const focus = st === "focus-";
+      const style = `background:${cval(`button-${v}-surface-color`, key)};color:${cval(`button-${v}-text-color`, key)};font:${sval(`button-${v}-text-typography`)};border:0;border-radius:${sval(`button-${v}-rounded`)};padding:${sval(`button-${v}-padding-block-spacing`)} ${sval(`button-${v}-padding-inline-spacing`)}${focus ? `;outline:2px solid ${cval(`button-${v}-ring-color`, key)};outline-offset:2px` : ""}`;
+      return snap(key, `<button style="${style}">${v}</button>`, focus ? [...base, `button-${v}-ring-color`] : base);
+    }))).join("");
+  }).join(""),
   note: () => variantsOf("note").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
     `<div style="background:${cval(`note-${v}-surface-color`, key)};border:1px solid ${cval(`note-${v}-border-color`, key)};color:${cval(`note-${v}-text-color`, key)};font:${sval(`note-${v}-text-typography`)};border-radius:${sval(`note-${v}-rounded`)};padding:${sval(`note-${v}-padding-block-spacing`)} ${sval(`note-${v}-padding-inline-spacing`)};width:100%"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`, [`note-${v}-surface-color`,`note-${v}-border-color`,`note-${v}-text-color`,`note-${v}-text-typography`,`note-${v}-rounded`,`note-${v}-padding-block-spacing`,`note-${v}-padding-inline-spacing`])))).join(""),
   card: () => snapGrid(["light", "dark"].map((key) => snap(key,
     `<div style="background:${cval("card-surface-color", key)};border:1px solid ${cval("card-border-color", key)};border-radius:${sval("card-rounded")};padding:${sval("card-padding-spacing")};box-shadow:${sval("card-shadow")};width:100%">card — 面の分離</div>`, ["card-surface-color","card-border-color","card-rounded","card-padding-spacing","card-shadow"]))),
   badge: () => variantsOf("badge").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
     `<span style="background:${cval(`badge-${v}-surface-color`, key)};color:${cval(`badge-${v}-text-color`, key)};font:${sval(`badge-${v}-text-typography`)};border-radius:${sval(`badge-${v}-rounded`)};padding:${sval(`badge-${v}-padding-block-spacing`)} ${sval(`badge-${v}-padding-inline-spacing`)}">${v}</span>`, [`badge-${v}-surface-color`,`badge-${v}-text-color`,`badge-${v}-text-typography`,`badge-${v}-rounded`,`badge-${v}-padding-block-spacing`,`badge-${v}-padding-inline-spacing`])))).join(""),
-  input: () => snapGrid(branchKeysOf(["input-border-color"]).map((key) => {
-    const style = `background:${cval("input-surface-color", key)};color:${cval("input-text-color", key)};border:1px solid ${cval("input-border-color", key)};font:${sval("input-text-typography")};border-radius:${sval("input-rounded")};padding:${sval("input-padding-block-spacing")} ${sval("input-padding-inline-spacing")};width:100%;box-sizing:border-box`;
+  input: () => ["light", "dark"].map((th) => snapGrid(["", "hover-", "focus-", "disabled-", "invalid-"].map((st) => {
+    const key = `${st}${th}`;
+    const focus = st === "focus-";
+    const base = ["input-surface-color", "input-border-color", "input-text-color", "input-placeholder-color", "input-text-typography", "input-rounded", "input-padding-block-spacing", "input-padding-inline-spacing"];
+    const style = `background:${cval("input-surface-color", key)};color:${cval("input-text-color", key)};border:1px solid ${cval("input-border-color", key)};font:${sval("input-text-typography")};border-radius:${sval("input-rounded")};padding:${sval("input-padding-block-spacing")} ${sval("input-padding-inline-spacing")};width:100%;box-sizing:border-box${focus ? `;outline:2px solid ${cval("input-ring-color", key)};outline-offset:2px` : ""}`;
     return snap(key,
       `<input readonly value="入力済みの文字" style="${style}"><input readonly placeholder="placeholder" class="ph-${key.endsWith("dark") ? "dark" : "light"}" style="${style}">`,
-      ["input-surface-color", "input-border-color", "input-text-color", "input-placeholder-color", "input-text-typography", "input-rounded", "input-padding-block-spacing", "input-padding-inline-spacing"]);
-  })),
+      focus ? [...base, "input-ring-color"] : base);
+  }))).join(""),
 };
 
 // ── カタログ自身の chrome は screen component トークンを参照する ─────────

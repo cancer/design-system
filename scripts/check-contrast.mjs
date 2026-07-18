@@ -64,9 +64,10 @@ const contrast = (fg, bg) => {
 // ── グループ化してペアを列挙 ──────────────────────────────────────────
 const FG_PARTS = ["text-muted", "text", "accent", "placeholder"];
 const BG_PARTS = ["surface", "background"];
+const RING_AA = 3; // 非テキスト（フォーカスリング）は 3:1
 const partOf = (name) => {
   const stem = name.replace(/-color$/, "");
-  for (const p of [...FG_PARTS, ...BG_PARTS, "border"]) if (stem.endsWith(`-${p}`)) return { group: stem.slice(0, -p.length - 1), part: p };
+  for (const p of [...FG_PARTS, ...BG_PARTS, "border", "ring"]) if (stem.endsWith(`-${p}`)) return { group: stem.slice(0, -p.length - 1), part: p };
   throw new Error(`部位を特定できないトークン名: ${name}`);
 };
 const groups = {};
@@ -79,6 +80,17 @@ for (const name of Object.keys(components)) {
 const themeOf = (key) => (key.endsWith("dark") ? "dark" : "light");
 const AA = 4.5;
 let fail = 0, checked = 0;
+// フォーカスリング × screen の地（リングは outline-offset で地の上に出るため）
+for (const [name, t] of Object.entries(components)) {
+  if (!name.endsWith("-ring-color")) continue;
+  for (const mode of ["light", "dark"]) {
+    const c = contrast(resolveRole(t[mode]), resolveRole(components["screen-background-color"][mode]));
+    checked++;
+    const ok = c >= RING_AA;
+    if (!ok) fail++;
+    console.log(`${ok ? "PASS" : "FAIL"} ${c.toFixed(2).padStart(5)} ${mode.padEnd(11)} ${name} on screen-background (need ${RING_AA})`);
+  }
+}
 for (const [group, parts] of Object.entries(groups)) {
   for (const fgPart of FG_PARTS) {
     for (const bgPart of BG_PARTS) {
