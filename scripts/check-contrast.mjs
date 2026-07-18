@@ -79,6 +79,13 @@ for (const name of Object.keys(components)) {
 const themeOf = (key) => (key.endsWith("dark") ? "dark" : "light");
 const AA = 4.5;
 let fail = 0, checked = 0;
+// 地を持たない component（link 等）は screen の面・地の上に置かれるため、それらを bg として検証する
+for (const parts of Object.values(groups)) {
+  if (FG_PARTS.some((f) => parts[f]) && !BG_PARTS.some((b) => parts[b])) {
+    parts.surface = "screen-surface-color";
+    parts.background = "screen-background-color";
+  }
+}
 for (const [group, parts] of Object.entries(groups)) {
   for (const fgPart of FG_PARTS) {
     for (const bgPart of BG_PARTS) {

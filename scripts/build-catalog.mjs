@@ -183,6 +183,11 @@ const snapGrid = (tiles) => `    <div class="snap-grid">\n${tiles.join("\n")}\n 
 const SNAPSHOTS = {
   screen: () => snapGrid(["light", "dark"].map((key) => snap(key,
     `<div style="display:grid;gap:${spacing.xs};width:100%"><span>text</span><span style="color:${cval("screen-text-muted-color", key)}">text-muted</span><span style="color:${cval("screen-accent-color", key)}">accent</span><div style="background:${cval("screen-surface-color", key)};border:1px solid ${cval("screen-border-color", key)};border-radius:${rounded.sm};padding:${spacing.xs} ${spacing.sm}">surface / border</div></div>`, ["screen-text-color","screen-text-muted-color","screen-accent-color","screen-background-color","screen-surface-color","screen-border-color"]))),
+  link: () => ["light", "dark"].map((th) => snapGrid(["", "hover-", "active-", "focus-"].map((st) => {
+    const key = `${st}${th}`;
+    const style = `color:${cval("link-text-color", key)};text-decoration:underline${st === "focus-" ? ";outline:auto;outline-offset:2px" : ""}`;
+    return snap(key, `本文の中の<a href="#link" style="${style}">リンク</a>はこう見える。`, ["link-text-color"]);
+  }))).join(""),
   button: () => variantsOf("button").map((v) => {
     const base = [`button-${v}-surface-color`, `button-${v}-text-color`, `button-${v}-text-typography`, `button-${v}-rounded`, `button-${v}-padding-block-spacing`, `button-${v}-padding-inline-spacing`];
     return ["light", "dark"].map((th) => snapGrid(["", "hover-", "active-", "focus-", "disabled-"].map((st) => {
