@@ -3,8 +3,9 @@
 // トークンの「値」はこのファイルに一切書かない。すべて DESIGN.md から読む。
 // 依存パッケージ無し（怠惰: 新規 npm install を避ける）。
 //
-// foundation は primitive スケール ＋ role→スケールの薄い参照だけを持つ（semantic は無い）。
-// このカタログ自身の chrome 色は「1 消費者としての resolve」——primitive から段を選んで引く。
+// 層は primitive（値の尺度）→ 役割（roles から <役割>-color-<段> を導出）→ component（意味の完成点）。
+// 共有結合（semantic）層は共有される行が現れるまで作らない。
+// このカタログ自身の chrome 色は page component トークンを参照する（1 消費者としての利用）。
 //
 // usage: node scripts/build-catalog.mjs [path/to/DESIGN.md] [path/to/catalog.html]
 
@@ -23,8 +24,8 @@ if (!fm) throw new Error(`frontmatter not found in ${SRC}`);
 const body = raw.slice(fm[0].length);
 
 // ── 最小 YAML パーサ（このファイルの 2 階層・2-space インデント構造専用）──
-// トップキー: colors / roles / typography / rounded / spacing。
-// colors|roles|rounded|spacing はフラット、typography のみ 2 階層。
+// トップキー: colors / roles / components / typography / rounded / spacing。
+// colors|roles|rounded|spacing はフラット、components|typography は 2 階層。
 const unquote = (v) => v.replace(/^["']|["']$/g, "");
 // 値の末尾インラインコメントを落とす（引用符付きの値には触れない）。
 const stripComment = (v) => {
@@ -70,6 +71,7 @@ function parseFrontmatter(text) {
 const data = parseFrontmatter(fm[1]);
 const colors = data.colors || {};
 const rolesMap = data.roles || {};
+const components = data.components || {};
 const typography = data.typography || {};
 const rounded = data.rounded || {};
 const spacing = data.spacing || {};
@@ -93,15 +95,65 @@ const hueOf = (oklch) => (oklch.match(/oklch\([\d.]+\s+[\d.]+\s+([\d.]+)\)/) || 
 // スケール → それを担う role（roles から逆引き。注記の重複定義を避ける）
 const scaleRole = {};
 for (const [role, sc] of Object.entries(rolesMap)) scaleRole[sc] = role;
+// 役割層の導出トークン（<役割>-color-<段>）。値は roles→primitive の解決結果
+const roleScales = Object.entries(rolesMap).map(([role, family]) => {
+  if (!scales[family]) throw new Error(`roles.${role}: 未定義のスケール "${family}"`);
+  return { role, family, steps: scales[family].steps.map((st) => ({ step: st.step, key: `${role}-color-${st.step}`, value: st.value })) };
+});
+// component トークンを component 名でグループ化（page / button / note …）
+const compGroups = {};
+for (const [k, t] of Object.entries(components)) (compGroups[k.split("-")[0]] ||= []).push([k, t]);
+// button / note の variant（命名 <component>-<variant>-<部位>-color から抽出）
+const variantsOf = (comp) => [...new Set(Object.keys(components)
+  .filter((k) => k.startsWith(`${comp}-`)).map((k) => k.split("-")[1]))];
+const NOTE_SAMPLE = { success: "保存しました。", warning: "未保存の変更があります。", danger: "この操作は取り消せません。", neutral: "補足: カタログは派生物。手編集しない。" };
 
-// ── カタログ自身の chrome を primitive から resolve ───────────────────
-// このページ＝1 消費者。role×subject×theme を「自分用に」解決した結果。foundation の正ではない。
-const chrome = {
-  light: { background: "neutral-100", surface: "neutral-50", border: "neutral-200", text: "neutral-900", "text-muted": "neutral-700", primary: "blue-700" },
-  dark: { background: "neutral-950", surface: "neutral-900", border: "neutral-700", text: "neutral-50", "text-muted": "neutral-400", primary: "blue-500" },
-};
-const chromeVars = (mode) => Object.entries(chrome[mode])
-  .map(([role, step]) => `    --color-${role}: ${colors[step]};`).join("\n");
+// ── 役割層トークン <役割>-color-<段> を roles 経由で primitive へ解決 ──
+const ROLE_TOKEN_RE = /^([a-z]+)-color-(\d+)$/;
+function resolveRoleToken(ref, ctx) {
+  const m = String(ref).match(ROLE_TOKEN_RE);
+  if (!m) throw new Error(`${ctx}: 役割層トークンではない参照 "${ref}"（<役割>-color-<段> の形で書く）`);
+  const family = rolesMap[m[1]];
+  if (!family) throw new Error(`${ctx}: 未定義の役割 "${m[1]}"（${ref}）`);
+  const value = colors[`${family}-${m[2]}`];
+  if (!value) throw new Error(`${ctx}: 未定義の段 "${family}-${m[2]}"（${ref}）`);
+  return value;
+}
+
+// ── component トークンを CSS 変数へ ──────────────────────────────────
+// 色の行は {light, dark} の分岐オブジェクト（役割層トークン参照）。
+// 非色の行は文字列で、名前の値種別 suffix が示す尺度のキーを直接参照する。
+const fontShorthand = (t) => `${t.fontWeight} ${t.fontSize}/${t.lineHeight} ${/mono/.test(t.fontFamily) ? "var(--font-mono)" : "var(--font-sans)"}`;
+function resolveScaleToken(name, key) {
+  const pick = (scale, kind) => {
+    if (!scale[key]) throw new Error(`components.${name}: 未定義の ${kind} キー "${key}"`);
+    return scale[key];
+  };
+  if (name.endsWith("-typography")) return fontShorthand(pick(typography, "typography"));
+  if (name.endsWith("-rounded")) return pick(rounded, "rounded");
+  if (name.endsWith("-spacing")) return pick(spacing, "spacing");
+  if (name.endsWith("-shadow")) return pick(shadows, "shadow");
+  throw new Error(`components.${name}: 値種別を名前から特定できない（-color/-typography/-rounded/-spacing/-shadow のいずれかで終える）`);
+}
+const themed = Object.entries(components).filter(([, t]) => typeof t === "object");
+const statics = Object.entries(components).filter(([, t]) => typeof t === "string");
+for (const [k, t] of themed) {
+  for (const mode of ["light", "dark"]) {
+    if (!t[mode]) throw new Error(`components.${k}: ${mode} の分岐が無い`);
+    resolveRoleToken(t[mode], `components.${k}.${mode}`); // 事前検証
+  }
+}
+const componentVars = (mode) => themed
+  .map(([k, t]) => `    --${k}: ${resolveRoleToken(t[mode], k)};`).join("\n");
+const staticVars = statics.map(([k, v]) => `    --${k}: ${resolveScaleToken(k, v)};`).join("\n");
+
+// ── カタログ自身の chrome は page component トークンを参照する ─────────
+const chromeVars = `    --color-background: var(--page-background-color);
+    --color-surface: var(--page-surface-color);
+    --color-border: var(--page-border-color);
+    --color-text: var(--page-text-color);
+    --color-text-muted: var(--page-text-muted-color);
+    --color-primary: var(--page-accent-color);`;
 const shadowVars = (dark) => Object.entries(shadows).map(([k, v]) =>
   dark ? `    --shadow-${k}: ${v.replace(/rgb\(0 0 0 \/ [\d.]+\)/, (mm) => mm.replace(/[\d.]+\)$/, "0.5)"))};`
        : `    --shadow-${k}: ${v};`).join("\n");
@@ -112,6 +164,7 @@ const TYPE_SAMPLE = {
   "body-md": "本文。行長が伸びるほど行間を広げる。読みやすさは行長と行間で作る。",
   "body-sm": "補助本文。注釈やメタ情報など、主たる本文の一段下の情報に。",
   caption: "キャプション。図表の説明やタイムスタンプなど最小の補助テキスト。",
+  label: "ラベル。ボタン・フォームラベル等の1行 UI テキスト。",
   code: 'const token = "ui-monospace"; // 等幅',
 };
 const SHADOW_USE = { sm: "面の分離", md: "浮いた要素", lg: "モーダル" };
@@ -131,7 +184,9 @@ ${s.steps.map((st) => `        <div class="step"><div class="chip" style="backgr
 const html = `<title>Design Token Catalog — ${esc(dsName)}</title>
 <style>
   :root {
-${chromeVars("light")}
+${componentVars("light")}
+${staticVars}
+${chromeVars}
     --space-xs: ${spacing.xs}; --space-sm: ${spacing.sm}; --space-md: ${spacing.md};
     --space-lg: ${spacing.lg}; --space-xl: ${spacing.xl}; --space-2xl: ${spacing["2xl"]}; --space-3xl: ${spacing["3xl"]};
     --radius-sm: ${rounded.sm}; --radius-md: ${rounded.md}; --radius-lg: ${rounded.lg}; --radius-full: ${rounded.full};
@@ -141,16 +196,16 @@ ${shadowVars(false)}
   }
   @media (prefers-color-scheme: dark) {
     :root {
-${chromeVars("dark")}
+${componentVars("dark")}
 ${shadowVars(true)}
     }
   }
   :root[data-theme="light"] {
-${chromeVars("light")}
+${componentVars("light")}
 ${shadowVars(false)}
   }
   :root[data-theme="dark"] {
-${chromeVars("dark")}
+${componentVars("dark")}
 ${shadowVars(true)}
   }
   * { box-sizing: border-box; }
@@ -189,6 +244,14 @@ ${shadowVars(true)}
   .shadow-demo { width: 100%; height: 96px; background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
   .radius-card .cap, .shadow-card .cap { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
   .radius-card .cap b, .shadow-card .cap b { color: var(--color-text); }
+  .demo-row { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-lg); }
+  .demo-btn { font: var(--button-text-typography); border: 0; border-radius: var(--button-rounded); padding: var(--button-padding-block-spacing) var(--button-padding-inline-spacing); cursor: pointer; }
+  .note-card { font: var(--note-text-typography); border: 1px solid; border-radius: var(--note-rounded); padding: var(--note-padding-block-spacing) var(--note-padding-inline-spacing); flex: 1 1 220px; }
+  .ctokens { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 0 var(--space-lg); margin-top: var(--space-md); }
+  .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
+  .ctoken .chip2 { width: 20px; height: 20px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); flex: none; }
+  .ctoken code { font-size: 0.6875rem; }
+  .ctoken .refs { margin-left: auto; font-family: var(--font-mono); font-size: 0.625rem; color: var(--color-text-muted); white-space: nowrap; }
   .theme-toggle { font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
   .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
   @media (max-width: 720px) { .masthead h1 { font-size: ${typography.h2.fontSize}; } }
@@ -200,22 +263,47 @@ ${shadowVars(true)}
     <div>
       <p class="eyebrow">Token Catalog · version ${esc(version)}</p>
       <h1>${esc(dsName)}</h1>
-      <p class="sub">DESIGN.md から自動生成。foundation は primitive ＋ role→スケール参照だけを持つ（semantic は無い）。このページの chrome 色は 1 消費者としての resolve。</p>
+      <p class="sub">DESIGN.md から自動生成。層は primitive → 役割 → component（意味の完成点）。共有結合（semantic）層は共有される行が現れるまで作らない。このページの chrome は page component トークンの消費。</p>
     </div>
     <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">◐ theme</button>
   </header>
 
   <nav class="toc" aria-label="目次">
-    <a href="#primitives">primitives</a><a href="#typography">typography</a>
-    <a href="#spacing">spacing</a><a href="#radius">radius</a><a href="#elevation">elevation</a>
+    <a href="#primitives">primitives</a><a href="#roles">roles</a><a href="#components">components</a>
+    <a href="#typography">typography</a><a href="#spacing">spacing</a><a href="#radius">radius</a><a href="#elevation">elevation</a>
   </nav>
 
   <section id="primitives">
     <h2 class="section-title">Color — Primitive</h2>
-    <p class="section-note">トーナルスケール。OKLCH で色相ごとに H を固定し、明度 L を全色相共通の段で刻む。<b>このシステムが持つ唯一の「色」。</b>role がこのスケールを指し、段は消費側で resolve される。</p>
+    <p class="section-note">トーナルスケール（値の尺度）。OKLCH で色相ごとに H を固定し、明度 L を全色相共通の段で刻む。<b>このシステムが持つ唯一の「色」。</b>段は component×部位×役割が揃って初めて一意になる。</p>
 ${Object.entries(scales).map(([name, s]) => `    <div class="scale">
       <div class="scale-head"><span class="name">${name}</span><span class="hue">H ${hueOf(s.steps[0].value)}°${scaleRole[name] ? ` · role: ${scaleRole[name]}` : ""}</span></div>
 ${strip(s)}
+    </div>`).join("\n")}
+  </section>
+
+  <section id="roles">
+    <h2 class="section-title">Color — Roles（役割層）</h2>
+    <p class="section-note">意味の発生源。役割→色相族の対応だけを決め、トークン <code>&lt;役割&gt;-color-&lt;段&gt;</code> は roles から機械的に導出される。component はこの名前だけを参照し、色相族を知らない（族の付け替えは roles の1行）。</p>
+${roleScales.map(({ role, family, steps }) => `    <div class="scale">
+      <div class="scale-head"><span class="name">${role}</span><span class="hue">→ ${family}</span></div>
+${strip({ steps })}
+    </div>`).join("\n")}
+  </section>
+
+  <section id="components">
+    <h2 class="section-title">Color — Components（意味の完成点）</h2>
+    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。値は役割層トークンへの参照。theme（light/dark）は名前へ焼き付けない分岐キーで、このページのテーマ切替がそのまま分岐の切替。</p>
+    <div class="demo-row">
+${variantsOf("button").map((v) => `      <button class="demo-btn" style="background:var(--button-${v}-surface-color);color:var(--button-${v}-text-color)">button · ${v}</button>`).join("\n")}
+    </div>
+    <div class="demo-row">
+${variantsOf("note").map((v) => `      <div class="note-card" style="background:var(--note-${v}-surface-color);border-color:var(--note-${v}-border-color);color:var(--note-${v}-text-color)"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`).join("\n")}
+    </div>
+${Object.entries(compGroups).map(([g, rows]) => `    <div class="ctokens" aria-label="${g}">
+${rows.map(([k, t]) => typeof t === "string"
+  ? `      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>${k}</code><span class="refs">${t}</span></div>`
+  : `      <div class="ctoken"><span class="chip2" style="background:var(--${k})"></span><code>${k}</code><span class="refs">${t.light} / ${t.dark}</span></div>`).join("\n")}
     </div>`).join("\n")}
   </section>
 
@@ -265,4 +353,4 @@ ${Object.entries(shadows).map(([k, v]) => `      <div class="shadow-card"><div c
 writeFileSync(OUT, html);
 const primitiveCount = Object.values(scales).reduce((a, s) => a + s.steps.length, 0);
 console.log(`✓ ${OUT}`);
-console.log(`  primitive: ${primitiveCount} · roles: ${Object.keys(rolesMap).length} · type: ${Object.keys(typography).length} · spacing: ${Object.keys(spacing).length} · radius: ${Object.keys(rounded).length} · shadow: ${Object.keys(shadows).length}`);
+console.log(`  primitive: ${primitiveCount} · roles: ${Object.keys(rolesMap).length} · components: ${Object.keys(components).length} · type: ${Object.keys(typography).length} · spacing: ${Object.keys(spacing).length} · radius: ${Object.keys(rounded).length} · shadow: ${Object.keys(shadows).length}`);
