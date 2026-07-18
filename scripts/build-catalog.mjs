@@ -285,8 +285,8 @@ ${variantsOf("badge").map((v) => `  .demo-badge.v-${v} { background: var(--badge
   </header>
 
   <nav class="toc" aria-label="目次">
-    <a href="#primitives">primitives</a><a href="#roles">roles</a><a href="#components">components</a>
-    <a href="#typography">typography</a><a href="#spacing">spacing</a><a href="#radius">radius</a><a href="#elevation">elevation</a>
+    <a href="#primitives">colors</a><a href="#typography">typography</a><a href="#spacing">spacing</a>
+    <a href="#radius">radius</a><a href="#elevation">elevation</a><a href="#roles">roles</a><a href="#components">components</a>
   </nav>
 
   <section id="primitives">
@@ -295,37 +295,6 @@ ${variantsOf("badge").map((v) => `  .demo-badge.v-${v} { background: var(--badge
 ${Object.entries(scales).map(([name, s]) => `    <div class="scale">
       <div class="scale-head"><span class="name">${name}</span><span class="hue">H ${hueOf(s.steps[0].value)}°${scaleRole[name] ? ` · role: ${scaleRole[name]}` : ""}</span></div>
 ${strip(s)}
-    </div>`).join("\n")}
-  </section>
-
-  <section id="roles">
-    <h2 class="section-title">Color — Roles（役割層）</h2>
-    <p class="section-note">意味の発生源。役割→色相族の対応だけを決め、トークン <code>&lt;役割&gt;-color-&lt;段&gt;</code> は roles から機械的に導出される。component はこの名前だけを参照し、色相族を知らない（族の付け替えは roles の1行）。</p>
-${roleScales.map(({ role, family, steps }) => `    <div class="scale">
-      <div class="scale-head"><span class="name">${role}</span><span class="hue">→ ${family}</span></div>
-${strip({ steps })}
-    </div>`).join("\n")}
-  </section>
-
-  <section id="components">
-    <h2 class="section-title">Color — Components（意味の完成点）</h2>
-    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。値は役割層トークンへの参照。theme（light/dark）は名前へ焼き付けない分岐キーで、このページのテーマ切替がそのまま分岐の切替。</p>
-    <div class="demo-row">
-${variantsOf("button").map((v) => `      <button class="demo-btn v-${v}">button · ${v}</button>`).join("\n")}
-    </div>
-    <div class="demo-row">
-${variantsOf("note").map((v) => `      <div class="note-card" style="background:var(--note-${v}-surface-color);border-color:var(--note-${v}-border-color);color:var(--note-${v}-text-color)"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`).join("\n")}
-    </div>
-    <div class="demo-row">
-      <div class="demo-card">
-        <div>${variantsOf("badge").map((v) => `<span class="demo-badge v-${v}">${v}</span>`).join(" ")}</div>
-        <input class="demo-input" placeholder="input — placeholder は AA を通す段" aria-label="input demo">
-      </div>
-    </div>
-${Object.entries(compGroups).map(([g, rows]) => `    <div class="ctokens" aria-label="${g}">
-${rows.map(([k, t]) => typeof t === "string"
-  ? `      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>${k}</code><span class="refs">${t}</span></div>`
-  : `      <div class="ctoken"><span class="chip2" style="background:var(--${k})"></span><code>${k}</code><span class="refs">${Object.entries(t).map(([kk, v]) => (kk === "light" || kk === "dark" ? v : `${kk}: ${v}`)).join(" / ")}</span></div>`).join("\n")}
     </div>`).join("\n")}
   </section>
 
@@ -361,6 +330,37 @@ ${Object.entries(rounded).map(([k, v]) => `      <div class="radius-card"><div c
 ${Object.entries(shadows).map(([k, v]) => `      <div class="shadow-card"><div class="shadow-demo" style="box-shadow:${v}"></div><div class="cap"><b>${k}</b> · ${SHADOW_USE[k] || ""}</div></div>`).join("\n")}
     </div>
   </section>
+  <section id="roles">
+    <h2 class="section-title">Roles（役割層）</h2>
+    <p class="section-note">意味の発生源。役割→色相族の対応だけを決め、トークン <code>&lt;役割&gt;-color-&lt;段&gt;</code> は roles から機械的に導出される。component はこの名前だけを参照し、色相族を知らない（族の付け替えは roles の1行）。役割が定義されているのは現在色だけ。</p>
+${roleScales.map(({ role, family, steps }) => `    <div class="scale">
+      <div class="scale-head"><span class="name">${role}</span><span class="hue">→ ${family}</span></div>
+${strip({ steps })}
+    </div>`).join("\n")}
+  </section>
+
+  <section id="components">
+    <h2 class="section-title">Components（意味の完成点）</h2>
+    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、このページのテーマ切替・ボタンの hover・input の focus がそのまま分岐の切替。</p>
+    <div class="demo-row">
+${variantsOf("button").map((v) => `      <button class="demo-btn v-${v}">button · ${v}</button>`).join("\n")}
+    </div>
+    <div class="demo-row">
+${variantsOf("note").map((v) => `      <div class="note-card" style="background:var(--note-${v}-surface-color);border-color:var(--note-${v}-border-color);color:var(--note-${v}-text-color)"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`).join("\n")}
+    </div>
+    <div class="demo-row">
+      <div class="demo-card">
+        <div>${variantsOf("badge").map((v) => `<span class="demo-badge v-${v}">${v}</span>`).join(" ")}</div>
+        <input class="demo-input" placeholder="input — placeholder は AA を通す段" aria-label="input demo">
+      </div>
+    </div>
+${Object.entries(compGroups).map(([g, rows]) => `    <div class="ctokens" aria-label="${g}">
+${rows.map(([k, t]) => typeof t === "string"
+  ? `      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>${k}</code><span class="refs">${t}</span></div>`
+  : `      <div class="ctoken"><span class="chip2" style="background:var(--${k})"></span><code>${k}</code><span class="refs">${Object.entries(t).map(([kk, v]) => (kk === "light" || kk === "dark" ? v : `${kk}: ${v}`)).join(" / ")}</span></div>`).join("\n")}
+    </div>`).join("\n")}
+  </section>
+
 </div>
 
 <script>
