@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Primitive Components — Personal Design System</title>
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="components.css" />
+  <style>
+    /* デモ専用の枠組み（コンポーネントには含めない）。 */
+    body { margin: 0; }
+    .page { max-width: 60rem; margin: 0 auto; padding: var(--space-2xl) var(--space-lg); }
+    section { margin-block: var(--space-2xl); }
+    .section-title { border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-sm); margin-bottom: var(--space-lg); }
+    .demo { display: flex; flex-wrap: wrap; gap: var(--space-md); align-items: flex-start; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--space-md); }
+    .theme-toggle { font-family: var(--font-mono); font-size: var(--text-caption); cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
+    .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
+    .masthead { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-md); }
+  </style>
+</head>
+<body class="ds-root">
+  <div class="page ds-stack-lg">
+    <header class="masthead">
+      <div class="ds-stack-sm">
+        <h1 class="ds-h1">Primitive Components</h1>
+        <p class="ds-text ds-muted">DESIGN.md の primitive / role から解決した消費側トークンだけで組んだ素の CSS コンポーネント集。OS の light / dark に追従し、右上のトグルでも切り替えられる。</p>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">◐ theme</button>
+    </header>
+
+    <!-- Typography -->
+    <section>
+      <h2 class="ds-h2 section-title">Typography</h2>
+      <div class="ds-stack">
+        <h1 class="ds-h1">見出し H1</h1>
+        <h2 class="ds-h2">見出し H2</h2>
+        <h3 class="ds-h3">見出し H3</h3>
+        <p class="ds-text">本文 body-md。段落はこの大きさと行間を既定にする。</p>
+        <p class="ds-text ds-text-sm ds-muted">補助 body-sm / muted。</p>
+        <p class="ds-caption">キャプション caption。</p>
+        <p class="ds-text">インラインの <code class="ds-code">code</code> は等幅で。</p>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <section>
+      <h2 class="ds-h2 section-title">Button</h2>
+      <div class="demo">
+        <button class="ds-btn ds-btn-primary">Primary</button>
+        <button class="ds-btn ds-btn-secondary">Secondary</button>
+        <button class="ds-btn ds-btn-ghost">Ghost</button>
+        <button class="ds-btn ds-btn-danger">Danger</button>
+        <button class="ds-btn ds-btn-primary" disabled>Disabled</button>
+        <button class="ds-btn ds-btn-secondary ds-btn-sm">Small</button>
+      </div>
+    </section>
+
+    <!-- Form -->
+    <section>
+      <h2 class="ds-h2 section-title">Form</h2>
+      <div class="grid">
+        <label class="ds-field">
+          <span class="ds-label">メールアドレス</span>
+          <input class="ds-input" type="email" placeholder="you@example.com" />
+          <span class="ds-help">確認メールを送ります。</span>
+        </label>
+        <label class="ds-field" data-invalid="true">
+          <span class="ds-label">パスワード</span>
+          <input class="ds-input" type="password" value="123" aria-invalid="true" />
+          <span class="ds-help">8 文字以上にしてください。</span>
+        </label>
+        <label class="ds-field">
+          <span class="ds-label">プラン</span>
+          <select class="ds-select">
+            <option>Free</option>
+            <option>Pro</option>
+          </select>
+        </label>
+        <label class="ds-field">
+          <span class="ds-label">メモ</span>
+          <textarea class="ds-textarea" placeholder="自由記述"></textarea>
+        </label>
+      </div>
+      <div class="ds-stack-sm" style="margin-top: var(--space-lg)">
+        <label class="ds-check"><input type="checkbox" checked /><span class="ds-check-label">利用規約に同意する</span></label>
+        <label class="ds-check"><input type="radio" name="r" checked /><span class="ds-check-label">選択肢 A</span></label>
+        <label class="ds-check"><input type="radio" name="r" /><span class="ds-check-label">選択肢 B</span></label>
+        <label class="ds-check"><input type="checkbox" class="ds-switch" checked /><span class="ds-check-label">通知を受け取る</span></label>
+      </div>
+    </section>
+
+    <!-- Card -->
+    <section>
+      <h2 class="ds-h2 section-title">Card</h2>
+      <div class="grid">
+        <div class="ds-card">
+          <div class="ds-card-header">請求プラン</div>
+          <div class="ds-card-body ds-stack-sm">
+            <p class="ds-text">Pro プランは月額 1,200 円。いつでも変更できます。</p>
+          </div>
+          <div class="ds-card-footer ds-cluster">
+            <button class="ds-btn ds-btn-primary ds-btn-sm">アップグレード</button>
+            <button class="ds-btn ds-btn-ghost ds-btn-sm">詳細</button>
+          </div>
+        </div>
+        <div class="ds-card">
+          <div class="ds-card-body ds-stack-sm">
+            <h3 class="ds-h3">ヘッダなしカード</h3>
+            <p class="ds-text ds-muted">body だけの最小構成。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badge -->
+    <section>
+      <h2 class="ds-h2 section-title">Badge</h2>
+      <div class="demo">
+        <span class="ds-badge">Neutral</span>
+        <span class="ds-badge ds-badge-primary">Primary</span>
+        <span class="ds-badge ds-badge-success">Success</span>
+        <span class="ds-badge ds-badge-warning">Warning</span>
+        <span class="ds-badge ds-badge-danger">Danger</span>
+      </div>
+    </section>
+
+    <!-- Alert -->
+    <section>
+      <h2 class="ds-h2 section-title">Alert</h2>
+      <div class="ds-stack">
+        <div class="ds-alert ds-alert-info" role="status">
+          <div><p class="ds-alert-title">お知らせ</p><p class="ds-alert-body">新しいバージョンが利用できます。</p></div>
+        </div>
+        <div class="ds-alert ds-alert-success" role="status">
+          <div><p class="ds-alert-title">保存しました</p><p class="ds-alert-body">変更内容を反映しました。</p></div>
+        </div>
+        <div class="ds-alert ds-alert-warning" role="status">
+          <div><p class="ds-alert-title">容量に注意</p><p class="ds-alert-body">残り 10% です。</p></div>
+        </div>
+        <div class="ds-alert ds-alert-danger" role="alert">
+          <div><p class="ds-alert-title">エラー</p><p class="ds-alert-body">接続に失敗しました。</p></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      const cur = root.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      root.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
+    });
+  </script>
+</body>
+</html>

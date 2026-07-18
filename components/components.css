@@ -1,0 +1,295 @@
+/*
+ * components/components.css — primitive component 集（消費側アーティファクト）。
+ *
+ * 値は一切持たない。色・余白・角丸・影・字は tokens.css（生成物）の CSS 変数だけを引く。
+ * tokens.css は DESIGN.md の primitive/role から build-components.mjs が解決した層。
+ * したがってここは「構造」だけ。見た目を変えたいときは DESIGN.md か生成器の STEP 表を直す。
+ *
+ * クラスは ds- 接頭辞で名前空間を分ける。
+ */
+
+/* ============================================================
+ * Foundation
+ * ============================================================ */
+
+.ds-root {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-md);
+  line-height: var(--leading-body-md);
+  -webkit-font-smoothing: antialiased;
+}
+
+.ds-root *,
+.ds-root *::before,
+.ds-root *::after {
+  box-sizing: border-box;
+}
+
+/* 共通フォーカスリング。キーボード操作時のみ。状態を色だけに頼らない。 */
+.ds-root :focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ============================================================
+ * Typography
+ * ============================================================ */
+
+.ds-h1,
+.ds-h2,
+.ds-h3 {
+  margin: 0;
+  color: var(--color-text);
+}
+.ds-h1 { font-size: var(--text-h1); font-weight: var(--weight-h1); line-height: var(--leading-h1); letter-spacing: var(--tracking-h1); }
+.ds-h2 { font-size: var(--text-h2); font-weight: var(--weight-h2); line-height: var(--leading-h2); letter-spacing: var(--tracking-h2); }
+.ds-h3 { font-size: var(--text-h3); font-weight: var(--weight-h3); line-height: var(--leading-h3); }
+
+.ds-text { font-size: var(--text-body-md); line-height: var(--leading-body-md); margin: 0; }
+.ds-text-sm { font-size: var(--text-body-sm); line-height: var(--leading-body-sm); }
+.ds-caption { font-size: var(--text-caption); line-height: var(--leading-caption); color: var(--color-text-muted); }
+.ds-muted { color: var(--color-text-muted); }
+.ds-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.1em 0.35em;
+}
+
+/* ============================================================
+ * Layout primitives
+ * ============================================================ */
+
+.ds-stack,
+.ds-stack-sm,
+.ds-stack-lg { display: flex; flex-direction: column; }
+.ds-stack { gap: var(--space-md); }
+.ds-stack-sm { gap: var(--space-sm); }
+.ds-stack-lg { gap: var(--space-lg); }
+
+.ds-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* ============================================================
+ * Button
+ * ============================================================ */
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  font: inherit;
+  font-weight: 500;
+  line-height: 1;
+  padding: 0.625rem var(--space-md);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.ds-btn:disabled,
+.ds-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* primary: 主要アクション。画面に1つ。 */
+.ds-btn-primary {
+  background: var(--color-primary);
+  color: var(--color-on-solid);
+}
+.ds-btn-primary:hover:not(:disabled) { background: var(--color-primary-hover); }
+
+/* secondary: 無彩色の輪郭。副次アクション。 */
+.ds-btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+.ds-btn-secondary:hover:not(:disabled) { background: var(--color-background); }
+
+/* ghost: 背景なし。低優先アクション。 */
+.ds-btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+}
+.ds-btn-ghost:hover:not(:disabled) { background: var(--color-surface); }
+
+/* danger: 破壊的アクション専用。 */
+.ds-btn-danger {
+  background: var(--color-danger);
+  color: var(--color-on-solid);
+}
+.ds-btn-danger:hover:not(:disabled) { background: var(--color-danger-hover); }
+
+.ds-btn-sm { padding: 0.375rem var(--space-sm); font-size: var(--text-body-sm); }
+
+/* ============================================================
+ * Form field（Input / Textarea / Select 共通）
+ * ============================================================ */
+
+.ds-field { display: flex; flex-direction: column; gap: var(--space-xs); }
+
+.ds-label { font-size: var(--text-body-sm); font-weight: 500; color: var(--color-text); }
+
+.ds-input,
+.ds-textarea,
+.ds-select {
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem var(--space-sm);
+  width: 100%;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.ds-input::placeholder,
+.ds-textarea::placeholder { color: var(--color-text-muted); }
+
+.ds-input:hover:not(:disabled),
+.ds-textarea:hover:not(:disabled),
+.ds-select:hover:not(:disabled) { border-color: var(--color-text-muted); }
+
+.ds-input:focus,
+.ds-textarea:focus,
+.ds-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-surface);
+}
+
+.ds-input:disabled,
+.ds-textarea:disabled,
+.ds-select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--color-background);
+}
+
+.ds-textarea { resize: vertical; min-height: 5rem; line-height: var(--leading-body-md); }
+
+/* エラー状態: 縁とヘルプ文言を danger に。 */
+.ds-field[data-invalid="true"] .ds-input,
+.ds-field[data-invalid="true"] .ds-textarea,
+.ds-field[data-invalid="true"] .ds-select { border-color: var(--color-danger); }
+.ds-field[data-invalid="true"] .ds-input:focus,
+.ds-field[data-invalid="true"] .ds-textarea:focus,
+.ds-field[data-invalid="true"] .ds-select:focus { box-shadow: 0 0 0 3px var(--color-danger-surface); }
+
+.ds-help { font-size: var(--text-caption); color: var(--color-text-muted); }
+.ds-field[data-invalid="true"] .ds-help { color: var(--color-danger); }
+
+/* ============================================================
+ * Checkbox / Radio / Switch
+ * ============================================================ */
+
+.ds-check { display: inline-flex; align-items: center; gap: var(--space-sm); cursor: pointer; }
+.ds-check input:not(.ds-switch) { width: 1rem; height: 1rem; accent-color: var(--color-primary); cursor: pointer; }
+.ds-check-label { font-size: var(--text-body-md); }
+
+/* Switch: input[type=checkbox] を .ds-switch でトグル外観に。 */
+.ds-switch {
+  appearance: none;
+  position: relative;
+  width: 2.25rem;
+  height: 1.25rem;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  flex: none;
+}
+.ds-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(1.25rem - 4px);
+  height: calc(1.25rem - 4px);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease;
+}
+.ds-switch:checked { background: var(--color-primary); }
+.ds-switch:checked::after { transform: translateX(1rem); }
+
+/* ============================================================
+ * Card
+ * ============================================================ */
+
+.ds-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.ds-card-body { padding: var(--space-lg); }
+.ds-card-header {
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 500;
+}
+.ds-card-footer {
+  padding: var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-background);
+}
+
+/* ============================================================
+ * Badge
+ * ============================================================ */
+
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  line-height: 1;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  color: var(--color-text);
+}
+.ds-badge-primary { background: var(--color-primary-surface); border-color: var(--color-primary-border); color: var(--color-primary); }
+.ds-badge-success { background: var(--color-success-surface); border-color: var(--color-success-border); color: var(--color-success); }
+.ds-badge-warning { background: var(--color-warning-surface); border-color: var(--color-warning-border); color: var(--color-warning); }
+.ds-badge-danger  { background: var(--color-danger-surface);  border-color: var(--color-danger-border);  color: var(--color-danger); }
+
+/* ============================================================
+ * Alert（状態表示。装飾に流用しない）
+ * ============================================================ */
+
+.ds-alert {
+  display: flex;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+.ds-alert-title { font-weight: 500; margin: 0 0 var(--space-xs); }
+.ds-alert-body { margin: 0; font-size: var(--text-body-sm); color: var(--color-text-muted); }
+
+.ds-alert-info    { background: var(--color-primary-surface); border-color: var(--color-primary-border); }
+.ds-alert-success { background: var(--color-success-surface); border-color: var(--color-success-border); }
+.ds-alert-warning { background: var(--color-warning-surface); border-color: var(--color-warning-border); }
+.ds-alert-danger  { background: var(--color-danger-surface);  border-color: var(--color-danger-border); }
