@@ -171,24 +171,30 @@ const branchKeysOf = (names) => {
   return ["light", ...states.map((s) => `${s}-light`), "dark", ...states.map((s) => `${s}-dark`)];
 };
 // タイルの地は screen トークン（component は screen の上に置かれるため）
-const snap = (key, inner) => `      <div class="snap" style="background:${cval("screen-background-color", key)};color:${cval("screen-text-color", key)}"><div class="snap-cap">${key}</div>${inner}</div>`;
+// そのタイルが使うトークン名 → この分岐で実際に使われる参照（色は分岐の役割層トークン、非色は尺度キー）
+const useRef = (name, key) => {
+  const t = components[name];
+  return typeof t === "string" ? t : (t[key] ?? t[key.endsWith("dark") ? "dark" : "light"]);
+};
+const snap = (key, inner, uses) => `      <div class="snap" style="background:${cval("screen-background-color", key)};color:${cval("screen-text-color", key)}"><div class="snap-cap">${key}</div>${inner}<div class="uses" style="color:${cval("screen-text-muted-color", key)}">${uses.map((n) => `<div><code>${n}</code><span>${useRef(n, key)}</span></div>`).join("")}</div></div>`;
 const snapGrid = (tiles) => `    <div class="snap-grid">\n${tiles.join("\n")}\n    </div>\n`;
 
 const SNAPSHOTS = {
   screen: () => snapGrid(["light", "dark"].map((key) => snap(key,
-    `<div style="display:grid;gap:${spacing.xs};width:100%"><span>text</span><span style="color:${cval("screen-text-muted-color", key)}">text-muted</span><span style="color:${cval("screen-accent-color", key)}">accent</span><div style="background:${cval("screen-surface-color", key)};border:1px solid ${cval("screen-border-color", key)};border-radius:${rounded.sm};padding:${spacing.xs} ${spacing.sm}">surface / border</div></div>`))),
+    `<div style="display:grid;gap:${spacing.xs};width:100%"><span>text</span><span style="color:${cval("screen-text-muted-color", key)}">text-muted</span><span style="color:${cval("screen-accent-color", key)}">accent</span><div style="background:${cval("screen-surface-color", key)};border:1px solid ${cval("screen-border-color", key)};border-radius:${rounded.sm};padding:${spacing.xs} ${spacing.sm}">surface / border</div></div>`, ["screen-text-color","screen-text-muted-color","screen-accent-color","screen-background-color","screen-surface-color","screen-border-color"]))),
   button: () => variantsOf("button").map((v) => snapGrid(branchKeysOf([`button-${v}-surface-color`, `button-${v}-text-color`]).map((key) => snap(key,
-    `<button style="background:${cval(`button-${v}-surface-color`, key)};color:${cval(`button-${v}-text-color`, key)};font:${sval(`button-${v}-text-typography`)};border:0;border-radius:${sval(`button-${v}-rounded`)};padding:${sval(`button-${v}-padding-block-spacing`)} ${sval(`button-${v}-padding-inline-spacing`)}">${v}</button>`)))).join(""),
+    `<button style="background:${cval(`button-${v}-surface-color`, key)};color:${cval(`button-${v}-text-color`, key)};font:${sval(`button-${v}-text-typography`)};border:0;border-radius:${sval(`button-${v}-rounded`)};padding:${sval(`button-${v}-padding-block-spacing`)} ${sval(`button-${v}-padding-inline-spacing`)}">${v}</button>`, [`button-${v}-surface-color`,`button-${v}-text-color`,`button-${v}-text-typography`,`button-${v}-rounded`,`button-${v}-padding-block-spacing`,`button-${v}-padding-inline-spacing`])))).join(""),
   note: () => variantsOf("note").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
-    `<div style="background:${cval(`note-${v}-surface-color`, key)};border:1px solid ${cval(`note-${v}-border-color`, key)};color:${cval(`note-${v}-text-color`, key)};font:${sval(`note-${v}-text-typography`)};border-radius:${sval(`note-${v}-rounded`)};padding:${sval(`note-${v}-padding-block-spacing`)} ${sval(`note-${v}-padding-inline-spacing`)};width:100%"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`)))).join(""),
+    `<div style="background:${cval(`note-${v}-surface-color`, key)};border:1px solid ${cval(`note-${v}-border-color`, key)};color:${cval(`note-${v}-text-color`, key)};font:${sval(`note-${v}-text-typography`)};border-radius:${sval(`note-${v}-rounded`)};padding:${sval(`note-${v}-padding-block-spacing`)} ${sval(`note-${v}-padding-inline-spacing`)};width:100%"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`, [`note-${v}-surface-color`,`note-${v}-border-color`,`note-${v}-text-color`,`note-${v}-text-typography`,`note-${v}-rounded`,`note-${v}-padding-block-spacing`,`note-${v}-padding-inline-spacing`])))).join(""),
   card: () => snapGrid(["light", "dark"].map((key) => snap(key,
-    `<div style="background:${cval("card-surface-color", key)};border:1px solid ${cval("card-border-color", key)};border-radius:${sval("card-rounded")};padding:${sval("card-padding-spacing")};box-shadow:${sval("card-shadow")};width:100%">card — 面の分離</div>`))),
+    `<div style="background:${cval("card-surface-color", key)};border:1px solid ${cval("card-border-color", key)};border-radius:${sval("card-rounded")};padding:${sval("card-padding-spacing")};box-shadow:${sval("card-shadow")};width:100%">card — 面の分離</div>`, ["card-surface-color","card-border-color","card-rounded","card-padding-spacing","card-shadow"]))),
   badge: () => variantsOf("badge").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
-    `<span style="background:${cval(`badge-${v}-surface-color`, key)};color:${cval(`badge-${v}-text-color`, key)};font:${sval(`badge-${v}-text-typography`)};border-radius:${sval(`badge-${v}-rounded`)};padding:${sval(`badge-${v}-padding-block-spacing`)} ${sval(`badge-${v}-padding-inline-spacing`)}">${v}</span>`)))).join(""),
+    `<span style="background:${cval(`badge-${v}-surface-color`, key)};color:${cval(`badge-${v}-text-color`, key)};font:${sval(`badge-${v}-text-typography`)};border-radius:${sval(`badge-${v}-rounded`)};padding:${sval(`badge-${v}-padding-block-spacing`)} ${sval(`badge-${v}-padding-inline-spacing`)}">${v}</span>`, [`badge-${v}-surface-color`,`badge-${v}-text-color`,`badge-${v}-text-typography`,`badge-${v}-rounded`,`badge-${v}-padding-block-spacing`,`badge-${v}-padding-inline-spacing`])))).join(""),
   input: () => snapGrid(branchKeysOf(["input-border-color"]).map((key) => {
     const style = `background:${cval("input-surface-color", key)};color:${cval("input-text-color", key)};border:1px solid ${cval("input-border-color", key)};font:${sval("input-text-typography")};border-radius:${sval("input-rounded")};padding:${sval("input-padding-block-spacing")} ${sval("input-padding-inline-spacing")};width:100%;box-sizing:border-box`;
     return snap(key,
-      `<input readonly value="入力済みの文字" style="${style}"><input readonly placeholder="placeholder" class="ph-${key.endsWith("dark") ? "dark" : "light"}" style="${style}">`);
+      `<input readonly value="入力済みの文字" style="${style}"><input readonly placeholder="placeholder" class="ph-${key.endsWith("dark") ? "dark" : "light"}" style="${style}">`,
+      ["input-surface-color", "input-border-color", "input-text-color", "input-placeholder-color", "input-text-typography", "input-rounded", "input-padding-block-spacing", "input-padding-inline-spacing"]);
   })),
 };
 
@@ -289,18 +295,14 @@ ${shadowVars(true)}
   .shadow-demo { width: 100%; height: 96px; background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
   .radius-card .cap, .shadow-card .cap { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
   .radius-card .cap b, .shadow-card .cap b { color: var(--color-text); }
-  .snap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: var(--space-sm); margin-bottom: var(--space-md); }
+  .snap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-sm); margin-bottom: var(--space-md); }
   .snap { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); display: grid; gap: var(--space-sm); justify-items: start; align-content: start; }
   .snap-cap { font-family: var(--font-mono); font-size: 0.625rem; opacity: 0.7; }
   .ph-light::placeholder { color: ${cval("input-placeholder-color", "light")}; opacity: 1; }
   .ph-dark::placeholder { color: ${cval("input-placeholder-color", "dark")}; opacity: 1; }
   .comp-name { font-size: ${typography.h3.fontSize}; font-weight: ${typography.h3.fontWeight}; line-height: ${typography.h3.lineHeight}; margin: var(--space-xl) 0 var(--space-xs); }
-  .ctokens { margin: 0; }
-  .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
-  .ctoken .chip2 { width: 20px; height: 20px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); flex: none; }
-  .ctoken code { font-size: 0.75rem; }
-  .ctoken .branch { font-family: var(--font-mono); font-size: 0.625rem; color: var(--color-text-muted); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 0 var(--space-sm); }
-  .ctoken .refs { margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-muted); text-align: right; }
+  .uses { font-family: var(--font-mono); font-size: 0.625rem; display: grid; gap: 2px; width: 100%; margin-top: var(--space-xs); }
+  .uses div { display: flex; justify-content: space-between; gap: var(--space-md); flex-wrap: wrap; }
   .theme-toggle { font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
   .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
   @media (max-width: 720px) { .masthead h1 { font-size: ${typography.h2.fontSize}; } }
@@ -375,13 +377,8 @@ ${strip({ steps })}
   <section id="components">
     <h2 class="section-title">Components（意味の完成点）</h2>
     <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、以下は全分岐（variant × theme × state）の静的スナップショット。</p>
-${Object.entries(compGroups).map(([g, rows]) => `    <h3 class="comp-name">${g}</h3>
-${SNAPSHOTS[g] ? SNAPSHOTS[g]() : ""}    <div class="ctokens">
-${rows.flatMap(([k, t]) => typeof t === "string"
-  ? [`      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>${k}</code><span class="refs">${t}</span></div>`]
-  : Object.entries(t).map(([kk, v]) =>
-    `      <div class="ctoken"><span class="chip2" style="background:${resolveRoleToken(v, k)}"></span><code>${k}</code><span class="branch">${kk}</span><span class="refs">${v}</span></div>`)).join("\n")}
-    </div>`).join("\n")}
+${Object.keys(compGroups).map((g) => `    <h3 class="comp-name">${g}</h3>
+${SNAPSHOTS[g] ? SNAPSHOTS[g]() : ""}`).join("\n")}
   </section>
 
 </div>
