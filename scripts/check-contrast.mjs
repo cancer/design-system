@@ -87,6 +87,8 @@ for (const [group, parts] of Object.entries(groups)) {
       const bgTok = components[parts[bgPart]];
       const keys = [...new Set([...Object.keys(fgTok), ...Object.keys(bgTok)])];
       for (const key of keys) {
+        if (key.startsWith("disabled")) continue; // WCAG: inactive UI component はコントラスト要件の対象外
+
         const fg = resolveRole(fgTok[key] ?? fgTok[themeOf(key)]);
         const bg = resolveRole(bgTok[key] ?? bgTok[themeOf(key)]);
         const c = contrast(fg, bg);
