@@ -8,7 +8,8 @@
     "lint:fix": "textlint --fix \"**/*.md\"",
     "lint:md": "rumdl check .",
     "lint:md:fix": "rumdl fmt",
-    "build:catalog": "node scripts/build-catalog.mjs"
+    "build:catalog": "node scripts/build-catalog.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs"
   },
   "devDependencies": {
     "rumdl": "0.2.22",
