@@ -174,6 +174,11 @@ const branchKeysOf = (names) => {
 const snap = (key, inner) => `      <div class="snap" style="background:${cval("screen-background-color", key)};color:${cval("screen-text-color", key)}"><div class="snap-cap">${key}</div>${inner}</div>`;
 const snapGrid = (tiles) => `    <div class="snap-grid">\n${tiles.join("\n")}\n    </div>\n`;
 
+// component の定義を DESIGN.md フロントマターと同じ YAML 形で書き出す（カタログ独自の記法を発明しない）
+const yamlOf = (rows) => rows.map(([k, t]) => typeof t === "string"
+  ? `${k}: ${t}`
+  : `${k}:\n${Object.entries(t).map(([kk, v]) => `  ${kk}: ${v}`).join("\n")}`).join("\n");
+
 const SNAPSHOTS = {
   screen: () => snapGrid(["light", "dark"].map((key) => snap(key,
     `<div style="display:grid;gap:${spacing.xs};width:100%"><span>text</span><span style="color:${cval("screen-text-muted-color", key)}">text-muted</span><span style="color:${cval("screen-accent-color", key)}">accent</span><div style="background:${cval("screen-surface-color", key)};border:1px solid ${cval("screen-border-color", key)};border-radius:${rounded.sm};padding:${spacing.xs} ${spacing.sm}">surface / border</div></div>`))),
@@ -295,11 +300,8 @@ ${shadowVars(true)}
   .ph-light::placeholder { color: ${cval("input-placeholder-color", "light")}; opacity: 1; }
   .ph-dark::placeholder { color: ${cval("input-placeholder-color", "dark")}; opacity: 1; }
   .comp-name { font-size: ${typography.h3.fontSize}; font-weight: ${typography.h3.fontWeight}; line-height: ${typography.h3.lineHeight}; margin: var(--space-xl) 0 var(--space-xs); }
-  .ctokens { margin: 0; }
-  .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
-  .ctoken .chip2 { width: 20px; height: 20px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); flex: none; }
-  .ctoken code { font-size: 0.75rem; }
-  .ctoken .refs { margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-muted); text-align: right; }
+  .tokens-src { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); margin: 0 0 var(--space-md); overflow-x: auto; }
+  .tokens-src code { font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.6; }
   .theme-toggle { font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
   .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
   @media (max-width: 720px) { .masthead h1 { font-size: ${typography.h2.fontSize}; } }
@@ -375,11 +377,7 @@ ${strip({ steps })}
     <h2 class="section-title">Components（意味の完成点）</h2>
     <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、以下は全分岐（variant × theme × state）の静的スナップショット。</p>
 ${Object.entries(compGroups).map(([g, rows]) => `    <h3 class="comp-name">${g}</h3>
-${SNAPSHOTS[g] ? SNAPSHOTS[g]() : ""}    <div class="ctokens">
-${rows.map(([k, t]) => typeof t === "string"
-  ? `      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>${k}</code><span class="refs">${t}</span></div>`
-  : `      <div class="ctoken"><span class="chip2" style="background:var(--${k})"></span><code>${k}</code><span class="refs">${Object.entries(t).map(([kk, v]) => `${kk}: ${v}`).join(" / ")}</span></div>`).join("\n")}
-    </div>`).join("\n")}
+${SNAPSHOTS[g] ? SNAPSHOTS[g]() : ""}    <pre class="tokens-src"><code>${yamlOf(rows)}</code></pre>`).join("\n")}
   </section>
 
 </div>

@@ -294,11 +294,8 @@
   .ph-light::placeholder { color: oklch(0.49 0.004 270); opacity: 1; }
   .ph-dark::placeholder { color: oklch(0.79 0.004 270); opacity: 1; }
   .comp-name { font-size: 1.563rem; font-weight: 500; line-height: 1.3; margin: var(--space-xl) 0 var(--space-xs); }
-  .ctokens { margin: 0; }
-  .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
-  .ctoken .chip2 { width: 20px; height: 20px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); flex: none; }
-  .ctoken code { font-size: 0.75rem; }
-  .ctoken .refs { margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-muted); text-align: right; }
+  .tokens-src { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); margin: 0 0 var(--space-md); overflow-x: auto; }
+  .tokens-src code { font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.6; }
   .theme-toggle { font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
   .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
   @media (max-width: 720px) { .masthead h1 { font-size: 1.953rem; } }
@@ -543,14 +540,24 @@
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="display:grid;gap:0.25rem;width:100%"><span>text</span><span style="color:oklch(0.49 0.004 270)">text-muted</span><span style="color:oklch(0.49 0.1496 264)">accent</span><div style="background:oklch(0.985 0.004 270);border:1px solid oklch(0.925 0.004 270);border-radius:0.25rem;padding:0.25rem 0.5rem">surface / border</div></div></div>
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="display:grid;gap:0.25rem;width:100%"><span>text</span><span style="color:oklch(0.79 0.004 270)">text-muted</span><span style="color:oklch(0.68 0.1648 264)">accent</span><div style="background:oklch(0.3 0.004 270);border:1px solid oklch(0.49 0.004 270);border-radius:0.25rem;padding:0.25rem 0.5rem">surface / border</div></div></div>
     </div>
-    <div class="ctokens">
-      <div class="ctoken"><span class="chip2" style="background:var(--screen-text-color)"></span><code>screen-text-color</code><span class="refs">light: neutral-color-900 / dark: neutral-color-50</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--screen-text-muted-color)"></span><code>screen-text-muted-color</code><span class="refs">light: neutral-color-700 / dark: neutral-color-400</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--screen-background-color)"></span><code>screen-background-color</code><span class="refs">light: neutral-color-100 / dark: neutral-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--screen-surface-color)"></span><code>screen-surface-color</code><span class="refs">light: neutral-color-50 / dark: neutral-color-900</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--screen-border-color)"></span><code>screen-border-color</code><span class="refs">light: neutral-color-200 / dark: neutral-color-700</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--screen-accent-color)"></span><code>screen-accent-color</code><span class="refs">light: primary-color-700 / dark: primary-color-500</span></div>
-    </div>
+    <pre class="tokens-src"><code>screen-text-color:
+  light: neutral-color-900
+  dark: neutral-color-50
+screen-text-muted-color:
+  light: neutral-color-700
+  dark: neutral-color-400
+screen-background-color:
+  light: neutral-color-100
+  dark: neutral-color-950
+screen-surface-color:
+  light: neutral-color-50
+  dark: neutral-color-900
+screen-border-color:
+  light: neutral-color-200
+  dark: neutral-color-700
+screen-accent-color:
+  light: primary-color-700
+  dark: primary-color-500</code></pre>
     <h3 class="comp-name">button</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><button style="background:oklch(0.49 0.1496 264);color:oklch(0.985 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">primary</button></div>
@@ -570,26 +577,42 @@
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><button style="background:oklch(0.395 0.004 270);color:oklch(0.985 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">neutral</button></div>
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">hover-dark</div><button style="background:oklch(0.49 0.004 270);color:oklch(0.985 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">neutral</button></div>
     </div>
-    <div class="ctokens">
-      <div class="ctoken"><span class="chip2" style="background:var(--button-primary-surface-color)"></span><code>button-primary-surface-color</code><span class="refs">light: primary-color-700 / dark: primary-color-500 / hover-light: primary-color-800 / hover-dark: primary-color-400</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--button-primary-text-color)"></span><code>button-primary-text-color</code><span class="refs">light: neutral-color-50 / dark: neutral-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-primary-text-typography</code><span class="refs">label</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-primary-rounded</code><span class="refs">md</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-primary-padding-block-spacing</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-primary-padding-inline-spacing</code><span class="refs">lg</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--button-danger-surface-color)"></span><code>button-danger-surface-color</code><span class="refs">light: danger-color-700 / dark: danger-color-500 / hover-light: danger-color-800 / hover-dark: danger-color-400</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--button-danger-text-color)"></span><code>button-danger-text-color</code><span class="refs">light: neutral-color-50 / dark: neutral-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-danger-text-typography</code><span class="refs">label</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-danger-rounded</code><span class="refs">md</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-danger-padding-block-spacing</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-danger-padding-inline-spacing</code><span class="refs">lg</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--button-neutral-surface-color)"></span><code>button-neutral-surface-color</code><span class="refs">light: neutral-color-200 / dark: neutral-color-800 / hover-light: neutral-color-300 / hover-dark: neutral-color-700</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--button-neutral-text-color)"></span><code>button-neutral-text-color</code><span class="refs">light: neutral-color-900 / dark: neutral-color-50</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-neutral-text-typography</code><span class="refs">label</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-neutral-rounded</code><span class="refs">md</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-neutral-padding-block-spacing</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-neutral-padding-inline-spacing</code><span class="refs">lg</span></div>
-    </div>
+    <pre class="tokens-src"><code>button-primary-surface-color:
+  light: primary-color-700
+  dark: primary-color-500
+  hover-light: primary-color-800
+  hover-dark: primary-color-400
+button-primary-text-color:
+  light: neutral-color-50
+  dark: neutral-color-950
+button-primary-text-typography: label
+button-primary-rounded: md
+button-primary-padding-block-spacing: sm
+button-primary-padding-inline-spacing: lg
+button-danger-surface-color:
+  light: danger-color-700
+  dark: danger-color-500
+  hover-light: danger-color-800
+  hover-dark: danger-color-400
+button-danger-text-color:
+  light: neutral-color-50
+  dark: neutral-color-950
+button-danger-text-typography: label
+button-danger-rounded: md
+button-danger-padding-block-spacing: sm
+button-danger-padding-inline-spacing: lg
+button-neutral-surface-color:
+  light: neutral-color-200
+  dark: neutral-color-800
+  hover-light: neutral-color-300
+  hover-dark: neutral-color-700
+button-neutral-text-color:
+  light: neutral-color-900
+  dark: neutral-color-50
+button-neutral-text-typography: label
+button-neutral-rounded: md
+button-neutral-padding-block-spacing: sm
+button-neutral-padding-inline-spacing: lg</code></pre>
     <h3 class="comp-name">note</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="background:oklch(0.965 0.033 150);border:1px solid oklch(0.87 0.099 150);color:oklch(0.3 0.078 150);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>success</b> — 保存しました。</div></div>
@@ -607,48 +630,72 @@
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="background:oklch(0.965 0.004 270);border:1px solid oklch(0.87 0.004 270);color:oklch(0.3 0.004 270);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>neutral</b> — 補足: カタログは派生物。手編集しない。</div></div>
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="background:oklch(0.21 0.004 270);border:1px solid oklch(0.395 0.004 270);color:oklch(0.925 0.004 270);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>neutral</b> — 補足: カタログは派生物。手編集しない。</div></div>
     </div>
-    <div class="ctokens">
-      <div class="ctoken"><span class="chip2" style="background:var(--note-success-surface-color)"></span><code>note-success-surface-color</code><span class="refs">light: success-color-100 / dark: success-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--note-success-border-color)"></span><code>note-success-border-color</code><span class="refs">light: success-color-300 / dark: success-color-800</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--note-success-text-color)"></span><code>note-success-text-color</code><span class="refs">light: success-color-900 / dark: success-color-200</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-success-text-typography</code><span class="refs">body-sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-success-rounded</code><span class="refs">md</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-success-padding-block-spacing</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-success-padding-inline-spacing</code><span class="refs">md</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--note-warning-surface-color)"></span><code>note-warning-surface-color</code><span class="refs">light: warning-color-100 / dark: warning-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--note-warning-border-color)"></span><code>note-warning-border-color</code><span class="refs">light: warning-color-300 / dark: warning-color-800</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--note-warning-text-color)"></span><code>note-warning-text-color</code><span class="refs">light: warning-color-900 / dark: warning-color-200</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-warning-text-typography</code><span class="refs">body-sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-warning-rounded</code><span class="refs">md</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-warning-padding-block-spacing</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-warning-padding-inline-spacing</code><span class="refs">md</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--note-danger-surface-color)"></span><code>note-danger-surface-color</code><span class="refs">light: danger-color-100 / dark: danger-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--note-danger-border-color)"></span><code>note-danger-border-color</code><span class="refs">light: danger-color-300 / dark: danger-color-800</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--note-danger-text-color)"></span><code>note-danger-text-color</code><span class="refs">light: danger-color-900 / dark: danger-color-200</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-danger-text-typography</code><span class="refs">body-sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-danger-rounded</code><span class="refs">md</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-danger-padding-block-spacing</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-danger-padding-inline-spacing</code><span class="refs">md</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--note-neutral-surface-color)"></span><code>note-neutral-surface-color</code><span class="refs">light: neutral-color-100 / dark: neutral-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--note-neutral-border-color)"></span><code>note-neutral-border-color</code><span class="refs">light: neutral-color-300 / dark: neutral-color-800</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--note-neutral-text-color)"></span><code>note-neutral-text-color</code><span class="refs">light: neutral-color-900 / dark: neutral-color-200</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-neutral-text-typography</code><span class="refs">body-sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-neutral-rounded</code><span class="refs">md</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-neutral-padding-block-spacing</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-neutral-padding-inline-spacing</code><span class="refs">md</span></div>
-    </div>
+    <pre class="tokens-src"><code>note-success-surface-color:
+  light: success-color-100
+  dark: success-color-950
+note-success-border-color:
+  light: success-color-300
+  dark: success-color-800
+note-success-text-color:
+  light: success-color-900
+  dark: success-color-200
+note-success-text-typography: body-sm
+note-success-rounded: md
+note-success-padding-block-spacing: sm
+note-success-padding-inline-spacing: md
+note-warning-surface-color:
+  light: warning-color-100
+  dark: warning-color-950
+note-warning-border-color:
+  light: warning-color-300
+  dark: warning-color-800
+note-warning-text-color:
+  light: warning-color-900
+  dark: warning-color-200
+note-warning-text-typography: body-sm
+note-warning-rounded: md
+note-warning-padding-block-spacing: sm
+note-warning-padding-inline-spacing: md
+note-danger-surface-color:
+  light: danger-color-100
+  dark: danger-color-950
+note-danger-border-color:
+  light: danger-color-300
+  dark: danger-color-800
+note-danger-text-color:
+  light: danger-color-900
+  dark: danger-color-200
+note-danger-text-typography: body-sm
+note-danger-rounded: md
+note-danger-padding-block-spacing: sm
+note-danger-padding-inline-spacing: md
+note-neutral-surface-color:
+  light: neutral-color-100
+  dark: neutral-color-950
+note-neutral-border-color:
+  light: neutral-color-300
+  dark: neutral-color-800
+note-neutral-text-color:
+  light: neutral-color-900
+  dark: neutral-color-200
+note-neutral-text-typography: body-sm
+note-neutral-rounded: md
+note-neutral-padding-block-spacing: sm
+note-neutral-padding-inline-spacing: md</code></pre>
     <h3 class="comp-name">card</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="background:oklch(0.985 0.004 270);border:1px solid oklch(0.925 0.004 270);border-radius:0.5rem;padding:1.5rem;box-shadow:0 1px 2px rgb(0 0 0 / 0.06);width:100%">card — 面の分離</div></div>
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="background:oklch(0.3 0.004 270);border:1px solid oklch(0.49 0.004 270);border-radius:0.5rem;padding:1.5rem;box-shadow:0 1px 2px rgb(0 0 0 / 0.06);width:100%">card — 面の分離</div></div>
     </div>
-    <div class="ctokens">
-      <div class="ctoken"><span class="chip2" style="background:var(--card-surface-color)"></span><code>card-surface-color</code><span class="refs">light: neutral-color-50 / dark: neutral-color-900</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--card-border-color)"></span><code>card-border-color</code><span class="refs">light: neutral-color-200 / dark: neutral-color-700</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-rounded</code><span class="refs">md</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-padding-spacing</code><span class="refs">lg</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-shadow</code><span class="refs">sm</span></div>
-    </div>
+    <pre class="tokens-src"><code>card-surface-color:
+  light: neutral-color-50
+  dark: neutral-color-900
+card-border-color:
+  light: neutral-color-200
+  dark: neutral-color-700
+card-rounded: md
+card-padding-spacing: lg
+card-shadow: sm</code></pre>
     <h3 class="comp-name">badge</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><span style="background:oklch(0.965 0.033 150);color:oklch(0.3 0.078 150);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">success</span></div>
@@ -666,32 +713,46 @@
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><span style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">neutral</span></div>
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><span style="background:oklch(0.21 0.004 270);color:oklch(0.925 0.004 270);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">neutral</span></div>
     </div>
-    <div class="ctokens">
-      <div class="ctoken"><span class="chip2" style="background:var(--badge-success-surface-color)"></span><code>badge-success-surface-color</code><span class="refs">light: success-color-100 / dark: success-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--badge-success-text-color)"></span><code>badge-success-text-color</code><span class="refs">light: success-color-900 / dark: success-color-200</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-success-text-typography</code><span class="refs">caption</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-success-rounded</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-success-padding-block-spacing</code><span class="refs">xs</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-success-padding-inline-spacing</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--badge-warning-surface-color)"></span><code>badge-warning-surface-color</code><span class="refs">light: warning-color-100 / dark: warning-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--badge-warning-text-color)"></span><code>badge-warning-text-color</code><span class="refs">light: warning-color-900 / dark: warning-color-200</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-warning-text-typography</code><span class="refs">caption</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-warning-rounded</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-warning-padding-block-spacing</code><span class="refs">xs</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-warning-padding-inline-spacing</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--badge-danger-surface-color)"></span><code>badge-danger-surface-color</code><span class="refs">light: danger-color-100 / dark: danger-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--badge-danger-text-color)"></span><code>badge-danger-text-color</code><span class="refs">light: danger-color-900 / dark: danger-color-200</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-danger-text-typography</code><span class="refs">caption</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-danger-rounded</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-danger-padding-block-spacing</code><span class="refs">xs</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-danger-padding-inline-spacing</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--badge-neutral-surface-color)"></span><code>badge-neutral-surface-color</code><span class="refs">light: neutral-color-100 / dark: neutral-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--badge-neutral-text-color)"></span><code>badge-neutral-text-color</code><span class="refs">light: neutral-color-900 / dark: neutral-color-200</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-neutral-text-typography</code><span class="refs">caption</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-neutral-rounded</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-neutral-padding-block-spacing</code><span class="refs">xs</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-neutral-padding-inline-spacing</code><span class="refs">sm</span></div>
-    </div>
+    <pre class="tokens-src"><code>badge-success-surface-color:
+  light: success-color-100
+  dark: success-color-950
+badge-success-text-color:
+  light: success-color-900
+  dark: success-color-200
+badge-success-text-typography: caption
+badge-success-rounded: sm
+badge-success-padding-block-spacing: xs
+badge-success-padding-inline-spacing: sm
+badge-warning-surface-color:
+  light: warning-color-100
+  dark: warning-color-950
+badge-warning-text-color:
+  light: warning-color-900
+  dark: warning-color-200
+badge-warning-text-typography: caption
+badge-warning-rounded: sm
+badge-warning-padding-block-spacing: xs
+badge-warning-padding-inline-spacing: sm
+badge-danger-surface-color:
+  light: danger-color-100
+  dark: danger-color-950
+badge-danger-text-color:
+  light: danger-color-900
+  dark: danger-color-200
+badge-danger-text-typography: caption
+badge-danger-rounded: sm
+badge-danger-padding-block-spacing: xs
+badge-danger-padding-inline-spacing: sm
+badge-neutral-surface-color:
+  light: neutral-color-100
+  dark: neutral-color-950
+badge-neutral-text-color:
+  light: neutral-color-900
+  dark: neutral-color-200
+badge-neutral-text-typography: caption
+badge-neutral-rounded: sm
+badge-neutral-padding-block-spacing: xs
+badge-neutral-padding-inline-spacing: sm</code></pre>
     <h3 class="comp-name">input</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><input readonly value="入力済みの文字" style="background:oklch(0.985 0.004 270);color:oklch(0.3 0.004 270);border:1px solid oklch(0.87 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"><input readonly placeholder="placeholder" class="ph-light" style="background:oklch(0.985 0.004 270);color:oklch(0.3 0.004 270);border:1px solid oklch(0.87 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"></div>
@@ -699,16 +760,24 @@
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><input readonly value="入力済みの文字" style="background:oklch(0.3 0.004 270);color:oklch(0.985 0.004 270);border:1px solid oklch(0.49 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"><input readonly placeholder="placeholder" class="ph-dark" style="background:oklch(0.3 0.004 270);color:oklch(0.985 0.004 270);border:1px solid oklch(0.49 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"></div>
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">focus-dark</div><input readonly value="入力済みの文字" style="background:oklch(0.3 0.004 270);color:oklch(0.985 0.004 270);border:1px solid oklch(0.68 0.1648 264);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"><input readonly placeholder="placeholder" class="ph-dark" style="background:oklch(0.3 0.004 270);color:oklch(0.985 0.004 270);border:1px solid oklch(0.68 0.1648 264);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"></div>
     </div>
-    <div class="ctokens">
-      <div class="ctoken"><span class="chip2" style="background:var(--input-surface-color)"></span><code>input-surface-color</code><span class="refs">light: neutral-color-50 / dark: neutral-color-900</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--input-border-color)"></span><code>input-border-color</code><span class="refs">light: neutral-color-300 / dark: neutral-color-700 / focus-light: primary-color-700 / focus-dark: primary-color-500</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--input-text-color)"></span><code>input-text-color</code><span class="refs">light: neutral-color-900 / dark: neutral-color-50</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--input-placeholder-color)"></span><code>input-placeholder-color</code><span class="refs">light: neutral-color-700 / dark: neutral-color-400</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-text-typography</code><span class="refs">body-md</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-rounded</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-padding-block-spacing</code><span class="refs">sm</span></div>
-      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-padding-inline-spacing</code><span class="refs">md</span></div>
-    </div>
+    <pre class="tokens-src"><code>input-surface-color:
+  light: neutral-color-50
+  dark: neutral-color-900
+input-border-color:
+  light: neutral-color-300
+  dark: neutral-color-700
+  focus-light: primary-color-700
+  focus-dark: primary-color-500
+input-text-color:
+  light: neutral-color-900
+  dark: neutral-color-50
+input-placeholder-color:
+  light: neutral-color-700
+  dark: neutral-color-400
+input-text-typography: body-md
+input-rounded: sm
+input-padding-block-spacing: sm
+input-padding-inline-spacing: md</code></pre>
   </section>
 
 </div>
