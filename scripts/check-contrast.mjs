@@ -2,7 +2,7 @@
 // DESIGN.md の components から文字色×地色のペアを機械抽出し、WCAG AA（4.5:1）を検証する。
 // トークンの「値」はこのファイルに一切書かない。すべて DESIGN.md から読む。依存パッケージ無し。
 //
-// ペアの規則: 同じグループ（page / button-primary / note-success …）内で、
+// ペアの規則: 同じグループ（base / button-primary / note-success …）内で、
 // 前景部位（text / text-muted / accent）× 地部位（surface / background）の全組み合わせ × theme。
 // border は文字ではないため対象外（非テキストの 3:1 はここでは扱わない）。
 //

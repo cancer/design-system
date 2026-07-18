@@ -5,7 +5,7 @@
 //
 // 層は primitive（値の尺度）→ 役割（roles から <役割>-color-<段> を導出）→ component（意味の完成点）。
 // 共有結合（semantic）層は共有される行が現れるまで作らない。
-// このカタログ自身の chrome 色は page component トークンを参照する（1 消費者としての利用）。
+// このカタログ自身の chrome 色は base component トークンを参照する（1 消費者としての利用）。
 //
 // usage: node scripts/build-catalog.mjs [path/to/DESIGN.md] [path/to/catalog.html]
 
@@ -100,19 +100,19 @@ const roleScales = Object.entries(rolesMap).map(([role, family]) => {
   if (!scales[family]) throw new Error(`roles.${role}: 未定義のスケール "${family}"`);
   return { role, family, steps: scales[family].steps.map((st) => ({ step: st.step, key: `${role}-color-${st.step}`, value: st.value })) };
 });
-// component トークンを component 名でグループ化（page / button / note …）
+// component トークンを component 名でグループ化（base / button / note …）
 const compGroups = {};
 for (const [k, t] of Object.entries(components)) (compGroups[k.split("-")[0]] ||= []).push([k, t]);
 // button / note の variant（命名 <component>-<variant>-<部位>-color から抽出）
 const variantsOf = (comp) => [...new Set(Object.keys(components)
   .filter((k) => k.startsWith(`${comp}-`)).map((k) => k.split("-")[1]))];
 const NOTE_SAMPLE = { success: "保存しました。", warning: "未保存の変更があります。", danger: "この操作は取り消せません。", neutral: "補足: カタログは派生物。手編集しない。" };
-// グループ見出し直下に置くデモ（page はこのページの chrome 自体がデモ）
+// グループ見出し直下に置くデモ（base はこのページの chrome 自体がデモ）
 const DEMO = {
-  page: `    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま page のデモ。</p>\n`,
+  base: `    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま base のデモ。</p>\n`,
   button: `    <div class="demo-row">\n${variantsOf("button").map((v) => `      <button class="demo-btn v-${v}">button · ${v}（hover で分岐）</button>`).join("\n")}\n    </div>\n`,
   note: `    <div class="demo-row">\n${variantsOf("note").map((v) => `      <div class="note-card" style="background:var(--note-${v}-surface-color);border-color:var(--note-${v}-border-color);color:var(--note-${v}-text-color)"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`).join("\n")}\n    </div>\n`,
-  card: `    <div class="demo-row">\n      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。中身の文字は page の text を使う。</span></div>\n    </div>\n`,
+  card: `    <div class="demo-row">\n      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。中身の文字は base の text を使う。</span></div>\n    </div>\n`,
   badge: `    <div class="demo-row">\n      <div>${variantsOf("badge").map((v) => `<span class="demo-badge v-${v}">${v}</span>`).join(" ")}</div>\n    </div>\n`,
   input: `    <div class="demo-row">\n      <input class="demo-input" placeholder="placeholder は AA を通す段（focus で縁が分岐）" aria-label="input demo">\n    </div>\n`,
 };
@@ -164,13 +164,13 @@ const componentVars = (mode) => themed.flatMap(([k, t]) =>
     })).join("\n");
 const staticVars = statics.map(([k, v]) => `    --${k}: ${resolveScaleToken(k, v)};`).join("\n");
 
-// ── カタログ自身の chrome は page component トークンを参照する ─────────
-const chromeVars = `    --color-background: var(--page-background-color);
-    --color-surface: var(--page-surface-color);
-    --color-border: var(--page-border-color);
-    --color-text: var(--page-text-color);
-    --color-text-muted: var(--page-text-muted-color);
-    --color-primary: var(--page-accent-color);`;
+// ── カタログ自身の chrome は base component トークンを参照する ─────────
+const chromeVars = `    --color-background: var(--base-background-color);
+    --color-surface: var(--base-surface-color);
+    --color-border: var(--base-border-color);
+    --color-text: var(--base-text-color);
+    --color-text-muted: var(--base-text-muted-color);
+    --color-primary: var(--base-accent-color);`;
 const shadowVars = (dark) => Object.entries(shadows).map(([k, v]) =>
   dark ? `    --shadow-${k}: ${v.replace(/rgb\(0 0 0 \/ [\d.]+\)/, (mm) => mm.replace(/[\d.]+\)$/, "0.5)"))};`
        : `    --shadow-${k}: ${v};`).join("\n");
@@ -290,7 +290,7 @@ ${variantsOf("badge").map((v) => `  .demo-badge.v-${v} { background: var(--badge
     <div>
       <p class="eyebrow">Token Catalog · version ${esc(version)}</p>
       <h1>${esc(dsName)}</h1>
-      <p class="sub">DESIGN.md から自動生成。層は primitive → 役割 → component（意味の完成点）。共有結合（semantic）層は共有される行が現れるまで作らない。このページの chrome は page component トークンの消費。</p>
+      <p class="sub">DESIGN.md から自動生成。層は primitive → 役割 → component（意味の完成点）。共有結合（semantic）層は共有される行が現れるまで作らない。このページの chrome は base component トークンの消費。</p>
     </div>
     <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">◐ theme</button>
   </header>

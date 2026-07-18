@@ -17,7 +17,7 @@ user-invocable: true
 
 - **primitive スケール**（`colors`。`blue-500` のように色相＋段）。OKLCH で生成し、値の源はここだけ
 - **role → スケールの薄い参照**（`roles`。`primary: blue` のように役割へ色相族を割り当てる。役割層トークン `<役割>-color-<段>` はここから機械的に導出される）
-- **component トークン**（`components`。意味の完成点。横断 component（page / button / note …）×部位で値が一意に決まる行を明示定義する。色の行は役割層トークンだけを参照し、light / dark は名前に焼き付けない分岐キー。非色の行（typography / rounded / spacing / shadow）は尺度のキーを直接参照し、分岐を持たない）
+- **component トークン**（`components`。意味の完成点。横断 component（base / button / note …）×部位で値が一意に決まる行を明示定義する。色の行は役割層トークンだけを参照し、light / dark は名前に焼き付けない分岐キー。非色の行（typography / rounded / spacing / shadow）は尺度のキーを直接参照し、分岐を持たない）
 
 現時点で役割が定義されているのは色（色相族への割り当て）だけ。役割の無い値種別には役割層トークンが存在しないため、非色の行は尺度を直接参照する（非色の役割が必要になれば `roles` に足して拡張する）。役割と component の間の共有結合（semantic）層は、複数 component が変更理由を共有する行が現れるまで作らない。プロジェクト固有 component の resolve は消費側の範囲で、DESIGN.md には持ち込まない。詳細は `DESIGN.md` のデザイントークン章（値の尺度 / Roles / Components）と Maintenance 章を正とする。フロントマターと節は層の順（尺度 → roles → components）に並べる。
 
@@ -25,7 +25,7 @@ user-invocable: true
 
 - **値を書くのは DESIGN.md のフロントマターだけ。** `catalog.html` と生成スクリプトのテンプレートに値を直書きすると SoT が二重化し、乖離の温床になる
 - **`catalog.html` を手編集しない。** 次回生成で必ず上書きされ、手の変更は消える。直したいなら DESIGN.md か生成器を直す
-- **トークンを足す基準は「抽象的な役割を名指すか」**（`DESIGN.md:405`）。使用箇所の数ではない。特定用途の具体値はローカル CSS へ
+- **トークンを足す基準は「抽象的な役割を名指すか」**（`DESIGN.md:406`）。使用箇所の数ではない。特定用途の具体値はローカル CSS へ
 
 ## 手順
 
@@ -64,7 +64,7 @@ user-invocable: true
 ## Red Flags — 手が止まったら疑う
 
 - catalog.html を直接開いて値を書き換えようとしている → DESIGN.md に戻る
-- 「便利だから」と特定用途の具体値をトークン化しようとしている → 抽象的な役割でなければローカル CSS へ（`DESIGN.md:405`・`406`）
+- 「便利だから」と特定用途の具体値をトークン化しようとしている → 抽象的な役割でなければローカル CSS へ（`DESIGN.md:406`・`407`）
 - 生成器のテンプレート文字列に oklch 値や rem 値を直書きしようとしている → その値は DESIGN.md から読ませる
 - `roles` に段を書こうとしている（例 `primary: blue-700`） → 段が一意になるのは component×部位が揃った点。roles は族まで、具体値は `components` の行で
 - component トークンの値に primitive（`blue-700` 等）を直接書こうとしている → 役割層トークン（`primary-color-700` 等）経由に直す
@@ -72,6 +72,6 @@ user-invocable: true
 
 ## 仕組み（参照）
 
-- 生成器: `scripts/build-catalog.mjs`。DESIGN.md のフロントマターから依存パッケージ無しで `catalog.html` を生成する。カタログ自身の chrome 色は page component トークンを参照する。トークン値は一切ハードコードしない
+- 生成器: `scripts/build-catalog.mjs`。DESIGN.md のフロントマターから依存パッケージ無しで `catalog.html` を生成する。カタログ自身の chrome 色は base component トークンを参照する。トークン値は一切ハードコードしない
 - AA 検証器: `scripts/check-contrast.mjs`。`components` から文字色×地色ペアを機械抽出し、OKLCH→sRGB 変換でコントラスト比を計算する
 - 生成器のテンプレートを直す必要が出た場合（新しいトークン「型」を足す等）は、値ではなく構造だけを足す

@@ -1,12 +1,12 @@
 <title>Design Token Catalog — Personal Design System</title>
 <style>
   :root {
-    --page-text-color: oklch(0.3 0.004 270);
-    --page-text-muted-color: oklch(0.49 0.004 270);
-    --page-background-color: oklch(0.965 0.004 270);
-    --page-surface-color: oklch(0.985 0.004 270);
-    --page-border-color: oklch(0.925 0.004 270);
-    --page-accent-color: oklch(0.49 0.1496 264);
+    --base-text-color: oklch(0.3 0.004 270);
+    --base-text-muted-color: oklch(0.49 0.004 270);
+    --base-background-color: oklch(0.965 0.004 270);
+    --base-surface-color: oklch(0.985 0.004 270);
+    --base-border-color: oklch(0.925 0.004 270);
+    --base-accent-color: oklch(0.49 0.1496 264);
     --button-primary-surface-color: oklch(0.49 0.1496 264);
     --button-primary-surface-color-hover: oklch(0.395 0.119 264);
     --button-primary-text-color: oklch(0.985 0.004 270);
@@ -62,12 +62,12 @@
     --input-rounded: 0.25rem;
     --input-padding-block-spacing: 0.5rem;
     --input-padding-inline-spacing: 1rem;
-    --color-background: var(--page-background-color);
-    --color-surface: var(--page-surface-color);
-    --color-border: var(--page-border-color);
-    --color-text: var(--page-text-color);
-    --color-text-muted: var(--page-text-muted-color);
-    --color-primary: var(--page-accent-color);
+    --color-background: var(--base-background-color);
+    --color-surface: var(--base-surface-color);
+    --color-border: var(--base-border-color);
+    --color-text: var(--base-text-color);
+    --color-text-muted: var(--base-text-muted-color);
+    --color-primary: var(--base-accent-color);
     --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
     --space-lg: 1.5rem; --space-xl: 2rem; --space-2xl: 3rem; --space-3xl: 4rem;
     --radius-sm: 0.25rem; --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-full: 9999px;
@@ -79,12 +79,12 @@
   }
   @media (prefers-color-scheme: dark) {
     :root {
-    --page-text-color: oklch(0.985 0.004 270);
-    --page-text-muted-color: oklch(0.79 0.004 270);
-    --page-background-color: oklch(0.21 0.004 270);
-    --page-surface-color: oklch(0.3 0.004 270);
-    --page-border-color: oklch(0.49 0.004 270);
-    --page-accent-color: oklch(0.68 0.1648 264);
+    --base-text-color: oklch(0.985 0.004 270);
+    --base-text-muted-color: oklch(0.79 0.004 270);
+    --base-background-color: oklch(0.21 0.004 270);
+    --base-surface-color: oklch(0.3 0.004 270);
+    --base-border-color: oklch(0.49 0.004 270);
+    --base-accent-color: oklch(0.68 0.1648 264);
     --button-primary-surface-color: oklch(0.68 0.1648 264);
     --button-primary-surface-color-hover: oklch(0.79 0.1036 264);
     --button-primary-text-color: oklch(0.21 0.004 270);
@@ -127,12 +127,12 @@
     }
   }
   :root[data-theme="light"] {
-    --page-text-color: oklch(0.3 0.004 270);
-    --page-text-muted-color: oklch(0.49 0.004 270);
-    --page-background-color: oklch(0.965 0.004 270);
-    --page-surface-color: oklch(0.985 0.004 270);
-    --page-border-color: oklch(0.925 0.004 270);
-    --page-accent-color: oklch(0.49 0.1496 264);
+    --base-text-color: oklch(0.3 0.004 270);
+    --base-text-muted-color: oklch(0.49 0.004 270);
+    --base-background-color: oklch(0.965 0.004 270);
+    --base-surface-color: oklch(0.985 0.004 270);
+    --base-border-color: oklch(0.925 0.004 270);
+    --base-accent-color: oklch(0.49 0.1496 264);
     --button-primary-surface-color: oklch(0.49 0.1496 264);
     --button-primary-surface-color-hover: oklch(0.395 0.119 264);
     --button-primary-text-color: oklch(0.985 0.004 270);
@@ -174,12 +174,12 @@
     --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.14);
   }
   :root[data-theme="dark"] {
-    --page-text-color: oklch(0.985 0.004 270);
-    --page-text-muted-color: oklch(0.79 0.004 270);
-    --page-background-color: oklch(0.21 0.004 270);
-    --page-surface-color: oklch(0.3 0.004 270);
-    --page-border-color: oklch(0.49 0.004 270);
-    --page-accent-color: oklch(0.68 0.1648 264);
+    --base-text-color: oklch(0.985 0.004 270);
+    --base-text-muted-color: oklch(0.79 0.004 270);
+    --base-background-color: oklch(0.21 0.004 270);
+    --base-surface-color: oklch(0.3 0.004 270);
+    --base-border-color: oklch(0.49 0.004 270);
+    --base-accent-color: oklch(0.68 0.1648 264);
     --button-primary-surface-color: oklch(0.68 0.1648 264);
     --button-primary-surface-color-hover: oklch(0.79 0.1036 264);
     --button-primary-text-color: oklch(0.21 0.004 270);
@@ -301,7 +301,7 @@
     <div>
       <p class="eyebrow">Token Catalog · version alpha</p>
       <h1>Personal Design System</h1>
-      <p class="sub">DESIGN.md から自動生成。層は primitive → 役割 → component（意味の完成点）。共有結合（semantic）層は共有される行が現れるまで作らない。このページの chrome は page component トークンの消費。</p>
+      <p class="sub">DESIGN.md から自動生成。層は primitive → 役割 → component（意味の完成点）。共有結合（semantic）層は共有される行が現れるまで作らない。このページの chrome は base component トークンの消費。</p>
     </div>
     <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">◐ theme</button>
   </header>
@@ -529,15 +529,15 @@
   <section id="components">
     <h2 class="section-title">Components（意味の完成点）</h2>
     <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、このページのテーマ切替・ボタンの hover・input の focus がそのまま分岐の切替。</p>
-    <h3 class="comp-name">page</h3>
-    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま page のデモ。</p>
+    <h3 class="comp-name">base</h3>
+    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま base のデモ。</p>
     <div class="ctokens">
-      <div class="ctoken"><span class="chip2" style="background:var(--page-text-color)"></span><code>page-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--page-text-muted-color)"></span><code>page-text-muted-color</code><span class="refs">neutral-color-700 / neutral-color-400</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--page-background-color)"></span><code>page-background-color</code><span class="refs">neutral-color-100 / neutral-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--page-surface-color)"></span><code>page-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--page-border-color)"></span><code>page-border-color</code><span class="refs">neutral-color-200 / neutral-color-700</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--page-accent-color)"></span><code>page-accent-color</code><span class="refs">primary-color-700 / primary-color-500</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--base-text-color)"></span><code>base-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--base-text-muted-color)"></span><code>base-text-muted-color</code><span class="refs">neutral-color-700 / neutral-color-400</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--base-background-color)"></span><code>base-background-color</code><span class="refs">neutral-color-100 / neutral-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--base-surface-color)"></span><code>base-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--base-border-color)"></span><code>base-border-color</code><span class="refs">neutral-color-200 / neutral-color-700</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--base-accent-color)"></span><code>base-accent-color</code><span class="refs">primary-color-700 / primary-color-500</span></div>
     </div>
     <h3 class="comp-name">button</h3>
     <div class="demo-row">
@@ -590,7 +590,7 @@
     </div>
     <h3 class="comp-name">card</h3>
     <div class="demo-row">
-      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。中身の文字は page の text を使う。</span></div>
+      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。中身の文字は base の text を使う。</span></div>
     </div>
     <div class="ctokens">
       <div class="ctoken"><span class="chip2" style="background:var(--card-surface-color)"></span><code>card-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
