@@ -177,8 +177,8 @@ const useRef = (name, key) => {
   return typeof t === "string" ? t : (t[key] ?? t[key.endsWith("dark") ? "dark" : "light"]);
 };
 const snap = (key, inner, uses) => `      <div class="snap" style="background:${cval("screen-background-color", key)};color:${cval("screen-text-color", key)}"><div class="snap-cap">${key}</div>${inner}<div class="uses" style="color:${cval("screen-text-muted-color", key)}">${uses.map((n) => `<div><code>${n}</code><span>${useRef(n, key)}</span></div>`).join("")}</div></div>`;
-// 1 行 = 1 variant の全分岐。折返しさせず、入り切らなければ行内で横スクロール
-const snapGrid = (tiles) => `    <div class="snap-grid" style="grid-template-columns:repeat(${tiles.length}, minmax(280px, 1fr))">\n${tiles.join("\n")}\n    </div>\n`;
+// 分岐は theme で対になるため 2 カラム固定（light 系の行 → dark 系の行）。スクロールも任意折返しもしない
+const snapGrid = (tiles) => `    <div class="snap-grid">\n${tiles.join("\n")}\n    </div>\n`;
 
 const SNAPSHOTS = {
   screen: () => snapGrid(["light", "dark"].map((key) => snap(key,
@@ -296,7 +296,7 @@ ${shadowVars(true)}
   .shadow-demo { width: 100%; height: 96px; background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
   .radius-card .cap, .shadow-card .cap { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
   .radius-card .cap b, .shadow-card .cap b { color: var(--color-text); }
-  .snap-grid { display: grid; gap: var(--space-sm); margin-bottom: var(--space-md); overflow-x: auto; }
+  .snap-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm); margin-bottom: var(--space-md); }
   .snap { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); display: grid; gap: var(--space-sm); justify-items: start; align-content: start; }
   .snap-cap { font-family: var(--font-mono); font-size: 0.625rem; opacity: 0.7; }
   .ph-light::placeholder { color: ${cval("input-placeholder-color", "light")}; opacity: 1; }
