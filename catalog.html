@@ -1,12 +1,73 @@
 <title>Design Token Catalog — Personal Design System</title>
 <style>
   :root {
-    --color-background: oklch(0.965 0.004 270);
-    --color-surface: oklch(0.985 0.004 270);
-    --color-border: oklch(0.925 0.004 270);
-    --color-text: oklch(0.3 0.004 270);
-    --color-text-muted: oklch(0.49 0.004 270);
-    --color-primary: oklch(0.49 0.1496 264);
+    --screen-text-color: oklch(0.3 0.004 270);
+    --screen-text-muted-color: oklch(0.49 0.004 270);
+    --screen-background-color: oklch(0.965 0.004 270);
+    --screen-surface-color: oklch(0.985 0.004 270);
+    --screen-border-color: oklch(0.925 0.004 270);
+    --screen-accent-color: oklch(0.49 0.1496 264);
+    --button-primary-surface-color: oklch(0.49 0.1496 264);
+    --button-primary-surface-color-hover: oklch(0.395 0.119 264);
+    --button-primary-text-color: oklch(0.985 0.004 270);
+    --button-danger-surface-color: oklch(0.49 0.1672 25);
+    --button-danger-surface-color-hover: oklch(0.395 0.133 25);
+    --button-danger-text-color: oklch(0.985 0.004 270);
+    --button-neutral-surface-color: oklch(0.925 0.004 270);
+    --button-neutral-surface-color-hover: oklch(0.87 0.004 270);
+    --button-neutral-text-color: oklch(0.3 0.004 270);
+    --note-success-surface-color: oklch(0.965 0.033 150);
+    --note-success-border-color: oklch(0.87 0.099 150);
+    --note-success-text-color: oklch(0.3 0.078 150);
+    --note-warning-surface-color: oklch(0.965 0.0276 75);
+    --note-warning-border-color: oklch(0.87 0.099 75);
+    --note-warning-text-color: oklch(0.3 0.062 75);
+    --note-danger-surface-color: oklch(0.965 0.0168 25);
+    --note-danger-border-color: oklch(0.87 0.068 25);
+    --note-danger-text-color: oklch(0.3 0.0988 25);
+    --note-neutral-surface-color: oklch(0.965 0.004 270);
+    --note-neutral-border-color: oklch(0.87 0.004 270);
+    --note-neutral-text-color: oklch(0.3 0.004 270);
+    --card-surface-color: oklch(0.985 0.004 270);
+    --card-border-color: oklch(0.925 0.004 270);
+    --badge-success-surface-color: oklch(0.965 0.033 150);
+    --badge-success-text-color: oklch(0.3 0.078 150);
+    --badge-warning-surface-color: oklch(0.965 0.0276 75);
+    --badge-warning-text-color: oklch(0.3 0.062 75);
+    --badge-danger-surface-color: oklch(0.965 0.0168 25);
+    --badge-danger-text-color: oklch(0.3 0.0988 25);
+    --badge-neutral-surface-color: oklch(0.965 0.004 270);
+    --badge-neutral-text-color: oklch(0.3 0.004 270);
+    --input-surface-color: oklch(0.985 0.004 270);
+    --input-border-color: oklch(0.87 0.004 270);
+    --input-border-color-focus: oklch(0.49 0.1496 264);
+    --input-text-color: oklch(0.3 0.004 270);
+    --input-placeholder-color: oklch(0.49 0.004 270);
+    --button-text-typography: 500 0.875rem/1.2 var(--font-sans);
+    --button-rounded: 0.5rem;
+    --button-padding-block-spacing: 0.5rem;
+    --button-padding-inline-spacing: 1.5rem;
+    --note-text-typography: 400 0.875rem/1.6 var(--font-sans);
+    --note-rounded: 0.5rem;
+    --note-padding-block-spacing: 0.5rem;
+    --note-padding-inline-spacing: 1rem;
+    --card-rounded: 0.5rem;
+    --card-padding-spacing: 1.5rem;
+    --card-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+    --badge-text-typography: 400 0.75rem/1.5 var(--font-sans);
+    --badge-rounded: 0.25rem;
+    --badge-padding-block-spacing: 0.25rem;
+    --badge-padding-inline-spacing: 0.5rem;
+    --input-text-typography: 400 1rem/1.6 var(--font-sans);
+    --input-rounded: 0.25rem;
+    --input-padding-block-spacing: 0.5rem;
+    --input-padding-inline-spacing: 1rem;
+    --color-background: var(--screen-background-color);
+    --color-surface: var(--screen-surface-color);
+    --color-border: var(--screen-border-color);
+    --color-text: var(--screen-text-color);
+    --color-text-muted: var(--screen-text-muted-color);
+    --color-primary: var(--screen-accent-color);
     --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
     --space-lg: 1.5rem; --space-xl: 2rem; --space-2xl: 3rem; --space-3xl: 4rem;
     --radius-sm: 0.25rem; --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-full: 9999px;
@@ -18,35 +79,143 @@
   }
   @media (prefers-color-scheme: dark) {
     :root {
-    --color-background: oklch(0.21 0.004 270);
-    --color-surface: oklch(0.3 0.004 270);
-    --color-border: oklch(0.49 0.004 270);
-    --color-text: oklch(0.985 0.004 270);
-    --color-text-muted: oklch(0.79 0.004 270);
-    --color-primary: oklch(0.68 0.1648 264);
+    --screen-text-color: oklch(0.985 0.004 270);
+    --screen-text-muted-color: oklch(0.79 0.004 270);
+    --screen-background-color: oklch(0.21 0.004 270);
+    --screen-surface-color: oklch(0.3 0.004 270);
+    --screen-border-color: oklch(0.49 0.004 270);
+    --screen-accent-color: oklch(0.68 0.1648 264);
+    --button-primary-surface-color: oklch(0.68 0.1648 264);
+    --button-primary-surface-color-hover: oklch(0.79 0.1036 264);
+    --button-primary-text-color: oklch(0.21 0.004 270);
+    --button-danger-surface-color: oklch(0.68 0.19 25);
+    --button-danger-surface-color-hover: oklch(0.79 0.1188 25);
+    --button-danger-text-color: oklch(0.21 0.004 270);
+    --button-neutral-surface-color: oklch(0.395 0.004 270);
+    --button-neutral-surface-color-hover: oklch(0.49 0.004 270);
+    --button-neutral-text-color: oklch(0.985 0.004 270);
+    --note-success-surface-color: oklch(0.21 0.054 150);
+    --note-success-border-color: oklch(0.395 0.105 150);
+    --note-success-text-color: oklch(0.925 0.063 150);
+    --note-warning-surface-color: oklch(0.21 0.0434 75);
+    --note-warning-border-color: oklch(0.395 0.0817 75);
+    --note-warning-text-color: oklch(0.925 0.0604 75);
+    --note-danger-surface-color: oklch(0.21 0.0684 25);
+    --note-danger-border-color: oklch(0.395 0.133 25);
+    --note-danger-text-color: oklch(0.925 0.0373 25);
+    --note-neutral-surface-color: oklch(0.21 0.004 270);
+    --note-neutral-border-color: oklch(0.395 0.004 270);
+    --note-neutral-text-color: oklch(0.925 0.004 270);
+    --card-surface-color: oklch(0.3 0.004 270);
+    --card-border-color: oklch(0.49 0.004 270);
+    --badge-success-surface-color: oklch(0.21 0.054 150);
+    --badge-success-text-color: oklch(0.925 0.063 150);
+    --badge-warning-surface-color: oklch(0.21 0.0434 75);
+    --badge-warning-text-color: oklch(0.925 0.0604 75);
+    --badge-danger-surface-color: oklch(0.21 0.0684 25);
+    --badge-danger-text-color: oklch(0.925 0.0373 25);
+    --badge-neutral-surface-color: oklch(0.21 0.004 270);
+    --badge-neutral-text-color: oklch(0.925 0.004 270);
+    --input-surface-color: oklch(0.3 0.004 270);
+    --input-border-color: oklch(0.49 0.004 270);
+    --input-border-color-focus: oklch(0.68 0.1648 264);
+    --input-text-color: oklch(0.985 0.004 270);
+    --input-placeholder-color: oklch(0.79 0.004 270);
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
     --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
     --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.5);
     }
   }
   :root[data-theme="light"] {
-    --color-background: oklch(0.965 0.004 270);
-    --color-surface: oklch(0.985 0.004 270);
-    --color-border: oklch(0.925 0.004 270);
-    --color-text: oklch(0.3 0.004 270);
-    --color-text-muted: oklch(0.49 0.004 270);
-    --color-primary: oklch(0.49 0.1496 264);
+    --screen-text-color: oklch(0.3 0.004 270);
+    --screen-text-muted-color: oklch(0.49 0.004 270);
+    --screen-background-color: oklch(0.965 0.004 270);
+    --screen-surface-color: oklch(0.985 0.004 270);
+    --screen-border-color: oklch(0.925 0.004 270);
+    --screen-accent-color: oklch(0.49 0.1496 264);
+    --button-primary-surface-color: oklch(0.49 0.1496 264);
+    --button-primary-surface-color-hover: oklch(0.395 0.119 264);
+    --button-primary-text-color: oklch(0.985 0.004 270);
+    --button-danger-surface-color: oklch(0.49 0.1672 25);
+    --button-danger-surface-color-hover: oklch(0.395 0.133 25);
+    --button-danger-text-color: oklch(0.985 0.004 270);
+    --button-neutral-surface-color: oklch(0.925 0.004 270);
+    --button-neutral-surface-color-hover: oklch(0.87 0.004 270);
+    --button-neutral-text-color: oklch(0.3 0.004 270);
+    --note-success-surface-color: oklch(0.965 0.033 150);
+    --note-success-border-color: oklch(0.87 0.099 150);
+    --note-success-text-color: oklch(0.3 0.078 150);
+    --note-warning-surface-color: oklch(0.965 0.0276 75);
+    --note-warning-border-color: oklch(0.87 0.099 75);
+    --note-warning-text-color: oklch(0.3 0.062 75);
+    --note-danger-surface-color: oklch(0.965 0.0168 25);
+    --note-danger-border-color: oklch(0.87 0.068 25);
+    --note-danger-text-color: oklch(0.3 0.0988 25);
+    --note-neutral-surface-color: oklch(0.965 0.004 270);
+    --note-neutral-border-color: oklch(0.87 0.004 270);
+    --note-neutral-text-color: oklch(0.3 0.004 270);
+    --card-surface-color: oklch(0.985 0.004 270);
+    --card-border-color: oklch(0.925 0.004 270);
+    --badge-success-surface-color: oklch(0.965 0.033 150);
+    --badge-success-text-color: oklch(0.3 0.078 150);
+    --badge-warning-surface-color: oklch(0.965 0.0276 75);
+    --badge-warning-text-color: oklch(0.3 0.062 75);
+    --badge-danger-surface-color: oklch(0.965 0.0168 25);
+    --badge-danger-text-color: oklch(0.3 0.0988 25);
+    --badge-neutral-surface-color: oklch(0.965 0.004 270);
+    --badge-neutral-text-color: oklch(0.3 0.004 270);
+    --input-surface-color: oklch(0.985 0.004 270);
+    --input-border-color: oklch(0.87 0.004 270);
+    --input-border-color-focus: oklch(0.49 0.1496 264);
+    --input-text-color: oklch(0.3 0.004 270);
+    --input-placeholder-color: oklch(0.49 0.004 270);
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
     --shadow-md: 0 4px 12px rgb(0 0 0 / 0.10);
     --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.14);
   }
   :root[data-theme="dark"] {
-    --color-background: oklch(0.21 0.004 270);
-    --color-surface: oklch(0.3 0.004 270);
-    --color-border: oklch(0.49 0.004 270);
-    --color-text: oklch(0.985 0.004 270);
-    --color-text-muted: oklch(0.79 0.004 270);
-    --color-primary: oklch(0.68 0.1648 264);
+    --screen-text-color: oklch(0.985 0.004 270);
+    --screen-text-muted-color: oklch(0.79 0.004 270);
+    --screen-background-color: oklch(0.21 0.004 270);
+    --screen-surface-color: oklch(0.3 0.004 270);
+    --screen-border-color: oklch(0.49 0.004 270);
+    --screen-accent-color: oklch(0.68 0.1648 264);
+    --button-primary-surface-color: oklch(0.68 0.1648 264);
+    --button-primary-surface-color-hover: oklch(0.79 0.1036 264);
+    --button-primary-text-color: oklch(0.21 0.004 270);
+    --button-danger-surface-color: oklch(0.68 0.19 25);
+    --button-danger-surface-color-hover: oklch(0.79 0.1188 25);
+    --button-danger-text-color: oklch(0.21 0.004 270);
+    --button-neutral-surface-color: oklch(0.395 0.004 270);
+    --button-neutral-surface-color-hover: oklch(0.49 0.004 270);
+    --button-neutral-text-color: oklch(0.985 0.004 270);
+    --note-success-surface-color: oklch(0.21 0.054 150);
+    --note-success-border-color: oklch(0.395 0.105 150);
+    --note-success-text-color: oklch(0.925 0.063 150);
+    --note-warning-surface-color: oklch(0.21 0.0434 75);
+    --note-warning-border-color: oklch(0.395 0.0817 75);
+    --note-warning-text-color: oklch(0.925 0.0604 75);
+    --note-danger-surface-color: oklch(0.21 0.0684 25);
+    --note-danger-border-color: oklch(0.395 0.133 25);
+    --note-danger-text-color: oklch(0.925 0.0373 25);
+    --note-neutral-surface-color: oklch(0.21 0.004 270);
+    --note-neutral-border-color: oklch(0.395 0.004 270);
+    --note-neutral-text-color: oklch(0.925 0.004 270);
+    --card-surface-color: oklch(0.3 0.004 270);
+    --card-border-color: oklch(0.49 0.004 270);
+    --badge-success-surface-color: oklch(0.21 0.054 150);
+    --badge-success-text-color: oklch(0.925 0.063 150);
+    --badge-warning-surface-color: oklch(0.21 0.0434 75);
+    --badge-warning-text-color: oklch(0.925 0.0604 75);
+    --badge-danger-surface-color: oklch(0.21 0.0684 25);
+    --badge-danger-text-color: oklch(0.925 0.0373 25);
+    --badge-neutral-surface-color: oklch(0.21 0.004 270);
+    --badge-neutral-text-color: oklch(0.925 0.004 270);
+    --input-surface-color: oklch(0.3 0.004 270);
+    --input-border-color: oklch(0.49 0.004 270);
+    --input-border-color-focus: oklch(0.68 0.1648 264);
+    --input-text-color: oklch(0.985 0.004 270);
+    --input-placeholder-color: oklch(0.79 0.004 270);
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
     --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
     --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.5);
@@ -87,6 +256,40 @@
   .shadow-demo { width: 100%; height: 96px; background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
   .radius-card .cap, .shadow-card .cap { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
   .radius-card .cap b, .shadow-card .cap b { color: var(--color-text); }
+  .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg); }
+  .demo-btn { font: var(--button-text-typography); border: 0; border-radius: var(--button-rounded); padding: var(--button-padding-block-spacing) var(--button-padding-inline-spacing); cursor: pointer; }
+  .demo-btn.v-primary { background: var(--button-primary-surface-color); color: var(--button-primary-text-color); }
+  .demo-btn.v-primary:hover { background: var(--button-primary-surface-color-hover); }
+  .demo-btn.v-danger { background: var(--button-danger-surface-color); color: var(--button-danger-text-color); }
+  .demo-btn.v-danger:hover { background: var(--button-danger-surface-color-hover); }
+  .demo-btn.v-neutral { background: var(--button-neutral-surface-color); color: var(--button-neutral-text-color); }
+  .demo-btn.v-neutral:hover { background: var(--button-neutral-surface-color-hover); }
+  .demo-btn.v-text { background: var(--button-text-surface-color); color: var(--button-text-text-color); }
+  .demo-btn.v-text:hover { background: var(--button-text-surface-color-hover); }
+  .demo-btn.v-rounded { background: var(--button-rounded-surface-color); color: var(--button-rounded-text-color); }
+  .demo-btn.v-rounded:hover { background: var(--button-rounded-surface-color-hover); }
+  .demo-btn.v-padding { background: var(--button-padding-surface-color); color: var(--button-padding-text-color); }
+  .demo-btn.v-padding:hover { background: var(--button-padding-surface-color-hover); }
+  .note-card { font: var(--note-text-typography); border: 1px solid; border-radius: var(--note-rounded); padding: var(--note-padding-block-spacing) var(--note-padding-inline-spacing); flex: 1 1 220px; }
+  .demo-card { background: var(--card-surface-color); border: 1px solid var(--card-border-color); border-radius: var(--card-rounded); padding: var(--card-padding-spacing); box-shadow: var(--card-shadow); flex: 1 1 280px; display: grid; gap: var(--space-sm); }
+  .demo-badge { font: var(--badge-text-typography); border-radius: var(--badge-rounded); padding: var(--badge-padding-block-spacing) var(--badge-padding-inline-spacing); }
+  .demo-badge.v-success { background: var(--badge-success-surface-color); color: var(--badge-success-text-color); }
+  .demo-badge.v-warning { background: var(--badge-warning-surface-color); color: var(--badge-warning-text-color); }
+  .demo-badge.v-danger { background: var(--badge-danger-surface-color); color: var(--badge-danger-text-color); }
+  .demo-badge.v-neutral { background: var(--badge-neutral-surface-color); color: var(--badge-neutral-text-color); }
+  .demo-badge.v-text { background: var(--badge-text-surface-color); color: var(--badge-text-text-color); }
+  .demo-badge.v-rounded { background: var(--badge-rounded-surface-color); color: var(--badge-rounded-text-color); }
+  .demo-badge.v-padding { background: var(--badge-padding-surface-color); color: var(--badge-padding-text-color); }
+  .demo-input { font: var(--input-text-typography); color: var(--input-text-color); background: var(--input-surface-color); border: 1px solid var(--input-border-color); border-radius: var(--input-rounded); padding: var(--input-padding-block-spacing) var(--input-padding-inline-spacing); width: min(100%, 420px); box-sizing: border-box; }
+  .demo-note { color: var(--color-text-muted); font-size: 0.875rem; margin: 0 0 var(--space-sm); }
+  .demo-input::placeholder { color: var(--input-placeholder-color); }
+  .demo-input:focus { outline: none; border-color: var(--input-border-color-focus); }
+  .comp-name { font-size: 1.563rem; font-weight: 500; line-height: 1.3; margin: var(--space-xl) 0 var(--space-xs); }
+  .ctokens { margin: 0; }
+  .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
+  .ctoken .chip2 { width: 20px; height: 20px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); flex: none; }
+  .ctoken code { font-size: 0.75rem; }
+  .ctoken .refs { margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-muted); text-align: right; }
   .theme-toggle { font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
   .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
   @media (max-width: 720px) { .masthead h1 { font-size: 1.953rem; } }
@@ -98,33 +301,33 @@
     <div>
       <p class="eyebrow">Token Catalog · version alpha</p>
       <h1>Personal Design System</h1>
-      <p class="sub">DESIGN.md から自動生成。foundation は primitive ＋ role→スケール参照だけを持つ（semantic は無い）。このページの chrome 色は 1 消費者としての resolve。</p>
+      <p class="sub">DESIGN.md から自動生成。層は primitive → 役割 → component（意味の完成点）。共有結合（semantic）層は共有される行が現れるまで作らない。このページの chrome は screen component トークンの消費。</p>
     </div>
     <button class="theme-toggle" id="themeToggle" aria-label="テーマ切替">◐ theme</button>
   </header>
 
   <nav class="toc" aria-label="目次">
-    <a href="#primitives">primitives</a><a href="#typography">typography</a>
-    <a href="#spacing">spacing</a><a href="#radius">radius</a><a href="#elevation">elevation</a>
+    <a href="#primitives">colors</a><a href="#typography">typography</a><a href="#spacing">spacing</a>
+    <a href="#radius">radius</a><a href="#elevation">elevation</a><a href="#roles">roles</a><a href="#components">components</a>
   </nav>
 
   <section id="primitives">
     <h2 class="section-title">Color — Primitive</h2>
-    <p class="section-note">トーナルスケール。OKLCH で色相ごとに H を固定し、明度 L を全色相共通の段で刻む。<b>このシステムが持つ唯一の「色」。</b>role がこのスケールを指し、段は消費側で resolve される。</p>
+    <p class="section-note">トーナルスケール（値の尺度）。OKLCH で色相ごとに H を固定し、明度 L を全色相共通の段で刻む。<b>このシステムが持つ唯一の「色」。</b>段は component×部位×役割が揃って初めて一意になる。</p>
     <div class="scale">
-      <div class="scale-head"><span class="name">neutral</span><span class="hue">H 270° · role: neutral</span></div>
+      <div class="scale-head"><span class="name">gray</span><span class="hue">H 270° · role: neutral</span></div>
       <div class="steps">
-        <div class="step"><div class="chip" style="background:oklch(0.985 0.004 270)" title="neutral-50  oklch(0.985 0.004 270)"></div><div class="lbl">50</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.965 0.004 270)" title="neutral-100  oklch(0.965 0.004 270)"></div><div class="lbl">100</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.925 0.004 270)" title="neutral-200  oklch(0.925 0.004 270)"></div><div class="lbl">200</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.87 0.004 270)" title="neutral-300  oklch(0.87 0.004 270)"></div><div class="lbl">300</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.79 0.004 270)" title="neutral-400  oklch(0.79 0.004 270)"></div><div class="lbl">400</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.68 0.004 270)" title="neutral-500  oklch(0.68 0.004 270)"></div><div class="lbl">500</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.585 0.004 270)" title="neutral-600  oklch(0.585 0.004 270)"></div><div class="lbl">600</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.49 0.004 270)" title="neutral-700  oklch(0.49 0.004 270)"></div><div class="lbl">700</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.395 0.004 270)" title="neutral-800  oklch(0.395 0.004 270)"></div><div class="lbl">800</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.3 0.004 270)" title="neutral-900  oklch(0.3 0.004 270)"></div><div class="lbl">900</div></div>
-        <div class="step"><div class="chip" style="background:oklch(0.21 0.004 270)" title="neutral-950  oklch(0.21 0.004 270)"></div><div class="lbl">950</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.004 270)" title="gray-50  oklch(0.985 0.004 270)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.004 270)" title="gray-100  oklch(0.965 0.004 270)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.004 270)" title="gray-200  oklch(0.925 0.004 270)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.004 270)" title="gray-300  oklch(0.87 0.004 270)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.004 270)" title="gray-400  oklch(0.79 0.004 270)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.004 270)" title="gray-500  oklch(0.68 0.004 270)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.004 270)" title="gray-600  oklch(0.585 0.004 270)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.004 270)" title="gray-700  oklch(0.49 0.004 270)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.004 270)" title="gray-800  oklch(0.395 0.004 270)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.004 270)" title="gray-900  oklch(0.3 0.004 270)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.004 270)" title="gray-950  oklch(0.21 0.004 270)"></div><div class="lbl">950</div></div>
       </div>
     </div>
     <div class="scale">
@@ -202,6 +405,7 @@
     <div class="type-row"><div class="meta">body-md · 1rem · 400 · lh 1.6 · system-ui</div><p class="specimen" style="font-size:1rem;font-weight:400;line-height:1.6;font-family:var(--font-sans)">本文。行長が伸びるほど行間を広げる。読みやすさは行長と行間で作る。</p></div>
     <div class="type-row"><div class="meta">body-sm · 0.875rem · 400 · lh 1.6 · system-ui</div><p class="specimen" style="font-size:0.875rem;font-weight:400;line-height:1.6;font-family:var(--font-sans)">補助本文。注釈やメタ情報など、主たる本文の一段下の情報に。</p></div>
     <div class="type-row"><div class="meta">caption · 0.75rem · 400 · lh 1.5 · system-ui</div><p class="specimen" style="font-size:0.75rem;font-weight:400;line-height:1.5;font-family:var(--font-sans)">キャプション。図表の説明やタイムスタンプなど最小の補助テキスト。</p></div>
+    <div class="type-row"><div class="meta">label · 0.875rem · 500 · lh 1.2 · system-ui</div><p class="specimen" style="font-size:0.875rem;font-weight:500;line-height:1.2;font-family:var(--font-sans)">ラベル。ボタン・フォームラベル等の1行 UI テキスト。</p></div>
     <div class="type-row"><div class="meta">code · 0.875rem · 400 · lh 1.6 · ui-monospace</div><p class="specimen" style="font-size:0.875rem;font-weight:400;line-height:1.6;font-family:var(--font-mono)">const token = "ui-monospace"; // 等幅</p></div>
   </section>
 
@@ -237,6 +441,198 @@
       <div class="shadow-card"><div class="shadow-demo" style="box-shadow:0 12px 32px rgb(0 0 0 / 0.14)"></div><div class="cap"><b>lg</b> · モーダル</div></div>
     </div>
   </section>
+  <section id="roles">
+    <h2 class="section-title">Roles（役割層）</h2>
+    <p class="section-note">意味の発生源。役割→色相族の対応だけを決め、トークン <code>&lt;役割&gt;-color-&lt;段&gt;</code> は roles から機械的に導出される。component はこの名前だけを参照し、色相族を知らない（族の付け替えは roles の1行）。役割が定義されているのは現在色だけ。</p>
+    <div class="scale">
+      <div class="scale-head"><span class="name">primary</span><span class="hue">→ blue</span></div>
+      <div class="steps">
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.0069 264)" title="primary-color-50  oklch(0.985 0.0069 264)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.0161 264)" title="primary-color-100  oklch(0.965 0.0161 264)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.0351 264)" title="primary-color-200  oklch(0.925 0.0351 264)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.0621 264)" title="primary-color-300  oklch(0.87 0.0621 264)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.1036 264)" title="primary-color-400  oklch(0.79 0.1036 264)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.1648 264)" title="primary-color-500  oklch(0.68 0.1648 264)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.17 264)" title="primary-color-600  oklch(0.585 0.17 264)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.1496 264)" title="primary-color-700  oklch(0.49 0.1496 264)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.119 264)" title="primary-color-800  oklch(0.395 0.119 264)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.0884 264)" title="primary-color-900  oklch(0.3 0.0884 264)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.0612 264)" title="primary-color-950  oklch(0.21 0.0612 264)"></div><div class="lbl">950</div></div>
+      </div>
+    </div>
+    <div class="scale">
+      <div class="scale-head"><span class="name">danger</span><span class="hue">→ red</span></div>
+      <div class="steps">
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.0071 25)" title="danger-color-50  oklch(0.985 0.0071 25)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.0168 25)" title="danger-color-100  oklch(0.965 0.0168 25)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.0373 25)" title="danger-color-200  oklch(0.925 0.0373 25)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.068 25)" title="danger-color-300  oklch(0.87 0.068 25)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.1188 25)" title="danger-color-400  oklch(0.79 0.1188 25)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.19 25)" title="danger-color-500  oklch(0.68 0.19 25)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.19 25)" title="danger-color-600  oklch(0.585 0.19 25)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.1672 25)" title="danger-color-700  oklch(0.49 0.1672 25)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.133 25)" title="danger-color-800  oklch(0.395 0.133 25)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.0988 25)" title="danger-color-900  oklch(0.3 0.0988 25)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.0684 25)" title="danger-color-950  oklch(0.21 0.0684 25)"></div><div class="lbl">950</div></div>
+      </div>
+    </div>
+    <div class="scale">
+      <div class="scale-head"><span class="name">warning</span><span class="hue">→ amber</span></div>
+      <div class="steps">
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.0117 75)" title="warning-color-50  oklch(0.985 0.0117 75)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.0276 75)" title="warning-color-100  oklch(0.965 0.0276 75)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.0604 75)" title="warning-color-200  oklch(0.925 0.0604 75)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.099 75)" title="warning-color-300  oklch(0.87 0.099 75)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.135 75)" title="warning-color-400  oklch(0.79 0.135 75)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.1406 75)" title="warning-color-500  oklch(0.68 0.1406 75)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.1209 75)" title="warning-color-600  oklch(0.585 0.1209 75)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.1013 75)" title="warning-color-700  oklch(0.49 0.1013 75)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.0817 75)" title="warning-color-800  oklch(0.395 0.0817 75)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.062 75)" title="warning-color-900  oklch(0.3 0.062 75)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.0434 75)" title="warning-color-950  oklch(0.21 0.0434 75)"></div><div class="lbl">950</div></div>
+      </div>
+    </div>
+    <div class="scale">
+      <div class="scale-head"><span class="name">success</span><span class="hue">→ green</span></div>
+      <div class="steps">
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.018 150)" title="success-color-50  oklch(0.985 0.018 150)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.033 150)" title="success-color-100  oklch(0.965 0.033 150)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.063 150)" title="success-color-200  oklch(0.925 0.063 150)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.099 150)" title="success-color-300  oklch(0.87 0.099 150)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.135 150)" title="success-color-400  oklch(0.79 0.135 150)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.15 150)" title="success-color-500  oklch(0.68 0.15 150)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.15 150)" title="success-color-600  oklch(0.585 0.15 150)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.132 150)" title="success-color-700  oklch(0.49 0.132 150)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.105 150)" title="success-color-800  oklch(0.395 0.105 150)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.078 150)" title="success-color-900  oklch(0.3 0.078 150)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.054 150)" title="success-color-950  oklch(0.21 0.054 150)"></div><div class="lbl">950</div></div>
+      </div>
+    </div>
+    <div class="scale">
+      <div class="scale-head"><span class="name">neutral</span><span class="hue">→ gray</span></div>
+      <div class="steps">
+        <div class="step"><div class="chip" style="background:oklch(0.985 0.004 270)" title="neutral-color-50  oklch(0.985 0.004 270)"></div><div class="lbl">50</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.965 0.004 270)" title="neutral-color-100  oklch(0.965 0.004 270)"></div><div class="lbl">100</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.925 0.004 270)" title="neutral-color-200  oklch(0.925 0.004 270)"></div><div class="lbl">200</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.87 0.004 270)" title="neutral-color-300  oklch(0.87 0.004 270)"></div><div class="lbl">300</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.79 0.004 270)" title="neutral-color-400  oklch(0.79 0.004 270)"></div><div class="lbl">400</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.68 0.004 270)" title="neutral-color-500  oklch(0.68 0.004 270)"></div><div class="lbl">500</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.585 0.004 270)" title="neutral-color-600  oklch(0.585 0.004 270)"></div><div class="lbl">600</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.49 0.004 270)" title="neutral-color-700  oklch(0.49 0.004 270)"></div><div class="lbl">700</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.395 0.004 270)" title="neutral-color-800  oklch(0.395 0.004 270)"></div><div class="lbl">800</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.3 0.004 270)" title="neutral-color-900  oklch(0.3 0.004 270)"></div><div class="lbl">900</div></div>
+        <div class="step"><div class="chip" style="background:oklch(0.21 0.004 270)" title="neutral-color-950  oklch(0.21 0.004 270)"></div><div class="lbl">950</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="components">
+    <h2 class="section-title">Components（意味の完成点）</h2>
+    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、このページのテーマ切替・ボタンの hover・input の focus がそのまま分岐の切替。</p>
+    <h3 class="comp-name">screen</h3>
+    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま screen のデモ。</p>
+    <div class="ctokens">
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-text-color)"></span><code>screen-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-text-muted-color)"></span><code>screen-text-muted-color</code><span class="refs">neutral-color-700 / neutral-color-400</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-background-color)"></span><code>screen-background-color</code><span class="refs">neutral-color-100 / neutral-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-surface-color)"></span><code>screen-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-border-color)"></span><code>screen-border-color</code><span class="refs">neutral-color-200 / neutral-color-700</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--screen-accent-color)"></span><code>screen-accent-color</code><span class="refs">primary-color-700 / primary-color-500</span></div>
+    </div>
+    <h3 class="comp-name">button</h3>
+    <div class="demo-row">
+      <button class="demo-btn v-primary">button · primary（hover で分岐）</button>
+      <button class="demo-btn v-danger">button · danger（hover で分岐）</button>
+      <button class="demo-btn v-neutral">button · neutral（hover で分岐）</button>
+      <button class="demo-btn v-text">button · text（hover で分岐）</button>
+      <button class="demo-btn v-rounded">button · rounded（hover で分岐）</button>
+      <button class="demo-btn v-padding">button · padding（hover で分岐）</button>
+    </div>
+    <div class="ctokens">
+      <div class="ctoken"><span class="chip2" style="background:var(--button-primary-surface-color)"></span><code>button-primary-surface-color</code><span class="refs">primary-color-700 / primary-color-500 / hover-light: primary-color-800 / hover-dark: primary-color-400</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--button-primary-text-color)"></span><code>button-primary-text-color</code><span class="refs">neutral-color-50 / neutral-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--button-danger-surface-color)"></span><code>button-danger-surface-color</code><span class="refs">danger-color-700 / danger-color-500 / hover-light: danger-color-800 / hover-dark: danger-color-400</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--button-danger-text-color)"></span><code>button-danger-text-color</code><span class="refs">neutral-color-50 / neutral-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--button-neutral-surface-color)"></span><code>button-neutral-surface-color</code><span class="refs">neutral-color-200 / neutral-color-800 / hover-light: neutral-color-300 / hover-dark: neutral-color-700</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--button-neutral-text-color)"></span><code>button-neutral-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-text-typography</code><span class="refs">label</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-rounded</code><span class="refs">md</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-padding-block-spacing</code><span class="refs">sm</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-padding-inline-spacing</code><span class="refs">lg</span></div>
+    </div>
+    <h3 class="comp-name">note</h3>
+    <div class="demo-row">
+      <div class="note-card" style="background:var(--note-success-surface-color);border-color:var(--note-success-border-color);color:var(--note-success-text-color)"><b>success</b> — 保存しました。</div>
+      <div class="note-card" style="background:var(--note-warning-surface-color);border-color:var(--note-warning-border-color);color:var(--note-warning-text-color)"><b>warning</b> — 未保存の変更があります。</div>
+      <div class="note-card" style="background:var(--note-danger-surface-color);border-color:var(--note-danger-border-color);color:var(--note-danger-text-color)"><b>danger</b> — この操作は取り消せません。</div>
+      <div class="note-card" style="background:var(--note-neutral-surface-color);border-color:var(--note-neutral-border-color);color:var(--note-neutral-text-color)"><b>neutral</b> — 補足: カタログは派生物。手編集しない。</div>
+      <div class="note-card" style="background:var(--note-text-surface-color);border-color:var(--note-text-border-color);color:var(--note-text-text-color)"><b>text</b> — </div>
+      <div class="note-card" style="background:var(--note-rounded-surface-color);border-color:var(--note-rounded-border-color);color:var(--note-rounded-text-color)"><b>rounded</b> — </div>
+      <div class="note-card" style="background:var(--note-padding-surface-color);border-color:var(--note-padding-border-color);color:var(--note-padding-text-color)"><b>padding</b> — </div>
+    </div>
+    <div class="ctokens">
+      <div class="ctoken"><span class="chip2" style="background:var(--note-success-surface-color)"></span><code>note-success-surface-color</code><span class="refs">success-color-100 / success-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--note-success-border-color)"></span><code>note-success-border-color</code><span class="refs">success-color-300 / success-color-800</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--note-success-text-color)"></span><code>note-success-text-color</code><span class="refs">success-color-900 / success-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--note-warning-surface-color)"></span><code>note-warning-surface-color</code><span class="refs">warning-color-100 / warning-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--note-warning-border-color)"></span><code>note-warning-border-color</code><span class="refs">warning-color-300 / warning-color-800</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--note-warning-text-color)"></span><code>note-warning-text-color</code><span class="refs">warning-color-900 / warning-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--note-danger-surface-color)"></span><code>note-danger-surface-color</code><span class="refs">danger-color-100 / danger-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--note-danger-border-color)"></span><code>note-danger-border-color</code><span class="refs">danger-color-300 / danger-color-800</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--note-danger-text-color)"></span><code>note-danger-text-color</code><span class="refs">danger-color-900 / danger-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--note-neutral-surface-color)"></span><code>note-neutral-surface-color</code><span class="refs">neutral-color-100 / neutral-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--note-neutral-border-color)"></span><code>note-neutral-border-color</code><span class="refs">neutral-color-300 / neutral-color-800</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--note-neutral-text-color)"></span><code>note-neutral-text-color</code><span class="refs">neutral-color-900 / neutral-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-text-typography</code><span class="refs">body-sm</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-rounded</code><span class="refs">md</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-padding-block-spacing</code><span class="refs">sm</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-padding-inline-spacing</code><span class="refs">md</span></div>
+    </div>
+    <h3 class="comp-name">card</h3>
+    <div class="demo-row">
+      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。</span></div>
+    </div>
+    <div class="ctokens">
+      <div class="ctoken"><span class="chip2" style="background:var(--card-surface-color)"></span><code>card-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--card-border-color)"></span><code>card-border-color</code><span class="refs">neutral-color-200 / neutral-color-700</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-rounded</code><span class="refs">md</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-padding-spacing</code><span class="refs">lg</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-shadow</code><span class="refs">sm</span></div>
+    </div>
+    <h3 class="comp-name">badge</h3>
+    <div class="demo-row">
+      <div><span class="demo-badge v-success">success</span> <span class="demo-badge v-warning">warning</span> <span class="demo-badge v-danger">danger</span> <span class="demo-badge v-neutral">neutral</span> <span class="demo-badge v-text">text</span> <span class="demo-badge v-rounded">rounded</span> <span class="demo-badge v-padding">padding</span></div>
+    </div>
+    <div class="ctokens">
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-success-surface-color)"></span><code>badge-success-surface-color</code><span class="refs">success-color-100 / success-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-success-text-color)"></span><code>badge-success-text-color</code><span class="refs">success-color-900 / success-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-warning-surface-color)"></span><code>badge-warning-surface-color</code><span class="refs">warning-color-100 / warning-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-warning-text-color)"></span><code>badge-warning-text-color</code><span class="refs">warning-color-900 / warning-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-danger-surface-color)"></span><code>badge-danger-surface-color</code><span class="refs">danger-color-100 / danger-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-danger-text-color)"></span><code>badge-danger-text-color</code><span class="refs">danger-color-900 / danger-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-neutral-surface-color)"></span><code>badge-neutral-surface-color</code><span class="refs">neutral-color-100 / neutral-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-neutral-text-color)"></span><code>badge-neutral-text-color</code><span class="refs">neutral-color-900 / neutral-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-text-typography</code><span class="refs">caption</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-rounded</code><span class="refs">sm</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-padding-block-spacing</code><span class="refs">xs</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-padding-inline-spacing</code><span class="refs">sm</span></div>
+    </div>
+    <h3 class="comp-name">input</h3>
+    <div class="demo-row">
+      <input class="demo-input" placeholder="placeholder は AA を通す段（focus で縁が分岐）" aria-label="input demo">
+    </div>
+    <div class="ctokens">
+      <div class="ctoken"><span class="chip2" style="background:var(--input-surface-color)"></span><code>input-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--input-border-color)"></span><code>input-border-color</code><span class="refs">neutral-color-300 / neutral-color-700 / focus-light: primary-color-700 / focus-dark: primary-color-500</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--input-text-color)"></span><code>input-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--input-placeholder-color)"></span><code>input-placeholder-color</code><span class="refs">neutral-color-700 / neutral-color-400</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-text-typography</code><span class="refs">body-md</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-rounded</code><span class="refs">sm</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-padding-block-spacing</code><span class="refs">sm</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-padding-inline-spacing</code><span class="refs">md</span></div>
+    </div>
+  </section>
+
 </div>
 
 <script>
