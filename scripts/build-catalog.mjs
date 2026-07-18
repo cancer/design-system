@@ -140,11 +140,19 @@ const statics = Object.entries(components).filter(([, t]) => typeof t === "strin
 for (const [k, t] of themed) {
   for (const mode of ["light", "dark"]) {
     if (!t[mode]) throw new Error(`components.${k}: ${mode} の分岐が無い`);
-    resolveRoleToken(t[mode], `components.${k}.${mode}`); // 事前検証
+  }
+  for (const key of Object.keys(t)) {
+    if (!/^(?:[a-z]+-)?(?:light|dark)$/.test(key)) throw new Error(`components.${k}: 不正な分岐キー "${key}"（light / dark / <state>-light / <state>-dark）`);
+    resolveRoleToken(t[key], `components.${k}.${key}`); // 事前検証
   }
 }
-const componentVars = (mode) => themed
-  .map(([k, t]) => `    --${k}: ${resolveRoleToken(t[mode], k)};`).join("\n");
+// theme ごとに base の変数、state 分岐は --<token>-<state> の変数として出す
+const componentVars = (mode) => themed.flatMap(([k, t]) =>
+  Object.keys(t).filter((key) => key.endsWith(mode))
+    .map((key) => {
+      const state = key === mode ? "" : `-${key.slice(0, -(mode.length + 1))}`;
+      return `    --${k}${state}: ${resolveRoleToken(t[key], k)};`;
+    })).join("\n");
 const staticVars = statics.map(([k, v]) => `    --${k}: ${resolveScaleToken(k, v)};`).join("\n");
 
 // ── カタログ自身の chrome は page component トークンを参照する ─────────
@@ -244,9 +252,17 @@ ${shadowVars(true)}
   .shadow-demo { width: 100%; height: 96px; background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
   .radius-card .cap, .shadow-card .cap { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
   .radius-card .cap b, .shadow-card .cap b { color: var(--color-text); }
-  .demo-row { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-lg); }
+  .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg); }
   .demo-btn { font: var(--button-text-typography); border: 0; border-radius: var(--button-rounded); padding: var(--button-padding-block-spacing) var(--button-padding-inline-spacing); cursor: pointer; }
+${variantsOf("button").map((v) => `  .demo-btn.v-${v} { background: var(--button-${v}-surface-color); color: var(--button-${v}-text-color); }
+  .demo-btn.v-${v}:hover { background: var(--button-${v}-surface-color-hover); }`).join("\n")}
   .note-card { font: var(--note-text-typography); border: 1px solid; border-radius: var(--note-rounded); padding: var(--note-padding-block-spacing) var(--note-padding-inline-spacing); flex: 1 1 220px; }
+  .demo-card { background: var(--card-surface-color); border: 1px solid var(--card-border-color); border-radius: var(--card-rounded); padding: var(--card-padding-spacing); box-shadow: var(--card-shadow); flex: 1 1 280px; display: grid; gap: var(--space-sm); }
+  .demo-badge { font: var(--badge-text-typography); border-radius: var(--badge-rounded); padding: var(--badge-padding-block-spacing) var(--badge-padding-inline-spacing); }
+${variantsOf("badge").map((v) => `  .demo-badge.v-${v} { background: var(--badge-${v}-surface-color); color: var(--badge-${v}-text-color); }`).join("\n")}
+  .demo-input { font: var(--input-text-typography); color: var(--input-text-color); background: var(--input-surface-color); border: 1px solid var(--input-border-color); border-radius: var(--input-rounded); padding: var(--input-padding-block-spacing) var(--input-padding-inline-spacing); width: 100%; box-sizing: border-box; }
+  .demo-input::placeholder { color: var(--input-placeholder-color); }
+  .demo-input:focus { outline: none; border-color: var(--input-border-color-focus); }
   .ctokens { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 0 var(--space-lg); margin-top: var(--space-md); }
   .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
   .ctoken .chip2 { width: 20px; height: 20px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); flex: none; }
@@ -295,15 +311,21 @@ ${strip({ steps })}
     <h2 class="section-title">Color — Components（意味の完成点）</h2>
     <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。値は役割層トークンへの参照。theme（light/dark）は名前へ焼き付けない分岐キーで、このページのテーマ切替がそのまま分岐の切替。</p>
     <div class="demo-row">
-${variantsOf("button").map((v) => `      <button class="demo-btn" style="background:var(--button-${v}-surface-color);color:var(--button-${v}-text-color)">button · ${v}</button>`).join("\n")}
+${variantsOf("button").map((v) => `      <button class="demo-btn v-${v}">button · ${v}</button>`).join("\n")}
     </div>
     <div class="demo-row">
 ${variantsOf("note").map((v) => `      <div class="note-card" style="background:var(--note-${v}-surface-color);border-color:var(--note-${v}-border-color);color:var(--note-${v}-text-color)"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`).join("\n")}
     </div>
+    <div class="demo-row">
+      <div class="demo-card">
+        <div>${variantsOf("badge").map((v) => `<span class="demo-badge v-${v}">${v}</span>`).join(" ")}</div>
+        <input class="demo-input" placeholder="input — placeholder は AA を通す段" aria-label="input demo">
+      </div>
+    </div>
 ${Object.entries(compGroups).map(([g, rows]) => `    <div class="ctokens" aria-label="${g}">
 ${rows.map(([k, t]) => typeof t === "string"
   ? `      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>${k}</code><span class="refs">${t}</span></div>`
-  : `      <div class="ctoken"><span class="chip2" style="background:var(--${k})"></span><code>${k}</code><span class="refs">${t.light} / ${t.dark}</span></div>`).join("\n")}
+  : `      <div class="ctoken"><span class="chip2" style="background:var(--${k})"></span><code>${k}</code><span class="refs">${Object.entries(t).map(([kk, v]) => (kk === "light" || kk === "dark" ? v : `${kk}: ${v}`)).join(" / ")}</span></div>`).join("\n")}
     </div>`).join("\n")}
   </section>
 

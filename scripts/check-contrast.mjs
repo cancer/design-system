@@ -24,13 +24,13 @@ for (const m of fm[1].matchAll(/^ {2}([a-z]+-\d+):\s*"(oklch\([^)]+\))"/gm)) col
 const rolesMap = {};
 const rolesBlock = fm[1].match(/^roles:\n((?: {2}.*\n?)*)/m);
 for (const m of (rolesBlock?.[1] || "").matchAll(/^ {2}([\w-]+):\s*([\w-]+)/gm)) rolesMap[m[1]] = m[2];
-const components = {}; // name -> {light, dark}
+const components = {}; // name -> {light, dark, <state>-light, <state>-dark, …}
 const compBlock = fm[1].match(/^components:\n((?: {2,}.*\n?)*)/m);
 let cur = null;
 for (const line of (compBlock?.[1] || "").split("\n")) {
   let m;
   if ((m = line.match(/^ {2}([\w-]+):\s*$/))) components[(cur = m[1])] = {};
-  else if (cur && (m = line.match(/^ {4}(light|dark):\s*([\w-]+)/))) components[cur][m[1]] = m[2];
+  else if (cur && (m = line.match(/^ {4}([\w-]+):\s*([\w-]+)/))) components[cur][m[1]] = m[2];
 }
 
 const resolveRole = (ref) => {
@@ -62,7 +62,7 @@ const contrast = (fg, bg) => {
 };
 
 // ── グループ化してペアを列挙 ──────────────────────────────────────────
-const FG_PARTS = ["text-muted", "text", "accent"];
+const FG_PARTS = ["text-muted", "text", "accent", "placeholder"];
 const BG_PARTS = ["surface", "background"];
 const partOf = (name) => {
   const stem = name.replace(/-color$/, "");
@@ -75,20 +75,25 @@ for (const name of Object.keys(components)) {
   (groups[group] ||= {})[part] = name;
 }
 
+// state 分岐（<state>-light 等）も検証する。fg 側に同じ分岐が無ければ同 theme の base に落とす。
+const themeOf = (key) => (key.endsWith("dark") ? "dark" : "light");
 const AA = 4.5;
 let fail = 0, checked = 0;
 for (const [group, parts] of Object.entries(groups)) {
   for (const fgPart of FG_PARTS) {
     for (const bgPart of BG_PARTS) {
       if (!parts[fgPart] || !parts[bgPart]) continue;
-      for (const mode of ["light", "dark"]) {
-        const fg = resolveRole(components[parts[fgPart]][mode]);
-        const bg = resolveRole(components[parts[bgPart]][mode]);
+      const fgTok = components[parts[fgPart]];
+      const bgTok = components[parts[bgPart]];
+      const keys = [...new Set([...Object.keys(fgTok), ...Object.keys(bgTok)])];
+      for (const key of keys) {
+        const fg = resolveRole(fgTok[key] ?? fgTok[themeOf(key)]);
+        const bg = resolveRole(bgTok[key] ?? bgTok[themeOf(key)]);
         const c = contrast(fg, bg);
         checked++;
         const ok = c >= AA;
         if (!ok) fail++;
-        console.log(`${ok ? "PASS" : "FAIL"} ${c.toFixed(2).padStart(5)} ${mode.padEnd(5)} ${group}: ${fgPart} on ${bgPart}`);
+        console.log(`${ok ? "PASS" : "FAIL"} ${c.toFixed(2).padStart(5)} ${key.padEnd(11)} ${group}: ${fgPart} on ${bgPart}`);
       }
     }
   }

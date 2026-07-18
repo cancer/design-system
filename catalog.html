@@ -8,10 +8,13 @@
     --page-border-color: oklch(0.925 0.004 270);
     --page-accent-color: oklch(0.49 0.1496 264);
     --button-primary-surface-color: oklch(0.49 0.1496 264);
+    --button-primary-surface-color-hover: oklch(0.395 0.119 264);
     --button-primary-text-color: oklch(0.985 0.004 270);
     --button-danger-surface-color: oklch(0.49 0.1672 25);
+    --button-danger-surface-color-hover: oklch(0.395 0.133 25);
     --button-danger-text-color: oklch(0.985 0.004 270);
     --button-neutral-surface-color: oklch(0.925 0.004 270);
+    --button-neutral-surface-color-hover: oklch(0.87 0.004 270);
     --button-neutral-text-color: oklch(0.3 0.004 270);
     --note-success-surface-color: oklch(0.965 0.033 150);
     --note-success-border-color: oklch(0.87 0.099 150);
@@ -25,6 +28,21 @@
     --note-neutral-surface-color: oklch(0.965 0.004 270);
     --note-neutral-border-color: oklch(0.87 0.004 270);
     --note-neutral-text-color: oklch(0.3 0.004 270);
+    --card-surface-color: oklch(0.985 0.004 270);
+    --card-border-color: oklch(0.925 0.004 270);
+    --badge-success-surface-color: oklch(0.965 0.033 150);
+    --badge-success-text-color: oklch(0.3 0.078 150);
+    --badge-warning-surface-color: oklch(0.965 0.0276 75);
+    --badge-warning-text-color: oklch(0.3 0.062 75);
+    --badge-danger-surface-color: oklch(0.965 0.0168 25);
+    --badge-danger-text-color: oklch(0.3 0.0988 25);
+    --badge-neutral-surface-color: oklch(0.965 0.004 270);
+    --badge-neutral-text-color: oklch(0.3 0.004 270);
+    --input-surface-color: oklch(0.985 0.004 270);
+    --input-border-color: oklch(0.87 0.004 270);
+    --input-border-color-focus: oklch(0.49 0.1496 264);
+    --input-text-color: oklch(0.3 0.004 270);
+    --input-placeholder-color: oklch(0.49 0.004 270);
     --button-text-typography: 500 0.875rem/1.2 var(--font-sans);
     --button-rounded: 0.5rem;
     --button-padding-block-spacing: 0.5rem;
@@ -33,6 +51,17 @@
     --note-rounded: 0.5rem;
     --note-padding-block-spacing: 0.5rem;
     --note-padding-inline-spacing: 1rem;
+    --card-rounded: 0.5rem;
+    --card-padding-spacing: 1.5rem;
+    --card-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+    --badge-text-typography: 400 0.75rem/1.5 var(--font-sans);
+    --badge-rounded: 0.25rem;
+    --badge-padding-block-spacing: 0.25rem;
+    --badge-padding-inline-spacing: 0.5rem;
+    --input-text-typography: 400 1rem/1.6 var(--font-sans);
+    --input-rounded: 0.25rem;
+    --input-padding-block-spacing: 0.5rem;
+    --input-padding-inline-spacing: 1rem;
     --color-background: var(--page-background-color);
     --color-surface: var(--page-surface-color);
     --color-border: var(--page-border-color);
@@ -57,10 +86,13 @@
     --page-border-color: oklch(0.49 0.004 270);
     --page-accent-color: oklch(0.68 0.1648 264);
     --button-primary-surface-color: oklch(0.68 0.1648 264);
+    --button-primary-surface-color-hover: oklch(0.79 0.1036 264);
     --button-primary-text-color: oklch(0.21 0.004 270);
     --button-danger-surface-color: oklch(0.68 0.19 25);
+    --button-danger-surface-color-hover: oklch(0.79 0.1188 25);
     --button-danger-text-color: oklch(0.21 0.004 270);
     --button-neutral-surface-color: oklch(0.395 0.004 270);
+    --button-neutral-surface-color-hover: oklch(0.49 0.004 270);
     --button-neutral-text-color: oklch(0.985 0.004 270);
     --note-success-surface-color: oklch(0.21 0.054 150);
     --note-success-border-color: oklch(0.395 0.105 150);
@@ -74,6 +106,21 @@
     --note-neutral-surface-color: oklch(0.21 0.004 270);
     --note-neutral-border-color: oklch(0.395 0.004 270);
     --note-neutral-text-color: oklch(0.925 0.004 270);
+    --card-surface-color: oklch(0.3 0.004 270);
+    --card-border-color: oklch(0.49 0.004 270);
+    --badge-success-surface-color: oklch(0.21 0.054 150);
+    --badge-success-text-color: oklch(0.925 0.063 150);
+    --badge-warning-surface-color: oklch(0.21 0.0434 75);
+    --badge-warning-text-color: oklch(0.925 0.0604 75);
+    --badge-danger-surface-color: oklch(0.21 0.0684 25);
+    --badge-danger-text-color: oklch(0.925 0.0373 25);
+    --badge-neutral-surface-color: oklch(0.21 0.004 270);
+    --badge-neutral-text-color: oklch(0.925 0.004 270);
+    --input-surface-color: oklch(0.3 0.004 270);
+    --input-border-color: oklch(0.49 0.004 270);
+    --input-border-color-focus: oklch(0.68 0.1648 264);
+    --input-text-color: oklch(0.985 0.004 270);
+    --input-placeholder-color: oklch(0.79 0.004 270);
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
     --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
     --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.5);
@@ -87,10 +134,13 @@
     --page-border-color: oklch(0.925 0.004 270);
     --page-accent-color: oklch(0.49 0.1496 264);
     --button-primary-surface-color: oklch(0.49 0.1496 264);
+    --button-primary-surface-color-hover: oklch(0.395 0.119 264);
     --button-primary-text-color: oklch(0.985 0.004 270);
     --button-danger-surface-color: oklch(0.49 0.1672 25);
+    --button-danger-surface-color-hover: oklch(0.395 0.133 25);
     --button-danger-text-color: oklch(0.985 0.004 270);
     --button-neutral-surface-color: oklch(0.925 0.004 270);
+    --button-neutral-surface-color-hover: oklch(0.87 0.004 270);
     --button-neutral-text-color: oklch(0.3 0.004 270);
     --note-success-surface-color: oklch(0.965 0.033 150);
     --note-success-border-color: oklch(0.87 0.099 150);
@@ -104,6 +154,21 @@
     --note-neutral-surface-color: oklch(0.965 0.004 270);
     --note-neutral-border-color: oklch(0.87 0.004 270);
     --note-neutral-text-color: oklch(0.3 0.004 270);
+    --card-surface-color: oklch(0.985 0.004 270);
+    --card-border-color: oklch(0.925 0.004 270);
+    --badge-success-surface-color: oklch(0.965 0.033 150);
+    --badge-success-text-color: oklch(0.3 0.078 150);
+    --badge-warning-surface-color: oklch(0.965 0.0276 75);
+    --badge-warning-text-color: oklch(0.3 0.062 75);
+    --badge-danger-surface-color: oklch(0.965 0.0168 25);
+    --badge-danger-text-color: oklch(0.3 0.0988 25);
+    --badge-neutral-surface-color: oklch(0.965 0.004 270);
+    --badge-neutral-text-color: oklch(0.3 0.004 270);
+    --input-surface-color: oklch(0.985 0.004 270);
+    --input-border-color: oklch(0.87 0.004 270);
+    --input-border-color-focus: oklch(0.49 0.1496 264);
+    --input-text-color: oklch(0.3 0.004 270);
+    --input-placeholder-color: oklch(0.49 0.004 270);
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
     --shadow-md: 0 4px 12px rgb(0 0 0 / 0.10);
     --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.14);
@@ -116,10 +181,13 @@
     --page-border-color: oklch(0.49 0.004 270);
     --page-accent-color: oklch(0.68 0.1648 264);
     --button-primary-surface-color: oklch(0.68 0.1648 264);
+    --button-primary-surface-color-hover: oklch(0.79 0.1036 264);
     --button-primary-text-color: oklch(0.21 0.004 270);
     --button-danger-surface-color: oklch(0.68 0.19 25);
+    --button-danger-surface-color-hover: oklch(0.79 0.1188 25);
     --button-danger-text-color: oklch(0.21 0.004 270);
     --button-neutral-surface-color: oklch(0.395 0.004 270);
+    --button-neutral-surface-color-hover: oklch(0.49 0.004 270);
     --button-neutral-text-color: oklch(0.985 0.004 270);
     --note-success-surface-color: oklch(0.21 0.054 150);
     --note-success-border-color: oklch(0.395 0.105 150);
@@ -133,6 +201,21 @@
     --note-neutral-surface-color: oklch(0.21 0.004 270);
     --note-neutral-border-color: oklch(0.395 0.004 270);
     --note-neutral-text-color: oklch(0.925 0.004 270);
+    --card-surface-color: oklch(0.3 0.004 270);
+    --card-border-color: oklch(0.49 0.004 270);
+    --badge-success-surface-color: oklch(0.21 0.054 150);
+    --badge-success-text-color: oklch(0.925 0.063 150);
+    --badge-warning-surface-color: oklch(0.21 0.0434 75);
+    --badge-warning-text-color: oklch(0.925 0.0604 75);
+    --badge-danger-surface-color: oklch(0.21 0.0684 25);
+    --badge-danger-text-color: oklch(0.925 0.0373 25);
+    --badge-neutral-surface-color: oklch(0.21 0.004 270);
+    --badge-neutral-text-color: oklch(0.925 0.004 270);
+    --input-surface-color: oklch(0.3 0.004 270);
+    --input-border-color: oklch(0.49 0.004 270);
+    --input-border-color-focus: oklch(0.68 0.1648 264);
+    --input-text-color: oklch(0.985 0.004 270);
+    --input-placeholder-color: oklch(0.79 0.004 270);
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
     --shadow-md: 0 4px 12px rgb(0 0 0 / 0.5);
     --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.5);
@@ -173,9 +256,33 @@
   .shadow-demo { width: 100%; height: 96px; background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
   .radius-card .cap, .shadow-card .cap { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
   .radius-card .cap b, .shadow-card .cap b { color: var(--color-text); }
-  .demo-row { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-lg); }
+  .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg); }
   .demo-btn { font: var(--button-text-typography); border: 0; border-radius: var(--button-rounded); padding: var(--button-padding-block-spacing) var(--button-padding-inline-spacing); cursor: pointer; }
+  .demo-btn.v-primary { background: var(--button-primary-surface-color); color: var(--button-primary-text-color); }
+  .demo-btn.v-primary:hover { background: var(--button-primary-surface-color-hover); }
+  .demo-btn.v-danger { background: var(--button-danger-surface-color); color: var(--button-danger-text-color); }
+  .demo-btn.v-danger:hover { background: var(--button-danger-surface-color-hover); }
+  .demo-btn.v-neutral { background: var(--button-neutral-surface-color); color: var(--button-neutral-text-color); }
+  .demo-btn.v-neutral:hover { background: var(--button-neutral-surface-color-hover); }
+  .demo-btn.v-text { background: var(--button-text-surface-color); color: var(--button-text-text-color); }
+  .demo-btn.v-text:hover { background: var(--button-text-surface-color-hover); }
+  .demo-btn.v-rounded { background: var(--button-rounded-surface-color); color: var(--button-rounded-text-color); }
+  .demo-btn.v-rounded:hover { background: var(--button-rounded-surface-color-hover); }
+  .demo-btn.v-padding { background: var(--button-padding-surface-color); color: var(--button-padding-text-color); }
+  .demo-btn.v-padding:hover { background: var(--button-padding-surface-color-hover); }
   .note-card { font: var(--note-text-typography); border: 1px solid; border-radius: var(--note-rounded); padding: var(--note-padding-block-spacing) var(--note-padding-inline-spacing); flex: 1 1 220px; }
+  .demo-card { background: var(--card-surface-color); border: 1px solid var(--card-border-color); border-radius: var(--card-rounded); padding: var(--card-padding-spacing); box-shadow: var(--card-shadow); flex: 1 1 280px; display: grid; gap: var(--space-sm); }
+  .demo-badge { font: var(--badge-text-typography); border-radius: var(--badge-rounded); padding: var(--badge-padding-block-spacing) var(--badge-padding-inline-spacing); }
+  .demo-badge.v-success { background: var(--badge-success-surface-color); color: var(--badge-success-text-color); }
+  .demo-badge.v-warning { background: var(--badge-warning-surface-color); color: var(--badge-warning-text-color); }
+  .demo-badge.v-danger { background: var(--badge-danger-surface-color); color: var(--badge-danger-text-color); }
+  .demo-badge.v-neutral { background: var(--badge-neutral-surface-color); color: var(--badge-neutral-text-color); }
+  .demo-badge.v-text { background: var(--badge-text-surface-color); color: var(--badge-text-text-color); }
+  .demo-badge.v-rounded { background: var(--badge-rounded-surface-color); color: var(--badge-rounded-text-color); }
+  .demo-badge.v-padding { background: var(--badge-padding-surface-color); color: var(--badge-padding-text-color); }
+  .demo-input { font: var(--input-text-typography); color: var(--input-text-color); background: var(--input-surface-color); border: 1px solid var(--input-border-color); border-radius: var(--input-rounded); padding: var(--input-padding-block-spacing) var(--input-padding-inline-spacing); width: 100%; box-sizing: border-box; }
+  .demo-input::placeholder { color: var(--input-placeholder-color); }
+  .demo-input:focus { outline: none; border-color: var(--input-border-color-focus); }
   .ctokens { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 0 var(--space-lg); margin-top: var(--space-md); }
   .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
   .ctoken .chip2 { width: 20px; height: 20px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); flex: none; }
@@ -376,12 +483,12 @@
     <h2 class="section-title">Color — Components（意味の完成点）</h2>
     <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。値は役割層トークンへの参照。theme（light/dark）は名前へ焼き付けない分岐キーで、このページのテーマ切替がそのまま分岐の切替。</p>
     <div class="demo-row">
-      <button class="demo-btn" style="background:var(--button-primary-surface-color);color:var(--button-primary-text-color)">button · primary</button>
-      <button class="demo-btn" style="background:var(--button-danger-surface-color);color:var(--button-danger-text-color)">button · danger</button>
-      <button class="demo-btn" style="background:var(--button-neutral-surface-color);color:var(--button-neutral-text-color)">button · neutral</button>
-      <button class="demo-btn" style="background:var(--button-text-surface-color);color:var(--button-text-text-color)">button · text</button>
-      <button class="demo-btn" style="background:var(--button-rounded-surface-color);color:var(--button-rounded-text-color)">button · rounded</button>
-      <button class="demo-btn" style="background:var(--button-padding-surface-color);color:var(--button-padding-text-color)">button · padding</button>
+      <button class="demo-btn v-primary">button · primary</button>
+      <button class="demo-btn v-danger">button · danger</button>
+      <button class="demo-btn v-neutral">button · neutral</button>
+      <button class="demo-btn v-text">button · text</button>
+      <button class="demo-btn v-rounded">button · rounded</button>
+      <button class="demo-btn v-padding">button · padding</button>
     </div>
     <div class="demo-row">
       <div class="note-card" style="background:var(--note-success-surface-color);border-color:var(--note-success-border-color);color:var(--note-success-text-color)"><b>success</b> — 保存しました。</div>
@@ -392,6 +499,12 @@
       <div class="note-card" style="background:var(--note-rounded-surface-color);border-color:var(--note-rounded-border-color);color:var(--note-rounded-text-color)"><b>rounded</b> — </div>
       <div class="note-card" style="background:var(--note-padding-surface-color);border-color:var(--note-padding-border-color);color:var(--note-padding-text-color)"><b>padding</b> — </div>
     </div>
+    <div class="demo-row">
+      <div class="demo-card">
+        <div><span class="demo-badge v-success">success</span> <span class="demo-badge v-warning">warning</span> <span class="demo-badge v-danger">danger</span> <span class="demo-badge v-neutral">neutral</span> <span class="demo-badge v-text">text</span> <span class="demo-badge v-rounded">rounded</span> <span class="demo-badge v-padding">padding</span></div>
+        <input class="demo-input" placeholder="input — placeholder は AA を通す段" aria-label="input demo">
+      </div>
+    </div>
     <div class="ctokens" aria-label="page">
       <div class="ctoken"><span class="chip2" style="background:var(--page-text-color)"></span><code>page-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--page-text-muted-color)"></span><code>page-text-muted-color</code><span class="refs">neutral-color-700 / neutral-color-400</span></div>
@@ -401,11 +514,11 @@
       <div class="ctoken"><span class="chip2" style="background:var(--page-accent-color)"></span><code>page-accent-color</code><span class="refs">primary-color-700 / primary-color-500</span></div>
     </div>
     <div class="ctokens" aria-label="button">
-      <div class="ctoken"><span class="chip2" style="background:var(--button-primary-surface-color)"></span><code>button-primary-surface-color</code><span class="refs">primary-color-700 / primary-color-500</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--button-primary-surface-color)"></span><code>button-primary-surface-color</code><span class="refs">primary-color-700 / primary-color-500 / hover-light: primary-color-800 / hover-dark: primary-color-400</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--button-primary-text-color)"></span><code>button-primary-text-color</code><span class="refs">neutral-color-50 / neutral-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--button-danger-surface-color)"></span><code>button-danger-surface-color</code><span class="refs">danger-color-700 / danger-color-500</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--button-danger-surface-color)"></span><code>button-danger-surface-color</code><span class="refs">danger-color-700 / danger-color-500 / hover-light: danger-color-800 / hover-dark: danger-color-400</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--button-danger-text-color)"></span><code>button-danger-text-color</code><span class="refs">neutral-color-50 / neutral-color-950</span></div>
-      <div class="ctoken"><span class="chip2" style="background:var(--button-neutral-surface-color)"></span><code>button-neutral-surface-color</code><span class="refs">neutral-color-200 / neutral-color-800</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--button-neutral-surface-color)"></span><code>button-neutral-surface-color</code><span class="refs">neutral-color-200 / neutral-color-800 / hover-light: neutral-color-300 / hover-dark: neutral-color-700</span></div>
       <div class="ctoken"><span class="chip2" style="background:var(--button-neutral-text-color)"></span><code>button-neutral-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-text-typography</code><span class="refs">label</span></div>
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>button-rounded</code><span class="refs">md</span></div>
@@ -429,6 +542,37 @@
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-rounded</code><span class="refs">md</span></div>
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-padding-block-spacing</code><span class="refs">sm</span></div>
       <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>note-padding-inline-spacing</code><span class="refs">md</span></div>
+    </div>
+    <div class="ctokens" aria-label="card">
+      <div class="ctoken"><span class="chip2" style="background:var(--card-surface-color)"></span><code>card-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--card-border-color)"></span><code>card-border-color</code><span class="refs">neutral-color-200 / neutral-color-700</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-rounded</code><span class="refs">md</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-padding-spacing</code><span class="refs">lg</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>card-shadow</code><span class="refs">sm</span></div>
+    </div>
+    <div class="ctokens" aria-label="badge">
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-success-surface-color)"></span><code>badge-success-surface-color</code><span class="refs">success-color-100 / success-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-success-text-color)"></span><code>badge-success-text-color</code><span class="refs">success-color-900 / success-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-warning-surface-color)"></span><code>badge-warning-surface-color</code><span class="refs">warning-color-100 / warning-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-warning-text-color)"></span><code>badge-warning-text-color</code><span class="refs">warning-color-900 / warning-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-danger-surface-color)"></span><code>badge-danger-surface-color</code><span class="refs">danger-color-100 / danger-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-danger-text-color)"></span><code>badge-danger-text-color</code><span class="refs">danger-color-900 / danger-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-neutral-surface-color)"></span><code>badge-neutral-surface-color</code><span class="refs">neutral-color-100 / neutral-color-950</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--badge-neutral-text-color)"></span><code>badge-neutral-text-color</code><span class="refs">neutral-color-900 / neutral-color-200</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-text-typography</code><span class="refs">caption</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-rounded</code><span class="refs">sm</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-padding-block-spacing</code><span class="refs">xs</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>badge-padding-inline-spacing</code><span class="refs">sm</span></div>
+    </div>
+    <div class="ctokens" aria-label="input">
+      <div class="ctoken"><span class="chip2" style="background:var(--input-surface-color)"></span><code>input-surface-color</code><span class="refs">neutral-color-50 / neutral-color-900</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--input-border-color)"></span><code>input-border-color</code><span class="refs">neutral-color-300 / neutral-color-700 / focus-light: primary-color-700 / focus-dark: primary-color-500</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--input-text-color)"></span><code>input-text-color</code><span class="refs">neutral-color-900 / neutral-color-50</span></div>
+      <div class="ctoken"><span class="chip2" style="background:var(--input-placeholder-color)"></span><code>input-placeholder-color</code><span class="refs">neutral-color-700 / neutral-color-400</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-text-typography</code><span class="refs">body-md</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-rounded</code><span class="refs">sm</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-padding-block-spacing</code><span class="refs">sm</span></div>
+      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>input-padding-inline-spacing</code><span class="refs">md</span></div>
     </div>
   </section>
 
