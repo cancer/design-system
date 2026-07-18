@@ -103,19 +103,10 @@ const roleScales = Object.entries(rolesMap).map(([role, family]) => {
 // component トークンを component 名でグループ化（screen / button / note …）
 const compGroups = {};
 for (const [k, t] of Object.entries(components)) (compGroups[k.split("-")[0]] ||= []).push([k, t]);
-// button / note の variant（命名 <component>-<variant>-<部位>-color から抽出）
-const variantsOf = (comp) => [...new Set(Object.keys(components)
-  .filter((k) => k.startsWith(`${comp}-`)).map((k) => k.split("-")[1]))];
+// button / note 等の variant（色の行の命名 <component>-<variant>-<部位>-color から抽出。非色の行は含めない）
+const variantsOf = (comp) => [...new Set(Object.entries(components)
+  .filter(([k, t]) => k.startsWith(`${comp}-`) && typeof t === "object").map(([k]) => k.split("-")[1]))];
 const NOTE_SAMPLE = { success: "保存しました。", warning: "未保存の変更があります。", danger: "この操作は取り消せません。", neutral: "補足: カタログは派生物。手編集しない。" };
-// グループ見出し直下に置くデモ（screen はこのページの chrome 自体がデモ）
-const DEMO = {
-  screen: `    <p class="demo-note">このページの地・文字・縁・アクセントがそのまま screen のデモ。</p>\n`,
-  button: `    <div class="demo-row">\n${variantsOf("button").map((v) => `      <button class="demo-btn v-${v}">button · ${v}（hover で分岐）</button>`).join("\n")}\n    </div>\n`,
-  note: `    <div class="demo-row">\n${variantsOf("note").map((v) => `      <div class="note-card" style="background:var(--note-${v}-surface-color);border-color:var(--note-${v}-border-color);color:var(--note-${v}-text-color)"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`).join("\n")}\n    </div>\n`,
-  card: `    <div class="demo-row">\n      <div class="demo-card"><b>card</b><span>面の分離（shadow: sm）。</span></div>\n    </div>\n`,
-  badge: `    <div class="demo-row">\n      <div>${variantsOf("badge").map((v) => `<span class="demo-badge v-${v}">${v}</span>`).join(" ")}</div>\n    </div>\n`,
-  input: `    <div class="demo-row">\n      <input class="demo-input" placeholder="placeholder は AA を通す段（focus で縁が分岐）" aria-label="input demo">\n    </div>\n`,
-};
 
 // ── 役割層トークン <役割>-color-<段> を roles 経由で primitive へ解決 ──
 const ROLE_TOKEN_RE = /^([a-z]+)-color-(\d+)$/;
@@ -163,6 +154,65 @@ const componentVars = (mode) => themed.flatMap(([k, t]) =>
       return `    --${k}${state}: ${resolveRoleToken(t[key], k)};`;
     })).join("\n");
 const staticVars = statics.map(([k, v]) => `    --${k}: ${resolveScaleToken(k, v)};`).join("\n");
+
+// ── カタログ用スナップショット ─────────────────────────────────────────
+// カタログは variant × theme × state の全分岐を静的に描画する。hover / focus / テーマ切替の
+// 操作（JS・擬似クラス）に頼らない。各タイルは component 自身のトークンを resolve した値だけで組む。
+const cval = (name, key) => {
+  const t = components[name];
+  return resolveRoleToken(t[key] ?? t[key.endsWith("dark") ? "dark" : "light"], name);
+};
+const sval = (name) => resolveScaleToken(name, components[name]);
+// 対象行が持つ分岐キーの全列挙（light → state-light → dark → state-dark の順）
+const branchKeysOf = (names) => {
+  const keys = new Set();
+  for (const n of names) if (typeof components[n] === "object") for (const k of Object.keys(components[n])) keys.add(k);
+  const states = [...new Set([...keys].filter((k) => k.includes("-")).map((k) => k.split("-")[0]))];
+  return ["light", ...states.map((s) => `${s}-light`), "dark", ...states.map((s) => `${s}-dark`)];
+};
+// タイルの地は screen トークン（component は screen の上に置かれるため）
+// そのタイルが使うトークン名 → この分岐で実際に使われる参照（色は分岐の役割層トークン、非色は尺度キー）
+const useRef = (name, key) => {
+  const t = components[name];
+  return typeof t === "string" ? t : (t[key] ?? t[key.endsWith("dark") ? "dark" : "light"]);
+};
+const snap = (key, inner, uses) => `      <div class="snap" style="background:${cval("screen-background-color", key)};color:${cval("screen-text-color", key)}"><div class="snap-cap">${key}</div>${inner}<div class="uses" style="color:${cval("screen-text-muted-color", key)}">${uses.map((n) => `<div><code>${n}</code><span>${useRef(n, key)}</span></div>`).join("")}</div></div>`;
+// 分岐は theme で対になるため 2 カラム固定（light 系の行 → dark 系の行）。スクロールも任意折返しもしない
+const snapGrid = (tiles) => `    <div class="snap-grid">\n${tiles.join("\n")}\n    </div>\n`;
+
+const SNAPSHOTS = {
+  screen: () => snapGrid(["light", "dark"].map((key) => snap(key,
+    `<div style="display:grid;gap:${spacing.xs};width:100%"><span>text</span><span style="color:${cval("screen-text-muted-color", key)}">text-muted</span><span style="color:${cval("screen-accent-color", key)}">accent</span><div style="background:${cval("screen-surface-color", key)};border:1px solid ${cval("screen-border-color", key)};border-radius:${rounded.sm};padding:${spacing.xs} ${spacing.sm}">surface / border</div></div>`, ["screen-text-color","screen-text-muted-color","screen-accent-color","screen-background-color","screen-surface-color","screen-border-color"]))),
+  link: () => ["light", "dark"].map((th) => snapGrid(["", "hover-", "active-", "focus-"].map((st) => {
+    const key = `${st}${th}`;
+    const style = `color:${cval("link-text-color", key)};text-decoration:underline${st === "focus-" ? ";outline:auto;outline-offset:2px" : ""}`;
+    return snap(key, `本文の中の<a href="#link" style="${style}">リンク</a>はこう見える。`, ["link-text-color"]);
+  }))).join(""),
+  button: () => variantsOf("button").map((v) => {
+    const base = [`button-${v}-surface-color`, `button-${v}-text-color`, `button-${v}-text-typography`, `button-${v}-rounded`, `button-${v}-padding-block-spacing`, `button-${v}-padding-inline-spacing`];
+    return ["light", "dark"].map((th) => snapGrid(["", "hover-", "active-", "focus-", "disabled-"].map((st) => {
+      const key = `${st}${th}`;
+      const focus = st === "focus-";
+      const style = `background:${cval(`button-${v}-surface-color`, key)};color:${cval(`button-${v}-text-color`, key)};font:${sval(`button-${v}-text-typography`)};border:0;border-radius:${sval(`button-${v}-rounded`)};padding:${sval(`button-${v}-padding-block-spacing`)} ${sval(`button-${v}-padding-inline-spacing`)}${focus ? ";outline:auto;outline-offset:2px" : ""}`;
+      return snap(key, `<button style="${style}">${v}</button>`, base);
+    }))).join("");
+  }).join(""),
+  note: () => variantsOf("note").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
+    `<div style="background:${cval(`note-${v}-surface-color`, key)};border:1px solid ${cval(`note-${v}-border-color`, key)};color:${cval(`note-${v}-text-color`, key)};font:${sval(`note-${v}-text-typography`)};border-radius:${sval(`note-${v}-rounded`)};padding:${sval(`note-${v}-padding-block-spacing`)} ${sval(`note-${v}-padding-inline-spacing`)};width:100%"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`, [`note-${v}-surface-color`,`note-${v}-border-color`,`note-${v}-text-color`,`note-${v}-text-typography`,`note-${v}-rounded`,`note-${v}-padding-block-spacing`,`note-${v}-padding-inline-spacing`])))).join(""),
+  card: () => snapGrid(["light", "dark"].map((key) => snap(key,
+    `<div style="background:${cval("card-surface-color", key)};border:1px solid ${cval("card-border-color", key)};border-radius:${sval("card-rounded")};padding:${sval("card-padding-spacing")};box-shadow:${sval("card-shadow")};width:100%">card — 面の分離</div>`, ["card-surface-color","card-border-color","card-rounded","card-padding-spacing","card-shadow"]))),
+  badge: () => variantsOf("badge").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
+    `<span style="background:${cval(`badge-${v}-surface-color`, key)};color:${cval(`badge-${v}-text-color`, key)};font:${sval(`badge-${v}-text-typography`)};border-radius:${sval(`badge-${v}-rounded`)};padding:${sval(`badge-${v}-padding-block-spacing`)} ${sval(`badge-${v}-padding-inline-spacing`)}">${v}</span>`, [`badge-${v}-surface-color`,`badge-${v}-text-color`,`badge-${v}-text-typography`,`badge-${v}-rounded`,`badge-${v}-padding-block-spacing`,`badge-${v}-padding-inline-spacing`])))).join(""),
+  input: () => ["light", "dark"].map((th) => snapGrid(["", "hover-", "focus-", "disabled-", "invalid-"].map((st) => {
+    const key = `${st}${th}`;
+    const focus = st === "focus-";
+    const base = ["input-surface-color", "input-border-color", "input-text-color", "input-placeholder-color", "input-text-typography", "input-rounded", "input-padding-block-spacing", "input-padding-inline-spacing"];
+    const style = `background:${cval("input-surface-color", key)};color:${cval("input-text-color", key)};border:1px solid ${cval("input-border-color", key)};font:${sval("input-text-typography")};border-radius:${sval("input-rounded")};padding:${sval("input-padding-block-spacing")} ${sval("input-padding-inline-spacing")};width:100%;box-sizing:border-box${focus ? ";outline:auto;outline-offset:2px" : ""}`;
+    return snap(key,
+      `<input readonly value="入力済みの文字" style="${style}"><input readonly placeholder="placeholder" class="ph-${key.endsWith("dark") ? "dark" : "light"}" style="${style}">`,
+      base);
+  }))).join(""),
+};
 
 // ── カタログ自身の chrome は screen component トークンを参照する ─────────
 const chromeVars = `    --color-background: var(--screen-background-color);
@@ -261,24 +311,16 @@ ${shadowVars(true)}
   .shadow-demo { width: 100%; height: 96px; background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
   .radius-card .cap, .shadow-card .cap { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); text-align: center; }
   .radius-card .cap b, .shadow-card .cap b { color: var(--color-text); }
-  .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg); }
-  .demo-btn { font: var(--button-text-typography); border: 0; border-radius: var(--button-rounded); padding: var(--button-padding-block-spacing) var(--button-padding-inline-spacing); cursor: pointer; }
-${variantsOf("button").map((v) => `  .demo-btn.v-${v} { background: var(--button-${v}-surface-color); color: var(--button-${v}-text-color); }
-  .demo-btn.v-${v}:hover { background: var(--button-${v}-surface-color-hover); }`).join("\n")}
-  .note-card { font: var(--note-text-typography); border: 1px solid; border-radius: var(--note-rounded); padding: var(--note-padding-block-spacing) var(--note-padding-inline-spacing); flex: 1 1 220px; }
-  .demo-card { background: var(--card-surface-color); border: 1px solid var(--card-border-color); border-radius: var(--card-rounded); padding: var(--card-padding-spacing); box-shadow: var(--card-shadow); flex: 1 1 280px; display: grid; gap: var(--space-sm); }
-  .demo-badge { font: var(--badge-text-typography); border-radius: var(--badge-rounded); padding: var(--badge-padding-block-spacing) var(--badge-padding-inline-spacing); }
-${variantsOf("badge").map((v) => `  .demo-badge.v-${v} { background: var(--badge-${v}-surface-color); color: var(--badge-${v}-text-color); }`).join("\n")}
-  .demo-input { font: var(--input-text-typography); color: var(--input-text-color); background: var(--input-surface-color); border: 1px solid var(--input-border-color); border-radius: var(--input-rounded); padding: var(--input-padding-block-spacing) var(--input-padding-inline-spacing); width: min(100%, 420px); box-sizing: border-box; }
-  .demo-note { color: var(--color-text-muted); font-size: 0.875rem; margin: 0 0 var(--space-sm); }
-  .demo-input::placeholder { color: var(--input-placeholder-color); }
-  .demo-input:focus { outline: none; border-color: var(--input-border-color-focus); }
+  .snap-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm); margin-bottom: var(--space-md); }
+  .snap { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); display: grid; gap: var(--space-sm); justify-items: start; align-content: start; }
+  .snap-cap { font-family: var(--font-mono); font-size: 0.625rem; opacity: 0.7; }
+  .ph-light::placeholder { color: ${cval("input-placeholder-color", "light")}; opacity: 1; }
+  .ph-dark::placeholder { color: ${cval("input-placeholder-color", "dark")}; opacity: 1; }
   .comp-name { font-size: ${typography.h3.fontSize}; font-weight: ${typography.h3.fontWeight}; line-height: ${typography.h3.lineHeight}; margin: var(--space-xl) 0 var(--space-xs); }
-  .ctokens { margin: 0; }
-  .ctoken { display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-xs) 0; border-top: 1px solid var(--color-border); }
-  .ctoken .chip2 { width: 20px; height: 20px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); flex: none; }
-  .ctoken code { font-size: 0.75rem; }
-  .ctoken .refs { margin-left: auto; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-muted); text-align: right; }
+  .uses { font-family: var(--font-mono); font-size: 0.625rem; width: 100%; margin-top: var(--space-xs); }
+  .uses div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 var(--space-md); align-items: baseline; padding: 2px 0; border-top: 1px solid rgb(128 128 128 / 0.2); }
+  .uses code { word-break: break-word; }
+  .uses span { white-space: nowrap; }
   .theme-toggle { font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
   .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
   @media (max-width: 720px) { .masthead h1 { font-size: ${typography.h2.fontSize}; } }
@@ -352,13 +394,9 @@ ${strip({ steps })}
 
   <section id="components">
     <h2 class="section-title">Components（意味の完成点）</h2>
-    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、このページのテーマ切替・ボタンの hover・input の focus がそのまま分岐の切替。</p>
-${Object.entries(compGroups).map(([g, rows]) => `    <h3 class="comp-name">${g}</h3>
-${DEMO[g] || ""}    <div class="ctokens">
-${rows.map(([k, t]) => typeof t === "string"
-  ? `      <div class="ctoken"><span class="chip2" style="visibility:hidden"></span><code>${k}</code><span class="refs">${t}</span></div>`
-  : `      <div class="ctoken"><span class="chip2" style="background:var(--${k})"></span><code>${k}</code><span class="refs">${Object.entries(t).map(([kk, v]) => (kk === "light" || kk === "dark" ? v : `${kk}: ${v}`)).join(" / ")}</span></div>`).join("\n")}
-    </div>`).join("\n")}
+    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、以下は全分岐（variant × theme × state）の静的スナップショット。</p>
+${Object.keys(compGroups).map((g) => `    <h3 class="comp-name">${g}</h3>
+${SNAPSHOTS[g] ? SNAPSHOTS[g]() : ""}`).join("\n")}
   </section>
 
 </div>
