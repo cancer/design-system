@@ -107,6 +107,8 @@ for (const [k, t] of Object.entries(components)) (compGroups[k.split("-")[0]] ||
 const variantsOf = (comp) => [...new Set(Object.entries(components)
   .filter(([k, t]) => k.startsWith(`${comp}-`) && typeof t === "object").map(([k]) => k.split("-")[1]))];
 const NOTE_SAMPLE = { success: "保存しました。", warning: "未保存の変更があります。", danger: "この操作は取り消せません。", neutral: "補足: カタログは派生物。手編集しない。" };
+// icon のデモ用ダミーグリフ（サンプルコンテンツ。グリフの語彙は正に無く、プロジェクト側 DESIGN.md が定義する）
+const ICON_SAMPLE = `<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-0.125em"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-6"/></svg>`;
 
 // ── 役割層トークン <役割>-color-<段> を roles 経由で primitive へ解決 ──
 const ROLE_TOKEN_RE = /^([a-z]+)-color-(\d+)$/;
@@ -133,6 +135,11 @@ function resolveScaleToken(name, key) {
   if (name.endsWith("-rounded")) return pick(rounded, "rounded");
   if (name.endsWith("-spacing")) return pick(spacing, "spacing");
   if (name.endsWith("-shadow")) return pick(shadows, "shadow");
+  if (name.endsWith("-color")) {
+    // 分岐を持たない色の行は文脈への委譲だけ。値を持つ色は light/dark 分岐で役割層トークンを参照する
+    if (key === "currentColor") return key;
+    throw new Error(`components.${name}: 分岐を持たない色の行に書けるのは委譲キーワード currentColor のみ（"${key}"）`);
+  }
   throw new Error(`components.${name}: 値種別を名前から特定できない（-color/-typography/-rounded/-spacing/-shadow のいずれかで終える）`);
 }
 const themed = Object.entries(components).filter(([, t]) => typeof t === "object");
@@ -183,6 +190,13 @@ const snapGrid = (tiles) => `    <div class="snap-grid">\n${tiles.join("\n")}\n 
 const SNAPSHOTS = {
   screen: () => snapGrid(["light", "dark"].map((key) => snap(key,
     `<div style="display:grid;gap:${spacing.xs};width:100%"><span>text</span><span style="color:${cval("screen-text-muted-color", key)}">text-muted</span><span style="color:${cval("screen-accent-color", key)}">accent</span><div style="background:${cval("screen-surface-color", key)};border:1px solid ${cval("screen-border-color", key)};border-radius:${rounded.sm};padding:${spacing.xs} ${spacing.sm}">surface / border</div></div>`, ["screen-text-color","screen-text-muted-color","screen-accent-color","screen-background-color","screen-surface-color","screen-border-color"]))),
+  icon: () => snapGrid(["light", "dark"].map((key) => snap(key,
+    `<div style="display:flex;flex-wrap:wrap;gap:${spacing.md};align-items:center">${[
+      ["text", cval("screen-text-color", key)],
+      ["text-muted", cval("screen-text-muted-color", key)],
+      ["accent", cval("screen-accent-color", key)],
+    ].map(([lbl, c]) => `<span style="display:inline-flex;gap:${spacing.xs};align-items:center;color:${c}">${ICON_SAMPLE}${lbl}</span>`).join("")}</div>`,
+    ["icon-color"]))),
   link: () => ["light", "dark"].map((th) => snapGrid(["", "hover-", "active-", "focus-"].map((st) => {
     const key = `${st}${th}`;
     const style = `color:${cval("link-text-color", key)};text-decoration:underline${st === "focus-" ? ";outline:auto;outline-offset:2px" : ""}`;
