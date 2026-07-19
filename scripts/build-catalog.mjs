@@ -296,17 +296,22 @@ ${shadowVars(true)}
   .masthead h1 { font-size: ${typography.h1.fontSize}; font-weight: ${typography.h1.fontWeight}; line-height: ${typography.h1.lineHeight}; letter-spacing: ${typography.h1.letterSpacing}; margin: 0; text-wrap: balance; }
   .masthead .sub { color: var(--color-text-muted); font-size: 0.875rem; margin-top: var(--space-xs); }
   .eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-primary); margin: 0 0 var(--space-xs); }
-  section { margin-bottom: var(--space-3xl); scroll-margin-top: var(--space-lg); }
+  section, .scale[id], .sub-name[id] { scroll-margin-top: var(--space-lg); }
+  section { margin-bottom: var(--space-3xl); }
   h2.section-title { font-size: ${typography.h2.fontSize}; font-weight: ${typography.h2.fontWeight}; line-height: ${typography.h2.lineHeight}; letter-spacing: ${typography.h2.letterSpacing}; margin: 0 0 var(--space-xs); }
   .section-note { color: var(--color-text-muted); font-size: 0.875rem; max-width: 62ch; margin: 0 0 var(--space-lg); }
   code, .mono { font-family: var(--font-mono); font-size: 0.8125rem; }
-  nav.toc { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-2xl); }
-  nav.toc a { font-family: var(--font-mono); font-size: 0.75rem; text-decoration: none; color: var(--color-text-muted); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); transition: color .12s, border-color .12s; }
-  nav.toc a:hover { color: var(--color-primary); border-color: var(--color-primary); }
+  nav.toc { display: grid; gap: var(--space-sm); margin-bottom: var(--space-2xl); }
+  .toc-group { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
+  .toc-label { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted); min-width: 10ch; }
+  a.toc-label { text-decoration: none; }
+  a.toc-label:hover { color: var(--color-primary); }
+  nav.toc a:not(.toc-label) { font-family: var(--font-mono); font-size: 0.75rem; text-decoration: none; color: var(--color-text-muted); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); transition: color .12s, border-color .12s; }
+  nav.toc a:not(.toc-label):hover { color: var(--color-primary); border-color: var(--color-primary); }
   a:focus-visible, button:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: var(--radius-sm); }
   .scale { margin-bottom: var(--space-lg); }
   .scale-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-sm); }
-  .scale-head .name { font-weight: 700; font-size: 0.9375rem; }
+  .scale-head .name { font-weight: 700; font-size: 0.9375rem; margin: 0; }
   .scale-head .hue { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); }
   .steps { display: grid; grid-template-columns: repeat(11, 1fr); gap: 3px; }
   .step { display: flex; flex-direction: column; }
@@ -330,7 +335,7 @@ ${shadowVars(true)}
   .snap-cap { font-family: var(--font-mono); font-size: 0.625rem; opacity: 0.7; }
   .ph-light::placeholder { color: ${cval("input-placeholder-color", "light")}; opacity: 1; }
   .ph-dark::placeholder { color: ${cval("input-placeholder-color", "dark")}; opacity: 1; }
-  .comp-name { font-size: ${typography.h3.fontSize}; font-weight: ${typography.h3.fontWeight}; line-height: ${typography.h3.lineHeight}; margin: var(--space-xl) 0 var(--space-xs); }
+  .sub-name { font-size: ${typography.h3.fontSize}; font-weight: ${typography.h3.fontWeight}; line-height: ${typography.h3.lineHeight}; margin: var(--space-xl) 0 var(--space-xs); }
   .uses { font-family: var(--font-mono); font-size: 0.625rem; width: 100%; margin-top: var(--space-xs); }
   .uses div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 var(--space-md); align-items: baseline; padding: 2px 0; border-top: 1px solid rgb(128 128 128 / 0.2); }
   .uses code { word-break: break-word; }
@@ -352,21 +357,22 @@ ${shadowVars(true)}
   </header>
 
   <nav class="toc" aria-label="目次">
-    <a href="#primitives">colors</a><a href="#typography">typography</a><a href="#spacing">spacing</a>
-    <a href="#radius">radius</a><a href="#elevation">elevation</a><a href="#roles">roles</a><a href="#components">components</a>
+    <div class="toc-group"><a class="toc-label" href="#scale">scale</a><a href="#colors">colors</a><a href="#typography">typography</a><a href="#spacing">spacing</a><a href="#radius">radius</a><a href="#elevation">elevation</a></div>
+    <div class="toc-group"><a class="toc-label" href="#roles">roles</a>${Object.keys(rolesMap).map((r) => `<a href="#role-${r}">${r}</a>`).join("")}</div>
+    <div class="toc-group"><a class="toc-label" href="#components">components</a>${Object.keys(compGroups).map((g) => `<a href="#comp-${g}">${g}</a>`).join("")}</div>
   </nav>
 
-  <section id="primitives">
-    <h2 class="section-title">Color — Primitive</h2>
-    <p class="section-note">トーナルスケール（値の尺度）。OKLCH で色相ごとに H を固定し、明度 L を全色相共通の段で刻む。<b>このシステムが持つ唯一の「色」。</b>段は component×部位×役割が揃って初めて一意になる。</p>
+  <section id="scale">
+    <h2 class="section-title">Scale（値の尺度）</h2>
+    <p class="section-note">尺度は値の候補集合を提供し、後続の判断が参照する範囲を狭める。それ自体は UI 上の意味を持たない。値が一意になるのは component×部位×役割が揃った点。</p>
+
+    <h3 class="sub-name" id="colors">colors</h3>
+    <p class="section-note">トーナルスケール。OKLCH で色相ごとに H を固定し、明度 L を全色相共通の段で刻む。<b>このシステムが持つ唯一の「色」。</b></p>
 ${Object.entries(scales).map(([name, s]) => `    <div class="scale">
       <div class="scale-head"><span class="name">${name}</span><span class="hue">H ${hueOf(s.steps[0].value)}°${scaleRole[name] ? ` · role: ${scaleRole[name]}` : ""}</span></div>
 ${strip(s)}
     </div>`).join("\n")}
-  </section>
-
-  <section id="typography">
-    <h2 class="section-title">Typography</h2>
+    <h3 class="sub-name" id="typography">typography</h3>
     <p class="section-note">見出しは 1.25 (Major Third) スケール。フォントは <code>system-ui</code> / <code>ui-monospace</code> 既定で OS ネイティブに委ねる。</p>
 ${Object.entries(typography).map(([name, t]) => {
   const mono = /mono/.test(t.fontFamily);
@@ -374,24 +380,15 @@ ${Object.entries(typography).map(([name, t]) => {
   const style = `font-size:${t.fontSize};font-weight:${t.fontWeight};line-height:${t.lineHeight};${t.letterSpacing ? `letter-spacing:${t.letterSpacing};` : ""}font-family:${mono ? "var(--font-mono)" : "var(--font-sans)"}`;
   return `    <div class="type-row"><div class="meta">${name} · ${t.fontSize} · ${t.fontWeight} · lh ${t.lineHeight}${ls} · ${t.fontFamily}</div><p class="specimen" style="${style}">${esc(TYPE_SAMPLE[name] || name)}</p></div>`;
 }).join("\n")}
-  </section>
-
-  <section id="spacing">
-    <h2 class="section-title">Spacing</h2>
+    <h3 class="sub-name" id="spacing">spacing</h3>
     <p class="section-note">4px ベースの名前付きスケール。余白はここからのみ選ぶ。</p>
 ${Object.entries(spacing).map(([k, v]) => `    <div class="space-row"><span class="k">${k}</span><span class="v">${v} / ${remToPx(v)}</span><div class="space-bar" style="width:${v}"></div></div>`).join("\n")}
-  </section>
-
-  <section id="radius">
-    <h2 class="section-title">Radius</h2>
+    <h3 class="sub-name" id="radius">radius</h3>
     <p class="section-note">角丸4段。sm=小要素、md=カード・ボタン、lg=大きな面、full=円/ピル。</p>
     <div class="radius-grid">
 ${Object.entries(rounded).map(([k, v]) => `      <div class="radius-card"><div class="radius-demo" style="border-radius:${v}"></div><div class="cap"><b>${k}</b> · ${v}</div></div>`).join("\n")}
     </div>
-  </section>
-
-  <section id="elevation">
-    <h2 class="section-title">Elevation</h2>
+    <h3 class="sub-name" id="elevation">elevation</h3>
     <p class="section-note">影3段。sm=面の分離、md=浮いた要素、lg=モーダル。ダークでは neutral の淡い段で縁を補う。</p>
     <div class="shadow-grid">
 ${Object.entries(shadows).map(([k, v]) => `      <div class="shadow-card"><div class="shadow-demo" style="box-shadow:${v}"></div><div class="cap"><b>${k}</b> · ${SHADOW_USE[k] || ""}</div></div>`).join("\n")}
@@ -400,8 +397,8 @@ ${Object.entries(shadows).map(([k, v]) => `      <div class="shadow-card"><div c
   <section id="roles">
     <h2 class="section-title">Roles（役割層）</h2>
     <p class="section-note">意味の発生源。役割→色相族の対応だけを決め、トークン <code>&lt;役割&gt;-color-&lt;段&gt;</code> は roles から機械的に導出される。component はこの名前だけを参照し、色相族を知らない（族の付け替えは roles の1行）。役割が定義されているのは現在色だけ。</p>
-${roleScales.map(({ role, family, steps }) => `    <div class="scale">
-      <div class="scale-head"><span class="name">${role}</span><span class="hue">→ ${family}</span></div>
+${roleScales.map(({ role, family, steps }) => `    <div class="scale" id="role-${role}">
+      <div class="scale-head"><h3 class="name">${role}</h3><span class="hue">→ ${family}</span></div>
 ${strip({ steps })}
     </div>`).join("\n")}
   </section>
@@ -409,7 +406,7 @@ ${strip({ steps })}
   <section id="components">
     <h2 class="section-title">Components（意味の完成点）</h2>
     <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、以下は全分岐（variant × theme × state）の静的スナップショット。</p>
-${Object.keys(compGroups).map((g) => `    <h3 class="comp-name">${g}</h3>
+${Object.keys(compGroups).map((g) => `    <h3 class="sub-name" id="comp-${g}">${g}</h3>
 ${SNAPSHOTS[g] ? SNAPSHOTS[g]() : ""}`).join("\n")}
   </section>
 

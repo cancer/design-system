@@ -324,17 +324,22 @@
   .masthead h1 { font-size: 2.441rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
   .masthead .sub { color: var(--color-text-muted); font-size: 0.875rem; margin-top: var(--space-xs); }
   .eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-primary); margin: 0 0 var(--space-xs); }
-  section { margin-bottom: var(--space-3xl); scroll-margin-top: var(--space-lg); }
+  section, .scale[id], .sub-name[id] { scroll-margin-top: var(--space-lg); }
+  section { margin-bottom: var(--space-3xl); }
   h2.section-title { font-size: 1.953rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; margin: 0 0 var(--space-xs); }
   .section-note { color: var(--color-text-muted); font-size: 0.875rem; max-width: 62ch; margin: 0 0 var(--space-lg); }
   code, .mono { font-family: var(--font-mono); font-size: 0.8125rem; }
-  nav.toc { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-2xl); }
-  nav.toc a { font-family: var(--font-mono); font-size: 0.75rem; text-decoration: none; color: var(--color-text-muted); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); transition: color .12s, border-color .12s; }
-  nav.toc a:hover { color: var(--color-primary); border-color: var(--color-primary); }
+  nav.toc { display: grid; gap: var(--space-sm); margin-bottom: var(--space-2xl); }
+  .toc-group { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
+  .toc-label { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted); min-width: 10ch; }
+  a.toc-label { text-decoration: none; }
+  a.toc-label:hover { color: var(--color-primary); }
+  nav.toc a:not(.toc-label) { font-family: var(--font-mono); font-size: 0.75rem; text-decoration: none; color: var(--color-text-muted); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); transition: color .12s, border-color .12s; }
+  nav.toc a:not(.toc-label):hover { color: var(--color-primary); border-color: var(--color-primary); }
   a:focus-visible, button:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: var(--radius-sm); }
   .scale { margin-bottom: var(--space-lg); }
   .scale-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-sm); }
-  .scale-head .name { font-weight: 700; font-size: 0.9375rem; }
+  .scale-head .name { font-weight: 700; font-size: 0.9375rem; margin: 0; }
   .scale-head .hue { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); }
   .steps { display: grid; grid-template-columns: repeat(11, 1fr); gap: 3px; }
   .step { display: flex; flex-direction: column; }
@@ -358,7 +363,7 @@
   .snap-cap { font-family: var(--font-mono); font-size: 0.625rem; opacity: 0.7; }
   .ph-light::placeholder { color: oklch(0.49 0.004 270); opacity: 1; }
   .ph-dark::placeholder { color: oklch(0.79 0.004 270); opacity: 1; }
-  .comp-name { font-size: 1.563rem; font-weight: 500; line-height: 1.3; margin: var(--space-xl) 0 var(--space-xs); }
+  .sub-name { font-size: 1.563rem; font-weight: 500; line-height: 1.3; margin: var(--space-xl) 0 var(--space-xs); }
   .uses { font-family: var(--font-mono); font-size: 0.625rem; width: 100%; margin-top: var(--space-xs); }
   .uses div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 var(--space-md); align-items: baseline; padding: 2px 0; border-top: 1px solid rgb(128 128 128 / 0.2); }
   .uses code { word-break: break-word; }
@@ -380,13 +385,17 @@
   </header>
 
   <nav class="toc" aria-label="目次">
-    <a href="#primitives">colors</a><a href="#typography">typography</a><a href="#spacing">spacing</a>
-    <a href="#radius">radius</a><a href="#elevation">elevation</a><a href="#roles">roles</a><a href="#components">components</a>
+    <div class="toc-group"><a class="toc-label" href="#scale">scale</a><a href="#colors">colors</a><a href="#typography">typography</a><a href="#spacing">spacing</a><a href="#radius">radius</a><a href="#elevation">elevation</a></div>
+    <div class="toc-group"><a class="toc-label" href="#roles">roles</a><a href="#role-primary">primary</a><a href="#role-danger">danger</a><a href="#role-warning">warning</a><a href="#role-success">success</a><a href="#role-neutral">neutral</a></div>
+    <div class="toc-group"><a class="toc-label" href="#components">components</a><a href="#comp-screen">screen</a><a href="#comp-link">link</a><a href="#comp-icon">icon</a><a href="#comp-button">button</a><a href="#comp-note">note</a><a href="#comp-card">card</a><a href="#comp-badge">badge</a><a href="#comp-input">input</a></div>
   </nav>
 
-  <section id="primitives">
-    <h2 class="section-title">Color — Primitive</h2>
-    <p class="section-note">トーナルスケール（値の尺度）。OKLCH で色相ごとに H を固定し、明度 L を全色相共通の段で刻む。<b>このシステムが持つ唯一の「色」。</b>段は component×部位×役割が揃って初めて一意になる。</p>
+  <section id="scale">
+    <h2 class="section-title">Scale（値の尺度）</h2>
+    <p class="section-note">尺度は値の候補集合を提供し、後続の判断が参照する範囲を狭める。それ自体は UI 上の意味を持たない。値が一意になるのは component×部位×役割が揃った点。</p>
+
+    <h3 class="sub-name" id="colors">colors</h3>
+    <p class="section-note">トーナルスケール。OKLCH で色相ごとに H を固定し、明度 L を全色相共通の段で刻む。<b>このシステムが持つ唯一の「色」。</b></p>
     <div class="scale">
       <div class="scale-head"><span class="name">gray</span><span class="hue">H 270° · role: neutral</span></div>
       <div class="steps">
@@ -467,10 +476,7 @@
         <div class="step"><div class="chip" style="background:oklch(0.21 0.0684 25)" title="red-950  oklch(0.21 0.0684 25)"></div><div class="lbl">950</div></div>
       </div>
     </div>
-  </section>
-
-  <section id="typography">
-    <h2 class="section-title">Typography</h2>
+    <h3 class="sub-name" id="typography">typography</h3>
     <p class="section-note">見出しは 1.25 (Major Third) スケール。フォントは <code>system-ui</code> / <code>ui-monospace</code> 既定で OS ネイティブに委ねる。</p>
     <div class="type-row"><div class="meta">h1 · 2.441rem · 700 · lh 1.25 · ls -0.02em · system-ui</div><p class="specimen" style="font-size:2.441rem;font-weight:700;line-height:1.25;letter-spacing:-0.02em;font-family:var(--font-sans)">見出しレベル1 · Aa 亜</p></div>
     <div class="type-row"><div class="meta">h2 · 1.953rem · 700 · lh 1.25 · ls -0.01em · system-ui</div><p class="specimen" style="font-size:1.953rem;font-weight:700;line-height:1.25;letter-spacing:-0.01em;font-family:var(--font-sans)">見出しレベル2 · Aa 亜</p></div>
@@ -480,10 +486,7 @@
     <div class="type-row"><div class="meta">caption · 0.75rem · 400 · lh 1.5 · system-ui</div><p class="specimen" style="font-size:0.75rem;font-weight:400;line-height:1.5;font-family:var(--font-sans)">キャプション。図表の説明やタイムスタンプなど最小の補助テキスト。</p></div>
     <div class="type-row"><div class="meta">label · 0.875rem · 500 · lh 1.2 · system-ui</div><p class="specimen" style="font-size:0.875rem;font-weight:500;line-height:1.2;font-family:var(--font-sans)">ラベル。ボタン・フォームラベル等の1行 UI テキスト。</p></div>
     <div class="type-row"><div class="meta">code · 0.875rem · 400 · lh 1.6 · ui-monospace</div><p class="specimen" style="font-size:0.875rem;font-weight:400;line-height:1.6;font-family:var(--font-mono)">const token = "ui-monospace"; // 等幅</p></div>
-  </section>
-
-  <section id="spacing">
-    <h2 class="section-title">Spacing</h2>
+    <h3 class="sub-name" id="spacing">spacing</h3>
     <p class="section-note">4px ベースの名前付きスケール。余白はここからのみ選ぶ。</p>
     <div class="space-row"><span class="k">xs</span><span class="v">0.25rem / 4px</span><div class="space-bar" style="width:0.25rem"></div></div>
     <div class="space-row"><span class="k">sm</span><span class="v">0.5rem / 8px</span><div class="space-bar" style="width:0.5rem"></div></div>
@@ -492,10 +495,7 @@
     <div class="space-row"><span class="k">xl</span><span class="v">2rem / 32px</span><div class="space-bar" style="width:2rem"></div></div>
     <div class="space-row"><span class="k">2xl</span><span class="v">3rem / 48px</span><div class="space-bar" style="width:3rem"></div></div>
     <div class="space-row"><span class="k">3xl</span><span class="v">4rem / 64px</span><div class="space-bar" style="width:4rem"></div></div>
-  </section>
-
-  <section id="radius">
-    <h2 class="section-title">Radius</h2>
+    <h3 class="sub-name" id="radius">radius</h3>
     <p class="section-note">角丸4段。sm=小要素、md=カード・ボタン、lg=大きな面、full=円/ピル。</p>
     <div class="radius-grid">
       <div class="radius-card"><div class="radius-demo" style="border-radius:0.25rem"></div><div class="cap"><b>sm</b> · 0.25rem</div></div>
@@ -503,10 +503,7 @@
       <div class="radius-card"><div class="radius-demo" style="border-radius:0.75rem"></div><div class="cap"><b>lg</b> · 0.75rem</div></div>
       <div class="radius-card"><div class="radius-demo" style="border-radius:9999px"></div><div class="cap"><b>full</b> · 9999px</div></div>
     </div>
-  </section>
-
-  <section id="elevation">
-    <h2 class="section-title">Elevation</h2>
+    <h3 class="sub-name" id="elevation">elevation</h3>
     <p class="section-note">影3段。sm=面の分離、md=浮いた要素、lg=モーダル。ダークでは neutral の淡い段で縁を補う。</p>
     <div class="shadow-grid">
       <div class="shadow-card"><div class="shadow-demo" style="box-shadow:0 1px 2px rgb(0 0 0 / 0.06)"></div><div class="cap"><b>sm</b> · 面の分離</div></div>
@@ -517,8 +514,8 @@
   <section id="roles">
     <h2 class="section-title">Roles（役割層）</h2>
     <p class="section-note">意味の発生源。役割→色相族の対応だけを決め、トークン <code>&lt;役割&gt;-color-&lt;段&gt;</code> は roles から機械的に導出される。component はこの名前だけを参照し、色相族を知らない（族の付け替えは roles の1行）。役割が定義されているのは現在色だけ。</p>
-    <div class="scale">
-      <div class="scale-head"><span class="name">primary</span><span class="hue">→ blue</span></div>
+    <div class="scale" id="role-primary">
+      <div class="scale-head"><h3 class="name">primary</h3><span class="hue">→ blue</span></div>
       <div class="steps">
         <div class="step"><div class="chip" style="background:oklch(0.985 0.0069 264)" title="primary-color-50  oklch(0.985 0.0069 264)"></div><div class="lbl">50</div></div>
         <div class="step"><div class="chip" style="background:oklch(0.965 0.0161 264)" title="primary-color-100  oklch(0.965 0.0161 264)"></div><div class="lbl">100</div></div>
@@ -533,8 +530,8 @@
         <div class="step"><div class="chip" style="background:oklch(0.21 0.0612 264)" title="primary-color-950  oklch(0.21 0.0612 264)"></div><div class="lbl">950</div></div>
       </div>
     </div>
-    <div class="scale">
-      <div class="scale-head"><span class="name">danger</span><span class="hue">→ red</span></div>
+    <div class="scale" id="role-danger">
+      <div class="scale-head"><h3 class="name">danger</h3><span class="hue">→ red</span></div>
       <div class="steps">
         <div class="step"><div class="chip" style="background:oklch(0.985 0.0071 25)" title="danger-color-50  oklch(0.985 0.0071 25)"></div><div class="lbl">50</div></div>
         <div class="step"><div class="chip" style="background:oklch(0.965 0.0168 25)" title="danger-color-100  oklch(0.965 0.0168 25)"></div><div class="lbl">100</div></div>
@@ -549,8 +546,8 @@
         <div class="step"><div class="chip" style="background:oklch(0.21 0.0684 25)" title="danger-color-950  oklch(0.21 0.0684 25)"></div><div class="lbl">950</div></div>
       </div>
     </div>
-    <div class="scale">
-      <div class="scale-head"><span class="name">warning</span><span class="hue">→ amber</span></div>
+    <div class="scale" id="role-warning">
+      <div class="scale-head"><h3 class="name">warning</h3><span class="hue">→ amber</span></div>
       <div class="steps">
         <div class="step"><div class="chip" style="background:oklch(0.985 0.0117 75)" title="warning-color-50  oklch(0.985 0.0117 75)"></div><div class="lbl">50</div></div>
         <div class="step"><div class="chip" style="background:oklch(0.965 0.0276 75)" title="warning-color-100  oklch(0.965 0.0276 75)"></div><div class="lbl">100</div></div>
@@ -565,8 +562,8 @@
         <div class="step"><div class="chip" style="background:oklch(0.21 0.0434 75)" title="warning-color-950  oklch(0.21 0.0434 75)"></div><div class="lbl">950</div></div>
       </div>
     </div>
-    <div class="scale">
-      <div class="scale-head"><span class="name">success</span><span class="hue">→ green</span></div>
+    <div class="scale" id="role-success">
+      <div class="scale-head"><h3 class="name">success</h3><span class="hue">→ green</span></div>
       <div class="steps">
         <div class="step"><div class="chip" style="background:oklch(0.985 0.018 150)" title="success-color-50  oklch(0.985 0.018 150)"></div><div class="lbl">50</div></div>
         <div class="step"><div class="chip" style="background:oklch(0.965 0.033 150)" title="success-color-100  oklch(0.965 0.033 150)"></div><div class="lbl">100</div></div>
@@ -581,8 +578,8 @@
         <div class="step"><div class="chip" style="background:oklch(0.21 0.054 150)" title="success-color-950  oklch(0.21 0.054 150)"></div><div class="lbl">950</div></div>
       </div>
     </div>
-    <div class="scale">
-      <div class="scale-head"><span class="name">neutral</span><span class="hue">→ gray</span></div>
+    <div class="scale" id="role-neutral">
+      <div class="scale-head"><h3 class="name">neutral</h3><span class="hue">→ gray</span></div>
       <div class="steps">
         <div class="step"><div class="chip" style="background:oklch(0.985 0.004 270)" title="neutral-color-50  oklch(0.985 0.004 270)"></div><div class="lbl">50</div></div>
         <div class="step"><div class="chip" style="background:oklch(0.965 0.004 270)" title="neutral-color-100  oklch(0.965 0.004 270)"></div><div class="lbl">100</div></div>
@@ -602,13 +599,13 @@
   <section id="components">
     <h2 class="section-title">Components（意味の完成点）</h2>
     <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、以下は全分岐（variant × theme × state）の静的スナップショット。</p>
-    <h3 class="comp-name">screen</h3>
+    <h3 class="sub-name" id="comp-screen">screen</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="display:grid;gap:0.25rem;width:100%"><span>text</span><span style="color:oklch(0.49 0.004 270)">text-muted</span><span style="color:oklch(0.49 0.1496 264)">accent</span><div style="background:oklch(0.985 0.004 270);border:1px solid oklch(0.925 0.004 270);border-radius:0.25rem;padding:0.25rem 0.5rem">surface / border</div></div><div class="uses" style="color:oklch(0.49 0.004 270)"><div><code>screen-text-color</code><span>neutral-color-900</span></div><div><code>screen-text-muted-color</code><span>neutral-color-700</span></div><div><code>screen-accent-color</code><span>primary-color-700</span></div><div><code>screen-background-color</code><span>neutral-color-100</span></div><div><code>screen-surface-color</code><span>neutral-color-50</span></div><div><code>screen-border-color</code><span>neutral-color-200</span></div></div></div>
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="display:grid;gap:0.25rem;width:100%"><span>text</span><span style="color:oklch(0.79 0.004 270)">text-muted</span><span style="color:oklch(0.68 0.1648 264)">accent</span><div style="background:oklch(0.3 0.004 270);border:1px solid oklch(0.49 0.004 270);border-radius:0.25rem;padding:0.25rem 0.5rem">surface / border</div></div><div class="uses" style="color:oklch(0.79 0.004 270)"><div><code>screen-text-color</code><span>neutral-color-50</span></div><div><code>screen-text-muted-color</code><span>neutral-color-400</span></div><div><code>screen-accent-color</code><span>primary-color-500</span></div><div><code>screen-background-color</code><span>neutral-color-950</span></div><div><code>screen-surface-color</code><span>neutral-color-900</span></div><div><code>screen-border-color</code><span>neutral-color-700</span></div></div></div>
     </div>
 
-    <h3 class="comp-name">link</h3>
+    <h3 class="sub-name" id="comp-link">link</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div>本文の中の<a href="#link" style="color:oklch(0.49 0.1496 264);text-decoration:underline">リンク</a>はこう見える。<div class="uses" style="color:oklch(0.49 0.004 270)"><div><code>link-text-color</code><span>primary-color-700</span></div></div></div>
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">hover-light</div>本文の中の<a href="#link" style="color:oklch(0.395 0.119 264);text-decoration:underline">リンク</a>はこう見える。<div class="uses" style="color:oklch(0.49 0.004 270)"><div><code>link-text-color</code><span>primary-color-800</span></div></div></div>
@@ -622,13 +619,13 @@
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">focus-dark</div>本文の中の<a href="#link" style="color:oklch(0.68 0.1648 264);text-decoration:underline;outline:auto;outline-offset:2px">リンク</a>はこう見える。<div class="uses" style="color:oklch(0.79 0.004 270)"><div><code>link-text-color</code><span>primary-color-500</span></div></div></div>
     </div>
 
-    <h3 class="comp-name">icon</h3>
+    <h3 class="sub-name" id="comp-icon">icon</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center"><span style="display:inline-flex;gap:0.25rem;align-items:center;color:oklch(0.3 0.004 270)"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-0.125em"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-6"/></svg>text</span><span style="display:inline-flex;gap:0.25rem;align-items:center;color:oklch(0.49 0.004 270)"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-0.125em"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-6"/></svg>text-muted</span><span style="display:inline-flex;gap:0.25rem;align-items:center;color:oklch(0.49 0.1496 264)"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-0.125em"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-6"/></svg>accent</span></div><div class="uses" style="color:oklch(0.49 0.004 270)"><div><code>icon-color</code><span>currentColor</span></div></div></div>
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center"><span style="display:inline-flex;gap:0.25rem;align-items:center;color:oklch(0.985 0.004 270)"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-0.125em"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-6"/></svg>text</span><span style="display:inline-flex;gap:0.25rem;align-items:center;color:oklch(0.79 0.004 270)"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-0.125em"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-6"/></svg>text-muted</span><span style="display:inline-flex;gap:0.25rem;align-items:center;color:oklch(0.68 0.1648 264)"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-0.125em"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-6"/></svg>accent</span></div><div class="uses" style="color:oklch(0.79 0.004 270)"><div><code>icon-color</code><span>currentColor</span></div></div></div>
     </div>
 
-    <h3 class="comp-name">button</h3>
+    <h3 class="sub-name" id="comp-button">button</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><button style="background:oklch(0.49 0.1496 264);color:oklch(0.985 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">primary</button><div class="uses" style="color:oklch(0.49 0.004 270)"><div><code>button-primary-surface-color</code><span>primary-color-700</span></div><div><code>button-primary-text-color</code><span>neutral-color-50</span></div><div><code>button-primary-text-typography</code><span>label</span></div><div><code>button-primary-rounded</code><span>md</span></div><div><code>button-primary-padding-block-spacing</code><span>sm</span></div><div><code>button-primary-padding-inline-spacing</code><span>lg</span></div></div></div>
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">hover-light</div><button style="background:oklch(0.395 0.119 264);color:oklch(0.985 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">primary</button><div class="uses" style="color:oklch(0.49 0.004 270)"><div><code>button-primary-surface-color</code><span>primary-color-800</span></div><div><code>button-primary-text-color</code><span>neutral-color-50</span></div><div><code>button-primary-text-typography</code><span>label</span></div><div><code>button-primary-rounded</code><span>md</span></div><div><code>button-primary-padding-block-spacing</code><span>sm</span></div><div><code>button-primary-padding-inline-spacing</code><span>lg</span></div></div></div>
@@ -672,7 +669,7 @@
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">disabled-dark</div><button style="background:oklch(0.3 0.004 270);color:oklch(0.49 0.004 270);font:500 0.875rem/1.2 var(--font-sans);border:0;border-radius:0.5rem;padding:0.5rem 1.5rem">neutral</button><div class="uses" style="color:oklch(0.79 0.004 270)"><div><code>button-neutral-surface-color</code><span>neutral-color-900</span></div><div><code>button-neutral-text-color</code><span>neutral-color-700</span></div><div><code>button-neutral-text-typography</code><span>label</span></div><div><code>button-neutral-rounded</code><span>md</span></div><div><code>button-neutral-padding-block-spacing</code><span>sm</span></div><div><code>button-neutral-padding-inline-spacing</code><span>lg</span></div></div></div>
     </div>
 
-    <h3 class="comp-name">note</h3>
+    <h3 class="sub-name" id="comp-note">note</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="background:oklch(0.965 0.033 150);border:1px solid oklch(0.87 0.099 150);color:oklch(0.3 0.078 150);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>success</b> — 保存しました。</div><div class="uses" style="color:oklch(0.49 0.004 270)"><div><code>note-success-surface-color</code><span>success-color-100</span></div><div><code>note-success-border-color</code><span>success-color-300</span></div><div><code>note-success-text-color</code><span>success-color-900</span></div><div><code>note-success-text-typography</code><span>body-sm</span></div><div><code>note-success-rounded</code><span>md</span></div><div><code>note-success-padding-block-spacing</code><span>sm</span></div><div><code>note-success-padding-inline-spacing</code><span>md</span></div></div></div>
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="background:oklch(0.21 0.054 150);border:1px solid oklch(0.395 0.105 150);color:oklch(0.925 0.063 150);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>success</b> — 保存しました。</div><div class="uses" style="color:oklch(0.79 0.004 270)"><div><code>note-success-surface-color</code><span>success-color-950</span></div><div><code>note-success-border-color</code><span>success-color-800</span></div><div><code>note-success-text-color</code><span>success-color-200</span></div><div><code>note-success-text-typography</code><span>body-sm</span></div><div><code>note-success-rounded</code><span>md</span></div><div><code>note-success-padding-block-spacing</code><span>sm</span></div><div><code>note-success-padding-inline-spacing</code><span>md</span></div></div></div>
@@ -690,13 +687,13 @@
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="background:oklch(0.21 0.004 270);border:1px solid oklch(0.395 0.004 270);color:oklch(0.925 0.004 270);font:400 0.875rem/1.6 var(--font-sans);border-radius:0.5rem;padding:0.5rem 1rem;width:100%"><b>neutral</b> — 補足: カタログは派生物。手編集しない。</div><div class="uses" style="color:oklch(0.79 0.004 270)"><div><code>note-neutral-surface-color</code><span>neutral-color-950</span></div><div><code>note-neutral-border-color</code><span>neutral-color-800</span></div><div><code>note-neutral-text-color</code><span>neutral-color-200</span></div><div><code>note-neutral-text-typography</code><span>body-sm</span></div><div><code>note-neutral-rounded</code><span>md</span></div><div><code>note-neutral-padding-block-spacing</code><span>sm</span></div><div><code>note-neutral-padding-inline-spacing</code><span>md</span></div></div></div>
     </div>
 
-    <h3 class="comp-name">card</h3>
+    <h3 class="sub-name" id="comp-card">card</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><div style="background:oklch(0.985 0.004 270);border:1px solid oklch(0.925 0.004 270);border-radius:0.5rem;padding:1.5rem;box-shadow:0 1px 2px rgb(0 0 0 / 0.06);width:100%">card — 面の分離</div><div class="uses" style="color:oklch(0.49 0.004 270)"><div><code>card-surface-color</code><span>neutral-color-50</span></div><div><code>card-border-color</code><span>neutral-color-200</span></div><div><code>card-rounded</code><span>md</span></div><div><code>card-padding-spacing</code><span>lg</span></div><div><code>card-shadow</code><span>sm</span></div></div></div>
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><div style="background:oklch(0.3 0.004 270);border:1px solid oklch(0.49 0.004 270);border-radius:0.5rem;padding:1.5rem;box-shadow:0 1px 2px rgb(0 0 0 / 0.06);width:100%">card — 面の分離</div><div class="uses" style="color:oklch(0.79 0.004 270)"><div><code>card-surface-color</code><span>neutral-color-900</span></div><div><code>card-border-color</code><span>neutral-color-700</span></div><div><code>card-rounded</code><span>md</span></div><div><code>card-padding-spacing</code><span>lg</span></div><div><code>card-shadow</code><span>sm</span></div></div></div>
     </div>
 
-    <h3 class="comp-name">badge</h3>
+    <h3 class="sub-name" id="comp-badge">badge</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><span style="background:oklch(0.965 0.033 150);color:oklch(0.3 0.078 150);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">success</span><div class="uses" style="color:oklch(0.49 0.004 270)"><div><code>badge-success-surface-color</code><span>success-color-100</span></div><div><code>badge-success-text-color</code><span>success-color-900</span></div><div><code>badge-success-text-typography</code><span>caption</span></div><div><code>badge-success-rounded</code><span>sm</span></div><div><code>badge-success-padding-block-spacing</code><span>xs</span></div><div><code>badge-success-padding-inline-spacing</code><span>sm</span></div></div></div>
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><span style="background:oklch(0.21 0.054 150);color:oklch(0.925 0.063 150);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">success</span><div class="uses" style="color:oklch(0.79 0.004 270)"><div><code>badge-success-surface-color</code><span>success-color-950</span></div><div><code>badge-success-text-color</code><span>success-color-200</span></div><div><code>badge-success-text-typography</code><span>caption</span></div><div><code>badge-success-rounded</code><span>sm</span></div><div><code>badge-success-padding-block-spacing</code><span>xs</span></div><div><code>badge-success-padding-inline-spacing</code><span>sm</span></div></div></div>
@@ -714,7 +711,7 @@
       <div class="snap" style="background:oklch(0.21 0.004 270);color:oklch(0.985 0.004 270)"><div class="snap-cap">dark</div><span style="background:oklch(0.21 0.004 270);color:oklch(0.925 0.004 270);font:400 0.75rem/1.5 var(--font-sans);border-radius:0.25rem;padding:0.25rem 0.5rem">neutral</span><div class="uses" style="color:oklch(0.79 0.004 270)"><div><code>badge-neutral-surface-color</code><span>neutral-color-950</span></div><div><code>badge-neutral-text-color</code><span>neutral-color-200</span></div><div><code>badge-neutral-text-typography</code><span>caption</span></div><div><code>badge-neutral-rounded</code><span>sm</span></div><div><code>badge-neutral-padding-block-spacing</code><span>xs</span></div><div><code>badge-neutral-padding-inline-spacing</code><span>sm</span></div></div></div>
     </div>
 
-    <h3 class="comp-name">input</h3>
+    <h3 class="sub-name" id="comp-input">input</h3>
     <div class="snap-grid">
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">light</div><input readonly value="入力済みの文字" style="background:oklch(0.985 0.004 270);color:oklch(0.3 0.004 270);border:1px solid oklch(0.87 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"><input readonly placeholder="placeholder" class="ph-light" style="background:oklch(0.985 0.004 270);color:oklch(0.3 0.004 270);border:1px solid oklch(0.87 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"><div class="uses" style="color:oklch(0.49 0.004 270)"><div><code>input-surface-color</code><span>neutral-color-50</span></div><div><code>input-border-color</code><span>neutral-color-300</span></div><div><code>input-text-color</code><span>neutral-color-900</span></div><div><code>input-placeholder-color</code><span>neutral-color-700</span></div><div><code>input-text-typography</code><span>body-md</span></div><div><code>input-rounded</code><span>sm</span></div><div><code>input-padding-block-spacing</code><span>sm</span></div><div><code>input-padding-inline-spacing</code><span>md</span></div></div></div>
       <div class="snap" style="background:oklch(0.965 0.004 270);color:oklch(0.3 0.004 270)"><div class="snap-cap">hover-light</div><input readonly value="入力済みの文字" style="background:oklch(0.985 0.004 270);color:oklch(0.3 0.004 270);border:1px solid oklch(0.79 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"><input readonly placeholder="placeholder" class="ph-light" style="background:oklch(0.985 0.004 270);color:oklch(0.3 0.004 270);border:1px solid oklch(0.79 0.004 270);font:400 1rem/1.6 var(--font-sans);border-radius:0.25rem;padding:0.5rem 1rem;width:100%;box-sizing:border-box"><div class="uses" style="color:oklch(0.49 0.004 270)"><div><code>input-surface-color</code><span>neutral-color-50</span></div><div><code>input-border-color</code><span>neutral-color-400</span></div><div><code>input-text-color</code><span>neutral-color-900</span></div><div><code>input-placeholder-color</code><span>neutral-color-700</span></div><div><code>input-text-typography</code><span>body-md</span></div><div><code>input-rounded</code><span>sm</span></div><div><code>input-padding-block-spacing</code><span>sm</span></div><div><code>input-padding-inline-spacing</code><span>md</span></div></div></div>
