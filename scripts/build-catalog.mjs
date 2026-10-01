@@ -241,12 +241,11 @@ const shadowVars = (dark) => Object.entries(shadows).map(([k, v]) =>
 
 // ── typography サンプル文（役割ごと。値ではなく体裁確認用の文言）─────────
 const TYPE_SAMPLE = {
-  h1: "見出しレベル1 · Aa 亜", h2: "見出しレベル2 · Aa 亜", h3: "見出しレベル3 · Aa 亜",
-  "body-md": "本文。行長が伸びるほど行間を広げる。読みやすさは行長と行間で作る。",
-  "body-sm": "補助本文。注釈やメタ情報など、主たる本文の一段下の情報に。",
-  caption: "キャプション。図表の説明やタイムスタンプなど最小の補助テキスト。",
+  "display-strong": "見出しレベル1 · Aa 亜", "heading-strong": "見出しレベル2 · Aa 亜", "heading-regular": "見出しレベル3 · Aa 亜",
+  "body-regular": "本文。行長が伸びるほど行間を広げる。読みやすさは行長と行間で作る。",
+  "body-weak": "補助本文。注釈やメタ情報など、主たる本文の一段下の情報に。",
+  "caption-weak": "キャプション。図表の説明やタイムスタンプなど最小の補助テキスト。",
   label: "ラベル。ボタン・フォームラベル等の1行 UI テキスト。",
-  code: 'const token = "ui-monospace"; // 等幅',
 };
 const SHADOW_USE = { sm: "面の分離", md: "浮いた要素", lg: "モーダル" };
 
@@ -293,12 +292,12 @@ ${shadowVars(true)}
   body { margin: 0; background: var(--color-background); color: var(--color-text); font-family: var(--font-sans); line-height: 1.6; -webkit-font-smoothing: antialiased; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: var(--space-2xl) var(--space-lg) var(--space-3xl); }
   header.masthead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-md); padding-bottom: var(--space-lg); border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-2xl); }
-  .masthead h1 { font-size: ${typography.h1.fontSize}; font-weight: ${typography.h1.fontWeight}; line-height: ${typography.h1.lineHeight}; letter-spacing: ${typography.h1.letterSpacing}; margin: 0; text-wrap: balance; }
+  .masthead h1 { font-size: ${typography["display-strong"].fontSize}; font-weight: ${typography["display-strong"].fontWeight}; line-height: ${typography["display-strong"].lineHeight}; ${typography["display-strong"].letterSpacing ? `letter-spacing: ${typography["display-strong"].letterSpacing}; ` : ""}margin: 0; text-wrap: balance; }
   .masthead .sub { color: var(--color-text-muted); font-size: 0.875rem; margin-top: var(--space-xs); }
   .eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-primary); margin: 0 0 var(--space-xs); }
   section, .scale[id], .sub-name[id] { scroll-margin-top: var(--space-lg); }
   section { margin-bottom: var(--space-3xl); }
-  h2.section-title { font-size: ${typography.h2.fontSize}; font-weight: ${typography.h2.fontWeight}; line-height: ${typography.h2.lineHeight}; letter-spacing: ${typography.h2.letterSpacing}; margin: 0 0 var(--space-xs); }
+  h2.section-title { font-size: ${typography["heading-strong"].fontSize}; font-weight: ${typography["heading-strong"].fontWeight}; line-height: ${typography["heading-strong"].lineHeight}; ${typography["heading-strong"].letterSpacing ? `letter-spacing: ${typography["heading-strong"].letterSpacing}; ` : ""}margin: 0 0 var(--space-xs); }
   .section-note { color: var(--color-text-muted); font-size: 0.875rem; max-width: 62ch; margin: 0 0 var(--space-lg); }
   code, .mono { font-family: var(--font-mono); font-size: 0.8125rem; }
   nav.toc { display: grid; gap: var(--space-sm); margin-bottom: var(--space-2xl); }
@@ -335,14 +334,14 @@ ${shadowVars(true)}
   .snap-cap { font-family: var(--font-mono); font-size: 0.625rem; opacity: 0.7; }
   .ph-light::placeholder { color: ${cval("input-placeholder-color", "light")}; opacity: 1; }
   .ph-dark::placeholder { color: ${cval("input-placeholder-color", "dark")}; opacity: 1; }
-  .sub-name { font-size: ${typography.h3.fontSize}; font-weight: ${typography.h3.fontWeight}; line-height: ${typography.h3.lineHeight}; margin: var(--space-xl) 0 var(--space-xs); }
+  .sub-name { font-size: ${typography["heading-regular"].fontSize}; font-weight: ${typography["heading-regular"].fontWeight}; line-height: ${typography["heading-regular"].lineHeight}; margin: var(--space-xl) 0 var(--space-xs); }
   .uses { font-family: var(--font-mono); font-size: 0.625rem; width: 100%; margin-top: var(--space-xs); }
   .uses div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 var(--space-md); align-items: baseline; padding: 2px 0; border-top: 1px solid rgb(128 128 128 / 0.2); }
   .uses code { word-break: break-word; }
   .uses span { white-space: nowrap; }
   .theme-toggle { font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: var(--space-xs) var(--space-md); }
   .theme-toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
-  @media (max-width: 720px) { .masthead h1 { font-size: ${typography.h2.fontSize}; } }
+  @media (max-width: 720px) { .masthead h1 { font-size: ${typography["heading-strong"].fontSize}; } }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
@@ -373,7 +372,7 @@ ${Object.entries(scales).map(([name, s]) => `    <div class="scale">
 ${strip(s)}
     </div>`).join("\n")}
     <h3 class="sub-name" id="typography">typography</h3>
-    <p class="section-note">見出しは 1.25 (Major Third) スケール。フォントは <code>system-ui</code> / <code>ui-monospace</code> 既定で OS ネイティブに委ねる。</p>
+    <p class="section-note">文字サイズは調和数列 1rem × 8/n の項。フォントは <code>system-ui</code> 既定で OS ネイティブに委ねる。</p>
 ${Object.entries(typography).map(([name, t]) => {
   const mono = /mono/.test(t.fontFamily);
   const ls = t.letterSpacing && t.letterSpacing !== "normal" ? ` · ls ${t.letterSpacing}` : "";
@@ -381,7 +380,7 @@ ${Object.entries(typography).map(([name, t]) => {
   return `    <div class="type-row"><div class="meta">${name} · ${t.fontSize} · ${t.fontWeight} · lh ${t.lineHeight}${ls} · ${t.fontFamily}</div><p class="specimen" style="${style}">${esc(TYPE_SAMPLE[name] || name)}</p></div>`;
 }).join("\n")}
     <h3 class="sub-name" id="spacing">spacing</h3>
-    <p class="section-note">4px ベースの名前付きスケール。余白はここからのみ選ぶ。</p>
+    <p class="section-note">和文組版の単位で文字から算出した余白。2xs〜md は自身の文字に対するアキ、lg〜3xl は本文の行送りの行数。</p>
 ${Object.entries(spacing).map(([k, v]) => `    <div class="space-row"><span class="k">${k}</span><span class="v">${v} / ${remToPx(v)}</span><div class="space-bar" style="width:${v}"></div></div>`).join("\n")}
     <h3 class="sub-name" id="radius">radius</h3>
     <p class="section-note">角丸4段。sm=小要素、md=カード・ボタン、lg=大きな面、full=円/ピル。</p>

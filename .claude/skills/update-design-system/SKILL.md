@@ -41,7 +41,7 @@ user-invocable: true
    - `npm run check:contrast` が全ペア PASS（文字色×地色の WCAG AA 4.5:1）
 4. **lint を通す。** DESIGN.md を触ったら `npm run lint:md`（rumdl）と `npm run lint`（textlint）
 5. **カタログを claude.ai Artifact に上書き公開する（対話セッションのみ）。** `catalog.html` を Artifact ツールで publish する。**既存 URL を必ず `url` に渡して同一 artifact を上書き**する（渡さないと URL が散らばる）
-   - 現在の公開先: `https://claude.ai/code/artifact/0932c55d-e69a-4b0b-8e5f-1f893a453e47`
+   - 現在の公開先: `https://claude.ai/artifact/A8bLnrbTcHJwpfRvEo6Nrw`
    - URL を見失ったら Artifact の `action:"list"` でタイトル「Design Token Catalog」から拾い、この行を最新 URL に直す
    - headless/cron ではこの手順を飛ばし、ローカルの `catalog.html` 再生成までで完了とする
 
