@@ -456,7 +456,7 @@ typography のトークンは、色と違い**最初から適用対象（文章�
 - **icon** — 文中・UI 部品内の図像。色の行は `icon-color` = `currentColor` の1つで、置かれた文脈のテキスト色への委譲を値として持つ（分岐なし。文脈側が既に theme / state で分岐しているため）。状態色が必要な場面も独自の色を持たず、note / badge 等の親の `text` 色に乗る。サイズは決定を持たない — どの大きさが要るかは用途の要件で、消費側の範囲。どのグリフ（意味→形の対応）が必要かもプロジェクト固有の要件なので、グリフの語彙・セット選定は正では決めない。アイコンを必要とするプロジェクトは、グリフ名をローカル CSS へ直書きしない。**まず自プロジェクトの DESIGN.md の `components` に `icon-<意味>-glyph` トークンを定義し、それを消費する**。値はグリフを一意に指す ID（例 `lucide:thumbs-up`）。プロジェクト内では描画スタイルの揃った1セットから選び、混在させない（反復）。装飾目的のアイコンは支援技術から隠す（`aria-hidden`）
 - **button** — 操作。variant は役割そのもの（`primary` / `danger` / `neutral`）。色の部位は `surface` / `text`。非色は `text-typography`（=`label`）・`rounded`（=`md`）・`padding-block` / `padding-inline`（=`2xs` / `sm`）
 - **note** — 状態の告知面。variant は状態役割（`success` / `warning` / `danger` / `neutral`）。色の部位は `surface` / `border` / `text`。非色は `text-typography`（=`body-weak`）・`rounded`（=`md`）・`padding-block` / `padding-inline`（=`2xs` / `sm`）
-- **card** — 面の分離。部位は `surface` / `border`。非色は `rounded`（=`md`）・`padding`（=`md`）・`shadow`（=`sm`。Elevation の「面の分離」に対応）
+- **card** — 同種の**独立した1件**（1主題）を束ねる面。一覧で複数が並び、1件ずつを単位として扱える（選ぶ・遷移する・並べ替える）ときに使う。判定は「その1枚だけ取り出しても意味が成り立ち、同種のものが並ぶか」。画面の区画分け（詳細ページの各節など）は1主題の部分なので不成立で、card ではなく見出しと余白で区切る（近接）。部位は `surface` / `border`。非色は `rounded`（=`md`）・`padding`（=`md`）・`shadow`（=`sm`。Elevation の「面の分離」に対応）
 - **badge** — 小さな状態表示。variant は状態役割（note と同じ4種）。色の部位は `surface` / `text`。非色は `text-typography`（=`caption-weak`）、`rounded`（=`sm`。Shapes の「小要素」）。余白は `padding-block` / `padding-inline`（=`2xs` / `sm`）
 - **input** — 入力欄。色の部位は `surface` / `border` / `text` / `placeholder`。非色は `text-typography`（=`body-regular`）・`rounded`（=`sm`）・`padding-block` / `padding-inline`（=`2xs` / `sm`）
 
@@ -487,6 +487,9 @@ focus は**ブラウザ既定のフォーカスリングに委ねる**（typogra
 - スケール外の中間サイズ（余白・文字・角丸）を持ち込まない。まず隣の段で足りるか疑う
 - 値が同じだからと、別の適用対象のトークンを借りない（例: input の縁に `screen-border-color` を使う）。値の一致は意味の一致を保証せず、借り先の変更に巻き込まれる
 - フォーカスリングを変更しない。`outline: none` で消すことも、独自色への塗り替えもしない（既定＝UA 責務、変更＝作者が 3:1 を負う）
+- card を区画の装飾に使わない。ページの節は見出しと余白（`lg`〜`3xl`）で区切る（近接: 区切りは線や色より余白）。card は同種の独立した1件が複数並ぶ場面に限る
+- card の中に card を入れない
+- 画面に card が1枚しか無いなら card を使わない。面の分離だけが要るなら `screen-surface-color` と余白で足りる
 
 ## Maintenance
 
