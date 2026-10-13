@@ -459,6 +459,7 @@ typography のトークンは、色と違い**最初から適用対象（文章�
 - **card** — 面の分離。部位は `surface` / `border`。非色は `rounded`（=`md`）・`padding`（=`md`）・`shadow`（=`sm`。Elevation の「面の分離」に対応）
 - **badge** — 小さな状態表示。variant は状態役割（note と同じ4種）。色の部位は `surface` / `text`。非色は `text-typography`（=`caption-weak`）、`rounded`（=`sm`。Shapes の「小要素」）。余白は `padding-block` / `padding-inline`（=`2xs` / `sm`）
 - **input** — 入力欄。色の部位は `surface` / `border` / `text` / `placeholder`。非色は `text-typography`（=`body-regular`）・`rounded`（=`sm`）・`padding-block` / `padding-inline`（=`2xs` / `sm`）
+- **loading** — クライアントサイドで要素が後から届くまでの待機表示（spinner / skeleton / progress）。この component を持つことは「その読み込みが必須だ」という要件の主張であり、見た目の選択ではない。横断で非同期に届く要素は無いので、正はトークンを持たない。プロジェクトが定義するのは、何が・どこから（API / 遅延読み込み）・どの契機で後から届くかを示せたときに限る。示せたら自プロジェクトの DESIGN.md の `components` に `loading-*` を定義する。示せないなら作らない。待機表示は要素ごとに置き、後から届かない要素まで画面全体で覆わない
 
 値の参照先は、その値種別に役割が定義されているかで変わる。**色は役割層トークンを経由し、primitive を直接参照しない**。族の付け替えを `roles` の1行に閉じ、component に色相族を知らせないためである。例外は文脈への委譲。`icon-color` のように **CSS の委譲キーワード `currentColor` を値に持つ色の行**は、役割層を参照せず theme / state の分岐も持たない。追従先の文脈が既に分岐しているためで、fontFamily を `system-ui` に委ねるのと同じく、委譲という決定を値として焼く。**typography / rounded / spacing / shadow は尺度のキーを直接参照する**。これらの値種別にはまだ役割を定義しておらず、経由すべき役割層トークンが存在しない（Roles 節）。
 
