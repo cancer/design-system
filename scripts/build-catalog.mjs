@@ -79,6 +79,9 @@ const spacing = data.spacing || {};
 // ── shadow は本文の CSS フェンスに定義される（frontmatter に elevation 型が無い）──
 const shadows = {};
 for (const m of body.matchAll(/--shadow-(\w+):\s*([^;]+);/g)) shadows[m[1]] = m[2].trim();
+// border-width も同じ理由で本文の CSS フェンスに定義される
+const borderWidths = {};
+for (const m of body.matchAll(/--border-width-(\w+):\s*([^;]+);/g)) borderWidths[m[1]] = m[2].trim();
 
 // ── primitive をスケール別に整理 ──────────────────────────────────────
 const STEP_RE = /^([a-z]+)-(\d+)$/;
@@ -106,6 +109,9 @@ for (const [k, t] of Object.entries(components)) (compGroups[k.split("-")[0]] ||
 // button / note 等の variant（色の行の命名 <component>-<variant>-<部位>-color から抽出。非色の行は含めない）
 const variantsOf = (comp) => [...new Set(Object.entries(components)
   .filter(([k, t]) => k.startsWith(`${comp}-`) && typeof t === "object").map(([k]) => k.split("-")[1]))];
+// heading は色の行を持たないため、variant を text-typography の行から抽出する
+const headingVariants = Object.keys(components).filter((k) => /^heading-.+-text-typography$/.test(k)).map((k) => k.slice("heading-".length, -"-text-typography".length));
+const PARAGRAPH_SAMPLE = ["段落の先頭は全角で字下げする。段落の間は空けず、行間だけで続ける。", "次の段落も同じ字下げで始まる。"];
 const NOTE_SAMPLE = { success: "保存しました。", warning: "未保存の変更があります。", danger: "この操作は取り消せません。", neutral: "補足: カタログは派生物。手編集しない。" };
 // icon のデモ用ダミーグリフ（サンプルコンテンツ。グリフの語彙は正に無く、プロジェクト側 DESIGN.md が定義する）
 const ICON_SAMPLE = `<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-0.125em"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-6"/></svg>`;
@@ -135,12 +141,13 @@ function resolveScaleToken(name, key) {
   if (name.endsWith("-rounded")) return pick(rounded, "rounded");
   if (name.endsWith("-spacing")) return pick(spacing, "spacing");
   if (name.endsWith("-shadow")) return pick(shadows, "shadow");
+  if (name.endsWith("-border-width")) return pick(borderWidths, "border-width");
   if (name.endsWith("-color")) {
     // 分岐を持たない色の行は文脈への委譲だけ。値を持つ色は light/dark 分岐で役割層トークンを参照する
     if (key === "currentColor") return key;
     throw new Error(`components.${name}: 分岐を持たない色の行に書けるのは委譲キーワード currentColor のみ（"${key}"）`);
   }
-  throw new Error(`components.${name}: 値種別を名前から特定できない（-color/-typography/-rounded/-spacing/-shadow のいずれかで終える）`);
+  throw new Error(`components.${name}: 値種別を名前から特定できない（-color/-typography/-rounded/-spacing/-shadow/-border-width のいずれかで終える）`);
 }
 const themed = Object.entries(components).filter(([, t]) => typeof t === "object");
 const statics = Object.entries(components).filter(([, t]) => typeof t === "string");
@@ -189,7 +196,7 @@ const snapGrid = (tiles) => `    <div class="snap-grid">\n${tiles.join("\n")}\n 
 
 const SNAPSHOTS = {
   screen: () => snapGrid(["light", "dark"].map((key) => snap(key,
-    `<div style="display:grid;gap:${spacing.xs};width:100%"><span>text</span><span style="color:${cval("screen-text-muted-color", key)}">text-muted</span><span style="color:${cval("screen-accent-color", key)}">accent</span><div style="background:${cval("screen-surface-color", key)};border:1px solid ${cval("screen-border-color", key)};border-radius:${rounded.sm};padding:${spacing.xs} ${spacing.sm}">surface / border</div></div>`, ["screen-text-color","screen-text-muted-color","screen-accent-color","screen-background-color","screen-surface-color","screen-border-color"]))),
+    `<div style="display:grid;gap:${spacing.xs};width:100%"><span>text</span><span style="color:${cval("screen-text-muted-color", key)}">text-muted</span><span style="color:${cval("screen-accent-color", key)}">accent</span><div style="background:${cval("screen-surface-color", key)};border:${sval("screen-border-width")} solid ${cval("screen-border-color", key)};border-radius:${rounded.sm};padding:${spacing.xs} ${spacing.sm}">surface / border</div></div>`, ["screen-text-color","screen-text-muted-color","screen-accent-color","screen-background-color","screen-surface-color","screen-border-color","screen-border-width"]))),
   icon: () => snapGrid(["light", "dark"].map((key) => snap(key,
     `<div style="display:flex;flex-wrap:wrap;gap:${spacing.md};align-items:center">${[
       ["text", cval("screen-text-color", key)],
@@ -212,16 +219,23 @@ const SNAPSHOTS = {
     }))).join("");
   }).join(""),
   note: () => variantsOf("note").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
-    `<div style="background:${cval(`note-${v}-surface-color`, key)};border:1px solid ${cval(`note-${v}-border-color`, key)};color:${cval(`note-${v}-text-color`, key)};font:${sval(`note-${v}-text-typography`)};border-radius:${sval(`note-${v}-rounded`)};padding:${sval(`note-${v}-padding-block-spacing`)} ${sval(`note-${v}-padding-inline-spacing`)};width:100%"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`, [`note-${v}-surface-color`,`note-${v}-border-color`,`note-${v}-text-color`,`note-${v}-text-typography`,`note-${v}-rounded`,`note-${v}-padding-block-spacing`,`note-${v}-padding-inline-spacing`])))).join(""),
+    `<div style="background:${cval(`note-${v}-surface-color`, key)};border:${sval(`note-${v}-border-width`)} solid ${cval(`note-${v}-border-color`, key)};color:${cval(`note-${v}-text-color`, key)};font:${sval(`note-${v}-text-typography`)};border-radius:${sval(`note-${v}-rounded`)};padding:${sval(`note-${v}-padding-block-spacing`)} ${sval(`note-${v}-padding-inline-spacing`)};width:100%"><b>${v}</b> — ${NOTE_SAMPLE[v] || ""}</div>`, [`note-${v}-surface-color`,`note-${v}-border-color`,`note-${v}-border-width`,`note-${v}-text-color`,`note-${v}-text-typography`,`note-${v}-rounded`,`note-${v}-padding-block-spacing`,`note-${v}-padding-inline-spacing`])))).join(""),
+  paragraph: () => snapGrid(["light", "dark"].map((key) => snap(key,
+    `<div style="width:100%">${PARAGRAPH_SAMPLE.map((t) => `<p style="font:${sval("paragraph-text-typography")};text-indent:${sval("paragraph-indent-spacing")};margin:0">${t}</p>`).join("")}</div>`,
+    ["paragraph-text-typography", "paragraph-indent-spacing"]))),
+  // 行取りの領域を破線で示し、見出し1行をその中央に置く（margin-block = (領域 − 1lh) / 2）
+  heading: () => snapGrid(["light", "dark"].map((key) => snap(key,
+    `<div style="width:100%">${headingVariants.map((v) => `<div style="outline:1px dashed ${cval("screen-border-color", key)}"><div style="font:${sval(`heading-${v}-text-typography`)};margin-block:calc((${sval(`heading-${v}-block-size-spacing`)} - 1lh) / 2)">heading-${v}</div></div>`).join("")}</div>`,
+    headingVariants.flatMap((v) => [`heading-${v}-text-typography`, `heading-${v}-block-size-spacing`])))),
   card: () => snapGrid(["light", "dark"].map((key) => snap(key,
-    `<div style="background:${cval("card-surface-color", key)};border:1px solid ${cval("card-border-color", key)};border-radius:${sval("card-rounded")};padding:${sval("card-padding-spacing")};box-shadow:${sval("card-shadow")};width:100%">card — 面の分離</div>`, ["card-surface-color","card-border-color","card-rounded","card-padding-spacing","card-shadow"]))),
+    `<div style="background:${cval("card-surface-color", key)};border:${sval("card-border-width")} solid ${cval("card-border-color", key)};border-radius:${sval("card-rounded")};padding:${sval("card-padding-spacing")};box-shadow:${sval("card-shadow")};width:100%">card — 面の分離</div>`, ["card-surface-color","card-border-color","card-border-width","card-rounded","card-padding-spacing","card-shadow"]))),
   badge: () => variantsOf("badge").map((v) => snapGrid(["light", "dark"].map((key) => snap(key,
     `<span style="background:${cval(`badge-${v}-surface-color`, key)};color:${cval(`badge-${v}-text-color`, key)};font:${sval(`badge-${v}-text-typography`)};border-radius:${sval(`badge-${v}-rounded`)};padding:${sval(`badge-${v}-padding-block-spacing`)} ${sval(`badge-${v}-padding-inline-spacing`)}">${v}</span>`, [`badge-${v}-surface-color`,`badge-${v}-text-color`,`badge-${v}-text-typography`,`badge-${v}-rounded`,`badge-${v}-padding-block-spacing`,`badge-${v}-padding-inline-spacing`])))).join(""),
   input: () => ["light", "dark"].map((th) => snapGrid(["", "hover-", "focus-", "disabled-", "invalid-"].map((st) => {
     const key = `${st}${th}`;
     const focus = st === "focus-";
-    const base = ["input-surface-color", "input-border-color", "input-text-color", "input-placeholder-color", "input-text-typography", "input-rounded", "input-padding-block-spacing", "input-padding-inline-spacing"];
-    const style = `background:${cval("input-surface-color", key)};color:${cval("input-text-color", key)};border:1px solid ${cval("input-border-color", key)};font:${sval("input-text-typography")};border-radius:${sval("input-rounded")};padding:${sval("input-padding-block-spacing")} ${sval("input-padding-inline-spacing")};width:100%;box-sizing:border-box${focus ? ";outline:auto;outline-offset:2px" : ""}`;
+    const base = ["input-surface-color", "input-border-color", "input-border-width", "input-text-color", "input-placeholder-color", "input-text-typography", "input-rounded", "input-padding-block-spacing", "input-padding-inline-spacing"];
+    const style = `background:${cval("input-surface-color", key)};color:${cval("input-text-color", key)};border:${sval("input-border-width")} solid ${cval("input-border-color", key)};font:${sval("input-text-typography")};border-radius:${sval("input-rounded")};padding:${sval("input-padding-block-spacing")} ${sval("input-padding-inline-spacing")};width:100%;box-sizing:border-box${focus ? ";outline:auto;outline-offset:2px" : ""}`;
     return snap(key,
       `<input readonly value="入力済みの文字" style="${style}"><input readonly placeholder="placeholder" class="ph-${key.endsWith("dark") ? "dark" : "light"}" style="${style}">`,
       base);
@@ -404,7 +418,7 @@ ${strip({ steps })}
 
   <section id="components">
     <h2 class="section-title">Components（意味の完成点）</h2>
-    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、以下は全分岐（variant × theme × state）の静的スナップショット。</p>
+    <p class="section-note">component×部位（×variant）で値が一意に決まる行を明示定義する。色は役割層トークンへの参照、非色（typography / rounded / spacing / shadow / border-width）は尺度のキーを直接参照。theme / state（hover / focus）は名前へ焼き付けない分岐キーで、以下は全分岐（variant × theme × state）の静的スナップショット。</p>
 ${Object.keys(compGroups).map((g) => `    <h3 class="sub-name" id="comp-${g}">${g}</h3>
 ${SNAPSHOTS[g] ? SNAPSHOTS[g]() : ""}`).join("\n")}
   </section>
@@ -423,4 +437,4 @@ ${SNAPSHOTS[g] ? SNAPSHOTS[g]() : ""}`).join("\n")}
 writeFileSync(OUT, html);
 const primitiveCount = Object.values(scales).reduce((a, s) => a + s.steps.length, 0);
 console.log(`✓ ${OUT}`);
-console.log(`  primitive: ${primitiveCount} · roles: ${Object.keys(rolesMap).length} · components: ${Object.keys(components).length} · type: ${Object.keys(typography).length} · spacing: ${Object.keys(spacing).length} · radius: ${Object.keys(rounded).length} · shadow: ${Object.keys(shadows).length}`);
+console.log(`  primitive: ${primitiveCount} · roles: ${Object.keys(rolesMap).length} · components: ${Object.keys(components).length} · type: ${Object.keys(typography).length} · spacing: ${Object.keys(spacing).length} · radius: ${Object.keys(rounded).length} · shadow: ${Object.keys(shadows).length} · border-width: ${Object.keys(borderWidths).length}`);

@@ -134,7 +134,7 @@ components:
   #         state（hover / focus 等）も modifier。<state>-light / <state>-dark の分岐キーとして足す。
   #         例外: 文脈へ委譲する色の行は、キーワード currentColor を値に持ち、分岐を持たない
   #         （追従先の文脈が既に theme / state で分岐しているため）。
-  # 非色の行（typography / rounded / spacing / shadow）: これらの値種別には役割を定義していないため、
+  # 非色の行（typography / rounded / spacing / shadow / border-width）: これらの値種別には役割を定義していないため、
   #         尺度のキー（md / body-weak 等）を直接参照する。theme で変わらないため分岐を持たない。
   screen-text-color:
     light: neutral-color-900
@@ -151,9 +151,18 @@ components:
   screen-border-color:
     light: neutral-color-200
     dark: neutral-color-700
+  screen-border-width: thin
   screen-accent-color:
     light: primary-color-700
     dark: primary-color-500
+  paragraph-text-typography: body-regular
+  paragraph-indent-spacing: md
+  heading-display-text-typography: display-strong
+  heading-display-block-size-spacing: 3xl
+  heading-strong-text-typography: heading-strong
+  heading-strong-block-size-spacing: 2xl
+  heading-regular-text-typography: heading-regular
+  heading-regular-block-size-spacing: xl
   link-text-color:
     light: primary-color-700
     dark: primary-color-500
@@ -222,6 +231,7 @@ components:
   note-success-border-color:
     light: success-color-300
     dark: success-color-800
+  note-success-border-width: thin
   note-success-text-color:
     light: success-color-900
     dark: success-color-200
@@ -235,6 +245,7 @@ components:
   note-warning-border-color:
     light: warning-color-300
     dark: warning-color-800
+  note-warning-border-width: thin
   note-warning-text-color:
     light: warning-color-900
     dark: warning-color-200
@@ -248,6 +259,7 @@ components:
   note-danger-border-color:
     light: danger-color-300
     dark: danger-color-800
+  note-danger-border-width: thin
   note-danger-text-color:
     light: danger-color-900
     dark: danger-color-200
@@ -261,6 +273,7 @@ components:
   note-neutral-border-color:
     light: neutral-color-300
     dark: neutral-color-800
+  note-neutral-border-width: thin
   note-neutral-text-color:
     light: neutral-color-900
     dark: neutral-color-200
@@ -274,6 +287,7 @@ components:
   card-border-color:
     light: neutral-color-200
     dark: neutral-color-700
+  card-border-width: thin
   card-rounded: md
   card-padding-spacing: md
   card-shadow: sm
@@ -331,6 +345,7 @@ components:
     disabled-dark: neutral-color-800
     invalid-light: danger-color-700
     invalid-dark: danger-color-500
+  input-border-width: thin
   input-text-color:
     light: neutral-color-900
     dark: neutral-color-50
@@ -412,8 +427,8 @@ typography のトークンは、色と違い**最初から適用対象（文章�
 
 段落と見出しは次のように組む。
 
-- 段落の間は空けない（行間のみ）。段落の先頭は全角で字下げする（`text-indent: 1em`。JLREQ §3.5.1、§4.5.2）
-- 見出しは行取りで置く。見出しが占める縦の領域を本文の行数で決め、その中央に置く（JLREQ §4.1.6）。単独で掲げるときの行取りは JLREQ Figure 213 に従う。display-strong = 4行取り（`3xl`）、heading-strong = 3行取り（`2xl`）、heading-regular = 2行取り（`xl`）。CSS では `margin-block: calc((7rem - 1lh) / 2)` のように、行取りの領域から見出し1行の高さを引いて上下に等分する。レベルの異なる見出しが連続する場合は、空きを揃えるために行取りを減らす（同図）
+- 段落の間は空けない（行間のみ）。段落の先頭は全角で字下げする（`paragraph-indent-spacing` = `md`。JLREQ §3.5.1、§4.5.2）
+- 見出しは行取りで置く。見出しが占める縦の領域を本文の行数で決め、その中央に置く（JLREQ §4.1.6）。単独で掲げるときの行取りは JLREQ Figure 213 に従う。行取りの領域は `heading-<variant>-block-size-spacing` が持つ。display = 4行取り（`3xl`）、strong = 3行取り（`2xl`）、regular = 2行取り（`xl`）。CSS では行取りの領域から見出し1行の高さを引き、上下に等分する。例: `margin-block: calc((var(--heading-strong-block-size-spacing) - 1lh) / 2)`。レベルの異なる見出しが連続する場合は、空きを揃えるために行取りを減らす（同図）
 
 部品の内側の余白は、JLREQ §4.4.3 の表組の規定を当てはめる。表のこまでは、見える罫線と内容との空きを内容の文字サイズの二分アキとし、列の左右にも二分アキを取る。境界（枠線・地の色）の中に文字を置く部品は同じ構造なので、見える境界を持つ部品の内側は二分アキとする。
 
@@ -435,7 +450,15 @@ typography のトークンは、色と違い**最初から適用対象（文章�
 
 #### Shapes
 
-角丸は `rounded` の4段（`sm` / `md` / `lg` / `full`）。`sm`=小要素（バッジ・入力）、`md`=カード・ボタン、`lg`=大きな面・モーダル、`full`=円/ピル。境界線は原則 1px・`neutral` の淡い段。
+角丸は `rounded` の4段（`sm` / `md` / `lg` / `full`）。`sm`=小要素（バッジ・入力）、`md`=カード・ボタン、`lg`=大きな面・モーダル、`full`=円/ピル。
+
+境界線の太さは `border-width` の1段。フロントマター仕様に該当する型が無いため、shadow と同じく値はここで定義する。
+
+```css
+--border-width-thin: 1px;
+```
+
+見える境界を持つ component（screen / note / card / input）は `-border-width` の行でこの段を参照する。色は各 component の `-border-color` が `neutral` 等の淡い段を持つ。
 
 ### Roles（役割層）
 
@@ -451,17 +474,19 @@ typography のトークンは、色と違い**最初から適用対象（文章�
 
 値が一意に決まるのは component・部位・役割が揃った点で、**意味はここで完成する**。名前から値は導出できないため、1行ずつ明示定義する。トークンは **component（variant があれば variant まで）を単位に完結して定義し、variant 間で行を共有しない**。束ねてよいのは変更理由の共有が確認できた行だけ（共有結合層の条件）。横断で使う component のトークンだけを foundation に置き、プロジェクト固有の component はここへ足さず、消費側で役割層トークン・各尺度を参照して定義する。
 
-- **screen** — 画面。部位は `text` / `text-muted` / `background` / `surface` / `border` / `accent`（強調テキスト）
+- **screen** — 画面。部位は `text` / `text-muted` / `background` / `surface` / `border` / `accent`（強調テキスト）。非色は `border-width`（=`thin`）
+- **paragraph** — 本文の段落。非色は `text-typography`（=`body-regular`）・`indent-spacing`（=`md`。全角の字下げ）。段落の間は空けない
+- **heading** — 見出し。variant は `display` / `strong` / `regular`。非色は `text-typography` と `block-size-spacing`（行取りの領域）。値は variant の順に `display-strong` / `heading-strong` / `heading-regular` と `3xl` / `2xl` / `xl`
 - **link** — 本文中の遷移。部位は `text` のみで、書体・サイズは周囲の文に従う（トークンを持たない）。下線を保ち、色だけでリンクを示さない
 - **icon** — 文中・UI 部品内の図像。色の行は `icon-color` = `currentColor` の1つで、置かれた文脈のテキスト色への委譲を値として持つ（分岐なし。文脈側が既に theme / state で分岐しているため）。状態色が必要な場面も独自の色を持たず、note / badge 等の親の `text` 色に乗る。サイズは決定を持たない — どの大きさが要るかは用途の要件で、消費側の範囲。どのグリフ（意味→形の対応）が必要かもプロジェクト固有の要件なので、グリフの語彙・セット選定は正では決めない。アイコンを必要とするプロジェクトは、グリフ名をローカル CSS へ直書きしない。**まず自プロジェクトの DESIGN.md の `components` に `icon-<意味>-glyph` トークンを定義し、それを消費する**。値はグリフを一意に指す ID（例 `lucide:thumbs-up`）。プロジェクト内では描画スタイルの揃った1セットから選び、混在させない（反復）。装飾目的のアイコンは支援技術から隠す（`aria-hidden`）
 - **button** — 操作。variant は役割そのもの（`primary` / `danger` / `neutral`）。色の部位は `surface` / `text`。非色は `text-typography`（=`label`）・`rounded`（=`md`）・`padding-block` / `padding-inline`（=`2xs` / `sm`）
-- **note** — 状態の告知面。variant は状態役割（`success` / `warning` / `danger` / `neutral`）。色の部位は `surface` / `border` / `text`。非色は `text-typography`（=`body-weak`）・`rounded`（=`md`）・`padding-block` / `padding-inline`（=`2xs` / `sm`）
-- **card** — 面の分離。部位は `surface` / `border`。非色は `rounded`（=`md`）・`padding`（=`md`）・`shadow`（=`sm`。Elevation の「面の分離」に対応）
+- **note** — 状態の告知面。variant は状態役割（`success` / `warning` / `danger` / `neutral`）。色の部位は `surface` / `border` / `text`。非色は `text-typography`（=`body-weak`）・`rounded`（=`md`）・`border-width`（=`thin`）。余白は `padding-block` / `padding-inline`（=`2xs` / `sm`）
+- **card** — 面の分離。部位は `surface` / `border`。非色は `rounded`（=`md`）・`border-width`（=`thin`）・`padding`（=`md`）・`shadow`（=`sm`。Elevation の「面の分離」に対応）
 - **badge** — 小さな状態表示。variant は状態役割（note と同じ4種）。色の部位は `surface` / `text`。非色は `text-typography`（=`caption-weak`）、`rounded`（=`sm`。Shapes の「小要素」）。余白は `padding-block` / `padding-inline`（=`2xs` / `sm`）
-- **input** — 入力欄。色の部位は `surface` / `border` / `text` / `placeholder`。非色は `text-typography`（=`body-regular`）・`rounded`（=`sm`）・`padding-block` / `padding-inline`（=`2xs` / `sm`）
+- **input** — 入力欄。色の部位は `surface` / `border` / `text` / `placeholder`。非色は `text-typography`（=`body-regular`）・`rounded`（=`sm`）・`border-width`（=`thin`）。余白は `padding-block` / `padding-inline`（=`2xs` / `sm`）
 - **loading** — クライアントサイドで要素が後から届くまでの待機表示（spinner / skeleton / progress）。この component を持つことは「その読み込みが必須だ」という要件の主張であり、見た目の選択ではない。横断で非同期に届く要素は無いので、正はトークンを持たない。プロジェクトが定義するのは、何が・どこから（API / 遅延読み込み）・どの契機で後から届くかを示せたときに限る。示せたら自プロジェクトの DESIGN.md の `components` に `loading-*` を定義する。示せないなら作らない。待機表示は要素ごとに置き、後から届かない要素まで画面全体で覆わない
 
-値の参照先は、その値種別に役割が定義されているかで変わる。**色は役割層トークンを経由し、primitive を直接参照しない**。族の付け替えを `roles` の1行に閉じ、component に色相族を知らせないためである。例外は文脈への委譲。`icon-color` のように **CSS の委譲キーワード `currentColor` を値に持つ色の行**は、役割層を参照せず theme / state の分岐も持たない。追従先の文脈が既に分岐しているためで、fontFamily を `system-ui` に委ねるのと同じく、委譲という決定を値として焼く。**typography / rounded / spacing / shadow は尺度のキーを直接参照する**。これらの値種別にはまだ役割を定義しておらず、経由すべき役割層トークンが存在しない（Roles 節）。
+値の参照先は、その値種別に役割が定義されているかで変わる。**色は役割層トークンを経由し、primitive を直接参照しない**。族の付け替えを `roles` の1行に閉じ、component に色相族を知らせないためである。例外は文脈への委譲。`icon-color` のように **CSS の委譲キーワード `currentColor` を値に持つ色の行**は、役割層を参照せず theme / state の分岐も持たない。追従先の文脈が既に分岐しているためで、fontFamily を `system-ui` に委ねるのと同じく、委譲という決定を値として焼く。**typography / rounded / spacing / shadow / border-width は尺度のキーを直接参照する**。これらの値種別にはまだ役割を定義しておらず、経由すべき役割層トークンが存在しない（Roles 節）。
 
 theme（light/dark）や state（hover / focus 等）は、値と意味のどちらも持たない **modifier**。同じ意味単位の「見え方」を分岐させるだけで別物にはしないので、`-dark` のようにトークン名へ焼き付けず、component トークンの分岐キーとして持つ。theme は `light:` / `dark:`、state はそれに重ねて `<state>-light:` / `<state>-dark:`。theme・state で変わるのは色だけなので、分岐を持つのも色の行だけ。state の分岐は対話的 component にだけ足す。現在の分岐は次のとおり。button は `hover` / `active` / `focus` / `disabled`。link は `hover` / `active` / `focus`。input は `hover` / `focus` / `disabled` / `invalid`。`visited` は定義しない — 慣習の紫に対応する色相族が尺度に無く、区別が必要になったとき族ごと足す。note / badge / card / screen は非対話なので state を持たない。
 
@@ -495,7 +520,7 @@ focus は**ブラウザ既定のフォーカスリングに委ねる**（typogra
 
 - このファイルは、primitive スケール・role→スケール参照・**横断 component のトークン**（意味の完成点）を持つ。役割と component の間の共有結合層（semantic 層）は、複数 component が変更理由を共有する行が現れるまで作らない。プロジェクト固有の component は消費側に属し、ここへ足さない
 - トークンを**足す**基準は「抽象的な役割を名指すか」。ドメインに依存しない設計上の役割（変更理由を1つ持つ知識の単位）なら、使用が1箇所でも足す。使用箇所の数・場所は基準にしない。特定ドメイン・用途に固有の具体指示は、値が2箇所以上で一致してもトークンにしない（それはローカルCSSへ）
-- component トークンの値は、色なら役割層トークン（`<役割>-color-<段>`）を参照し、primitive を直接参照しない。非色（typography / rounded / spacing / shadow）なら尺度のキー（`md` / `body-weak` 等）を直接参照する。役割を定義していない値種別には、経由すべき役割層トークンが無い。文脈へ委譲する色の行だけは例外で、キーワード `currentColor` を値に持ち、分岐を持たない
+- component トークンの値は、色なら役割層トークン（`<役割>-color-<段>`）を参照し、primitive を直接参照しない。非色（typography / rounded / spacing / shadow / border-width）なら尺度のキー（`md` / `body-weak` 等）を直接参照する。役割を定義していない値種別には、経由すべき役割層トークンが無い。文脈へ委譲する色の行だけは例外で、キーワード `currentColor` を値に持ち、分岐を持たない
 - プロジェクトがアイコン（グリフ）を必要とするときは、グリフ名をローカル CSS へ直書きしない。まずプロジェクト側 DESIGN.md の `components` に `icon-<意味>-glyph` トークンを定義してから消費する。グリフの語彙はプロジェクト固有の要件なので、この正へは足さない
 - theme・state をトークン名へ焼き付けない（`-dark` のように）。これらは modifier であり、component トークンの分岐キーとして持つ
 - 文字色×地色のペアを足す・変えるときは AA（4.5:1）を満たすことを検証する
