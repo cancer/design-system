@@ -9,7 +9,7 @@
 `DESIGN.md` はトークンの正、`catalog.html` はそこから機械生成される派生物。値を書くのはフロントマターだけで、`catalog.html` は手編集しない。
 
 - `npm run build:catalog` — `DESIGN.md` から `catalog.html` を再生成する。DESIGN.md のトークンを触ったら必ず実行する
-- `npm run check:contrast` — `components` の文字色×地色ペアを WCAG AA（4.5:1）で機械検証する。色のペアを足す・変えたら実行する（`disabled` は WCAG inactive 例外で対象外）
+- `npm run check:contrast` — `components` の文字色×地色（4.5:1）を検証する。操作部品（card / input）の border×隣接色（自身の surface・screen-background、3:1）も検証する。色のペアを足す・変えたら実行する。`disabled` は WCAG inactive 例外で対象外
 - `npm run lint:md` / `npm run lint` — Markdown（rumdl）と文章（textlint）の lint
 - `npm run lint:md:fix` / `npm run lint:fix` — 自動修正
 

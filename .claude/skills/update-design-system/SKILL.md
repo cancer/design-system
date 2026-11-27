@@ -38,7 +38,7 @@ user-invocable: true
    - 生成ログの件数（primitive / roles / components / type / spacing / radius / shadow）が意図と一致
    - `grep undefined catalog.html` が空（欠落・未解決の参照が無い）
    - `grep '{colors' catalog.html` が空（未解決の参照が残っていない）
-   - `npm run check:contrast` が全ペア PASS（文字色×地色の WCAG AA 4.5:1）
+   - `npm run check:contrast` が全ペア PASS（文字色×地色 4.5:1・操作部品の border×隣接色 3:1）
 4. **lint を通す。** DESIGN.md を触ったら `npm run lint:md`（rumdl）と `npm run lint`（textlint）
 5. **カタログを claude.ai Artifact に上書き公開する（対話セッションのみ）。** `catalog.html` を Artifact ツールで publish する。**既存 URL を必ず `url` に渡して同一 artifact を上書き**する（渡さないと URL が散らばる）
    - 現在の公開先: `https://claude.ai/artifact/A8bLnrbTcHJwpfRvEo6Nrw`
@@ -57,7 +57,7 @@ user-invocable: true
 - [ ] 値の変更は DESIGN.md のみに入れた（catalog.html / スクリプトに値を書いていない）
 - [ ] `npm run build:catalog` を実行し、件数が意図と一致した
 - [ ] `grep undefined catalog.html` と `grep '{colors' catalog.html` が両方とも空
-- [ ] `npm run check:contrast` が全ペア PASS
+- [ ] `npm run check:contrast` が全ペア PASS（文字色×地色 4.5:1・操作部品の border×隣接色 3:1）
 - [ ] `npm run lint:md` / `npm run lint` が通った
 - [ ] 対話セッションなら Artifact を既存 URL に `url` 指定で上書きした／headless なら意図的に飛ばした
 
@@ -73,5 +73,5 @@ user-invocable: true
 ## 仕組み（参照）
 
 - 生成器: `scripts/build-catalog.mjs`。DESIGN.md のフロントマターから依存パッケージ無しで `catalog.html` を生成する。カタログ自身の chrome 色は screen component トークンを参照する。トークン値は一切ハードコードしない
-- AA 検証器: `scripts/check-contrast.mjs`。`components` から文字色×地色ペアを機械抽出し、OKLCH→sRGB 変換でコントラスト比を計算する
+- AA 検証器: `scripts/check-contrast.mjs`。`components` から文字ペア（4.5:1）と card / input の border×隣接色（surface・screen-background、3:1）を抽出する。OKLCH→sRGB 変換で比を計算する
 - 生成器のテンプレートを直す必要が出た場合（新しいトークン「型」を足す等）は、値ではなく構造だけを足す

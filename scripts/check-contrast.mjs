@@ -1,10 +1,12 @@
 #!/usr/bin/env node
-// DESIGN.md の components から文字色×地色のペアを機械抽出し、WCAG AA（4.5:1）を検証する。
+// DESIGN.md の components から文字色×地色（4.5:1）と操作部品の border×隣接色（3:1）を機械検証する。
 // トークンの「値」はこのファイルに一切書かない。すべて DESIGN.md から読む。依存パッケージ無し。
 //
-// ペアの規則: 同じグループ（screen / button-primary / note-success …）内で、
-// 前景部位（text / text-muted / accent）× 地部位（surface / background）の全組み合わせ × theme。
-// border は文字ではないため対象外（非テキストの 3:1 はここでは扱わない）。
+// 文字ペア: 同じ group 内で、前景部位（text / text-muted / accent / placeholder）×
+// 地部位（surface / background）の全組み合わせ × theme。地を持たない group は screen の地を使う。
+// 非テキストペア: card / input の border を同 group の surface と screen-background 上で検証する。
+// screen は画面上の構造、note-success / note-warning / note-danger / note-neutral は告知面のため除外。
+// border-color を持つ group は対象か除外かを明示する。disabled* と state 間の差は検証しない。
 //
 // usage: node scripts/check-contrast.mjs [path/to/DESIGN.md]
 
@@ -78,12 +80,21 @@ for (const name of Object.keys(components)) {
 // state 分岐（<state>-light 等）も検証する。fg 側に同じ分岐が無ければ同 theme の基本値に落とす。
 const themeOf = (key) => (key.endsWith("dark") ? "dark" : "light");
 const AA = 4.5;
+const NON_TEXT_AA = 3;
+const NON_TEXT_GROUPS = new Set(["card", "input"]);
+const NON_TEXT_EXCLUDED_GROUPS = new Set(["screen", "note-success", "note-warning", "note-danger", "note-neutral"]);
 let fail = 0, checked = 0;
 // 地を持たない component（link 等）は screen の面・地の上に置かれるため、それらを bg として検証する
 for (const parts of Object.values(groups)) {
   if (FG_PARTS.some((f) => parts[f]) && !BG_PARTS.some((b) => parts[b])) {
     parts.surface = "screen-surface-color";
     parts.background = "screen-background-color";
+  }
+}
+for (const [group, parts] of Object.entries(groups)) {
+  if (!parts.border || NON_TEXT_EXCLUDED_GROUPS.has(group)) continue;
+  if (!NON_TEXT_GROUPS.has(group)) {
+    throw new Error(`非テキストコントラストの対象/除外が未定義の group: ${group}`);
   }
 }
 for (const [group, parts] of Object.entries(groups)) {
@@ -107,5 +118,29 @@ for (const [group, parts] of Object.entries(groups)) {
     }
   }
 }
-console.log(`\n${checked} pairs checked, ${fail} failed (AA ${AA}:1)`);
+for (const [group, parts] of Object.entries(groups)) {
+  if (!NON_TEXT_GROUPS.has(group) || !parts.border) continue;
+
+  const borderTok = components[parts.border];
+  const surfaceTok = components[parts.surface];
+  const screenBackgroundTok = components["screen-background-color"];
+  if (!surfaceTok || !screenBackgroundTok) {
+    throw new Error(`非テキストコントラストの地が見つからない group: ${group}`);
+  }
+
+  for (const [bgPart, bgTok] of [["surface", surfaceTok], ["screen-background", screenBackgroundTok]]) {
+    for (const key of Object.keys(borderTok)) {
+      if (key.startsWith("disabled")) continue;
+
+      const border = resolveRole(borderTok[key]);
+      const bg = resolveRole(bgTok[key] ?? bgTok[themeOf(key)]);
+      const c = contrast(border, bg);
+      checked++;
+      const ok = c >= NON_TEXT_AA;
+      if (!ok) fail++;
+      console.log(`${ok ? "PASS" : "FAIL"} ${c.toFixed(2).padStart(5)} ${key.padEnd(11)} ${group}: border on ${bgPart} (${NON_TEXT_AA}:1)`);
+    }
+  }
+}
+console.log(`\n${checked} pairs checked, ${fail} failed (text ${AA}:1 / non-text ${NON_TEXT_AA}:1)`);
 if (fail > 0) process.exit(1);

@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: Personal Design System
-description: 個人プロジェクト横断で使う自分用デザインシステム。各プロジェクトのルートにこのファイルをコピーして使う。
+description: 個人プロジェクト横断で使う自分用デザインシステム。各プロジェクトのルートにコピーし、コピー先ではプロジェクトに合わせて書き換えてそのプロジェクトの正として使う。
 colors:
   # === Primitive（トーナルスケール。このシステムが持つ唯一の「色」）===
   # OKLCH で生成。色相ごとに H を固定し、L を全色相共通の段で刻む。
@@ -285,8 +285,8 @@ components:
     light: neutral-color-50
     dark: neutral-color-900
   card-border-color:
-    light: neutral-color-200
-    dark: neutral-color-700
+    light: neutral-color-600
+    dark: neutral-color-600
   card-border-width: thin
   card-rounded: md
   card-padding-spacing: md
@@ -337,10 +337,10 @@ components:
     disabled-light: neutral-color-200
     disabled-dark: neutral-color-800
   input-border-color:
-    light: neutral-color-300
-    dark: neutral-color-700
-    hover-light: neutral-color-400
-    hover-dark: neutral-color-600
+    light: neutral-color-600
+    dark: neutral-color-600
+    hover-light: neutral-color-700
+    hover-dark: neutral-color-500
     disabled-light: neutral-color-200
     disabled-dark: neutral-color-800
     invalid-light: danger-color-700
@@ -362,7 +362,7 @@ components:
 
 # Personal Design System
 
-個人プロジェクト横断で使う自分用デザインシステム。形式は [google-labs-code/design.md](https://github.com/google-labs-code/design.md)（alpha）に準拠する。運用は**各プロジェクトのルートへこのファイルをコピー**する（正は [cancer/design-system](https://github.com/cancer/design-system)）。
+個人プロジェクト横断で使う自分用デザインシステム。形式は [google-labs-code/design.md](https://github.com/google-labs-code/design.md)（alpha）に準拠する。運用は**各プロジェクトのルートへこのファイルをコピー**する（正は [cancer/design-system](https://github.com/cancer/design-system)）。コピー先ではプロジェクトに合わせて書き換えてよく、そのプロジェクトの DESIGN.md を正として扱う。
 
 本文の章構成。造形の原則とデザイントークンは由来の異なる独立した章であり、混ぜて語らない。残る2章は、その両方をシステム全体として扱う。
 
@@ -458,7 +458,7 @@ typography のトークンは、色と違い**最初から適用対象（文章�
 --border-width-thin: 1px;
 ```
 
-見える境界を持つ component（screen / note / card / input）は `-border-width` の行でこの段を参照する。色は各 component の `-border-color` が `neutral` 等の淡い段を持つ。
+見える境界を持つ component（screen / note / card / input）は `-border-width` の行でこの段を参照する。色は、操作部品として使う card / input の縁には隣接色とのコントラストが 3:1 以上となる段を使い、screen / note の縁には `neutral` 等の淡い段を使う。
 
 ### Roles（役割層）
 
@@ -474,7 +474,7 @@ typography のトークンは、色と違い**最初から適用対象（文章�
 
 値が一意に決まるのは component・部位・役割が揃った点で、**意味はここで完成する**。名前から値は導出できないため、1行ずつ明示定義する。トークンは **component（variant があれば variant まで）を単位に完結して定義し、variant 間で行を共有しない**。束ねてよいのは変更理由の共有が確認できた行だけ（共有結合層の条件）。横断で使う component のトークンだけを foundation に置き、プロジェクト固有の component はここへ足さず、消費側で役割層トークン・各尺度を参照して定義する。
 
-- **screen** — 画面。部位は `text` / `text-muted` / `background` / `surface` / `border` / `accent`（強調テキスト）。非色は `border-width`（=`thin`）
+- **screen** — 画面。UI 部品ではなく画面上の構造。部位は `text` / `text-muted` / `background` / `surface` / `border` / `accent`（強調テキスト）。非色は `border-width`（=`thin`）
 - **paragraph** — 本文の段落。非色は `text-typography`（=`body-regular`）・`indent-spacing`（=`md`。全角の字下げ）。段落の間は空けない
 - **heading** — 見出し。variant は `display` / `strong` / `regular`。非色は `text-typography` と `block-size-spacing`（行取りの領域）。値は variant の順に `display-strong` / `heading-strong` / `heading-regular` と `3xl` / `2xl` / `xl`
 - **link** — 本文中の遷移。部位は `text` のみで、書体・サイズは周囲の文に従う（トークンを持たない）。下線を保ち、色だけでリンクを示さない
@@ -492,7 +492,17 @@ theme（light/dark）や state（hover / focus 等）は、値と意味のどち
 
 focus は**ブラウザ既定のフォーカスリングに委ねる**（typography を `system-ui` に委ねるのと同じ判断）。既定リングは UA が地とのコントラストを自動確保する（Chrome の二色リング等）。WCAG 1.4.11 も「外観が user agent によって決まり作者が変更していない場合」を非テキストコントラスト要件から除外しており、変更した瞬間に 3:1 の立証責任が作者へ移る。よってリングは消さない・塗り替えない。focus の色トークンは持たない。`disabled` の文字×地は WCAG の inactive 例外によりコントラスト要件（AA）の対象外で、AA 検証からも除外する。ただし **disabled でも役割の色相族は保つ**（button-danger の disabled は danger の淡い段）。無彩へ落とすと variant 間の区別が消え、利用者が学習した役割⇔色相の対応（意味の発生源）を state が破壊してしまうため。
 
-文字色×地色のペアは WCAG AA（4.5:1）を満たす段を選ぶ。段の選定パターン: button の有彩色 surface は light=700段＋`neutral-color-50` 文字・dark=500段＋`neutral-color-950` 文字。note は淡い地（light=100 / dark=950）に濃い文字（light=900 / dark=200）・中間の縁（light=300 / dark=800）。
+#### コントラストの検証規則
+
+文字色×地色のペアは、theme・state の各分岐で比べる。同じ component の前景部位（`text` / `text-muted` / `accent` / `placeholder`）と地の部位（`surface` / `background`）を組み合わせる。地を持たない component は screen の `surface` / `background` の上で比べる。文字の閾値は 4.5:1。
+
+非テキストでは、操作できる部品として使う場合、その部品を見分ける手がかり（枠線または地の色）を隣接色と比べて 3:1 以上にする。装飾は対象外（WCAG 1.4.11）。card はリンクとして使う場合があるため、card と input の border を対象とする。screen（画面上の構造）と note（告知面）は操作部品にならないため対象外。
+
+card / input の border は、部品自身の `surface` と `screen-background` の両方に対して比べる。state 分岐に同名の地が無ければ、同じ theme の基本値（`light` / `dark`）を使う。hover などの state では、その state の手がかりが隣接色に対して 3:1 を下回らなければよく、state 間の差に 3:1 は要らない。
+
+`disabled` は WCAG の inactive 例外により対象外とする。作者が変更していないブラウザ既定のフォーカスリングも対象外とする。
+
+段の選定パターン: button の有彩色 surface は light=700段＋`neutral-color-50` 文字・dark=500段＋`neutral-color-950` 文字。note は淡い地（light=100 / dark=950）に濃い文字（light=900 / dark=200）・中間の縁（light=300 / dark=800）。
 
 ## Do's and Don'ts
 
@@ -523,8 +533,8 @@ focus は**ブラウザ既定のフォーカスリングに委ねる**（typogra
 - component トークンの値は、色なら役割層トークン（`<役割>-color-<段>`）を参照し、primitive を直接参照しない。非色（typography / rounded / spacing / shadow / border-width）なら尺度のキー（`md` / `body-weak` 等）を直接参照する。役割を定義していない値種別には、経由すべき役割層トークンが無い。文脈へ委譲する色の行だけは例外で、キーワード `currentColor` を値に持ち、分岐を持たない
 - プロジェクトがアイコン（グリフ）を必要とするときは、グリフ名をローカル CSS へ直書きしない。まずプロジェクト側 DESIGN.md の `components` に `icon-<意味>-glyph` トークンを定義してから消費する。グリフの語彙はプロジェクト固有の要件なので、この正へは足さない
 - theme・state をトークン名へ焼き付けない（`-dark` のように）。これらは modifier であり、component トークンの分岐キーとして持つ
-- 文字色×地色のペアを足す・変えるときは AA（4.5:1）を満たすことを検証する
+- 文字色×地色は 4.5:1、操作部品の手がかり×隣接色は 3:1 を満たすことを検証する
 - プロジェクト固有の微調整は、そのプロジェクトのローカルCSSで吸収する。ここには持ち込まない
 - 生の16進カラーや px 値をコンポーネントに直書きしない。トークン経由で引く
-- この正ファイルを1プロジェクトの都合で書き換えない。横断でコピーされる正のため、変更は全プロジェクトへ波及する前提で扱う
+- 正リポジトリ（cancer/design-system）の DESIGN.md は1プロジェクトの都合で書き換えない。横断でコピーされる正のため、変更は全プロジェクトへ波及する前提で扱う。コピー先の DESIGN.md の書き換えはこの制約の対象外
 - Web の UI デザインの根拠には、Web の UI デザインで使われているものだけを使う
