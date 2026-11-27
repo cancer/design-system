@@ -474,7 +474,7 @@ typography のトークンは、色と違い**最初から適用対象（文章�
 
 値が一意に決まるのは component・部位・役割が揃った点で、**意味はここで完成する**。名前から値は導出できないため、1行ずつ明示定義する。トークンは **component（variant があれば variant まで）を単位に完結して定義し、variant 間で行を共有しない**。束ねてよいのは変更理由の共有が確認できた行だけ（共有結合層の条件）。横断で使う component のトークンだけを foundation に置き、プロジェクト固有の component はここへ足さず、消費側で役割層トークン・各尺度を参照して定義する。
 
-- **screen** — UI 部品ではなく画面上の構造。部位は `text` / `text-muted` / `background` / `surface` / `border` / `accent`（強調テキスト）。非色は `border-width`（=`thin`）
+- **screen** — 画面。UI 部品ではなく画面上の構造。部位は `text` / `text-muted` / `background` / `surface` / `border` / `accent`（強調テキスト）。非色は `border-width`（=`thin`）
 - **paragraph** — 本文の段落。非色は `text-typography`（=`body-regular`）・`indent-spacing`（=`md`。全角の字下げ）。段落の間は空けない
 - **heading** — 見出し。variant は `display` / `strong` / `regular`。非色は `text-typography` と `block-size-spacing`（行取りの領域）。値は variant の順に `display-strong` / `heading-strong` / `heading-regular` と `3xl` / `2xl` / `xl`
 - **link** — 本文中の遷移。部位は `text` のみで、書体・サイズは周囲の文に従う（トークンを持たない）。下線を保ち、色だけでリンクを示さない
